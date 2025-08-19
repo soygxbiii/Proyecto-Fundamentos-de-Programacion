@@ -22,20 +22,11 @@ typedef struct {
     int preferencia;
 } show;
 
+void cargarCanciones(FILE *e);
 
-cancion canciones[1000];
+/*cancion canciones[1000];
 publicidad publicidades[50];
-show shows[15];
-
-
-void cargar_Cancion(){
-}
-
-void cargar_Publicidad(){
-}
-
-void cargar_Show(){
-}
+show shows[15];*/
 
 
 int main(){
@@ -54,13 +45,31 @@ int main(){
         fclose(archivo_Canciones);
         fclose(archivo_Publicidad);
     }else{
+        cargarCanciones(archivo_Canciones);
+        //cargarPublicidad();
+        //cargarShow();
 
 
     }
 
-    cargarCancion();
-    cargarPublicidad();
-    cargarShow();
-
     return 0;
+}
+
+void cargarCanciones(FILE *e){
+    int totalCanciones;
+    int i;
+    cancion miCancion;
+
+    fscanf(e,"%d",&totalCanciones);
+    printf("Total de canciones: %d\n",totalCanciones);
+
+    for(i=1;i<=totalCanciones;i++){
+        fscanf(e,"%s",miCancion.nombre);
+        fscanf(e,"%d",&miCancion.minutos);
+        fscanf(e,"%d",&miCancion.segundos);
+        fscanf(e,"%d",&miCancion.puntuacion);
+        printf("Cancion %d: Nombre: %s, %d %d %d\n",i,miCancion.nombre,miCancion.minutos,miCancion.segundos,miCancion.puntuacion);
+    }
+
+    rewind(e);
 }
