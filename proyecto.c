@@ -45,21 +45,17 @@ int main(){
     FILE *archivo_Shows = fopen("shows.in", "r");
 
     if(archivo_Canciones == NULL){
-        printf("Error:\nEl archivo no ha sido encontrado\n");
-        return 1;
-    }
-
-    if(archivo_Publicidad == NULL){
-        printf("Error:\nEl archivo no ha sido encontrado\n");
+        printf("Error:\nEl archivo canciones.in no ha sido encontrado\n");
+    }else if(archivo_Publicidad == NULL){
+        printf("Error:\nEl archivo publicidad.in no ha sido encontrado\n");
         fclose(archivo_Canciones);
-        return 1;
-    }
-
-    if(archivo_Shows == NULL){
-        printf("Error:\nEl archivo no ha sido encontrado\n");
+    }else if(archivo_Shows == NULL){
+        printf("Error:\nEl archivo shows.in no ha sido encontrado\n");
         fclose(archivo_Canciones);
         fclose(archivo_Publicidad);
-        return 1;
+    }else{
+
+
     }
 
     cargarCancion();
