@@ -305,11 +305,13 @@ bool se_puede_repetir_cancion(int aleatorio, int segundos_totales)
 {
     int cuatroHoras = 14400;
 
+    //-1 significa que la cancion nunca se ha puesto:
     if(canciones[aleatorio].ultima_vez == -1)
     {
         return true;
     }
     
+    //si han pasado 4 horas o mas desde la ultima reproduccion:
     if(segundos_totales - canciones[aleatorio].ultima_vez >= cuatroHoras)
     {
         return true;
@@ -329,17 +331,17 @@ void grilla_del_dia(int *totalCanciones, int *totalPublicidades, int *totalShows
 
     for(i = 0; i < *totalPublicidades; i++)
     {
-        publicidades[i].veces_usadas = 0;
+        publicidades[i].veces_usadas = 0; //reiniciar
     }
 
     for(i = 0; i < *totalShows; i++)
     {
-        shows[i].usado = 0;
+        shows[i].usado = 0; //reiniciar
     }
 
     for(i = 0; i < *totalCanciones; i++)
     {
-        canciones[i].ultima_vez = -1;
+        canciones[i].ultima_vez = -1; //reiniciar
     }
 
     while(segundos_totales < 86399 && *total_elementos_grilla < 2000)
@@ -348,11 +350,13 @@ void grilla_del_dia(int *totalCanciones, int *totalPublicidades, int *totalShows
         bool elementoProgramado = false;
         continuar = false;
         
+        //Generar shows segun horarios estelares:
         if(es_horario_estelar(segundos_totales) && !continuar)
         {
             i = 0;
             while(i < *totalShows && !elementoProgramado && !continuar)
             {
+                //No puede repetirse shows, por eso el if:
                 if(shows[i].usado == 0)
                 {
                     grilla[*total_elementos_grilla].horas = horas;
@@ -361,7 +365,9 @@ void grilla_del_dia(int *totalCanciones, int *totalPublicidades, int *totalShows
                     grilla[*total_elementos_grilla].tipo = 'S';
                     strcpy(grilla[*total_elementos_grilla].nombre, shows[i].nombre);
 
+                    //Ya fue usado, no puede entrar al if:
                     shows[i].usado = 1;
+                    //Seguir la grilla con 1 segundo de separacion:
                     segundos_totales += shows[i].duracion_en_segundos + 1;
                     (*total_elementos_grilla)++;
                     elementoProgramado = true;
@@ -371,11 +377,13 @@ void grilla_del_dia(int *totalCanciones, int *totalPublicidades, int *totalShows
             }
         }
 
+        //Generar publicidad:
         if(!elementoProgramado && !continuar)
         {   
             i = 0;
             while(i < *totalPublicidades && !elementoProgramado && !continuar)
             {
+                //Generar si es menor al maximo de veces que puede repetirse la publicidad:
                 if(publicidades[i].veces_usadas < publicidades[i].veces)
                 {
                     grilla[*total_elementos_grilla].horas = horas;
@@ -384,7 +392,9 @@ void grilla_del_dia(int *totalCanciones, int *totalPublicidades, int *totalShows
                     grilla[*total_elementos_grilla].tipo = 'P';
                     strcpy(grilla[*total_elementos_grilla].nombre, publicidades[i].empresa);
 
+                    //Incrementa la cantidad de veces que se ha repetido la publicidad:
                     publicidades[i].veces_usadas++;
+                    //Seguir la grilla con 1 segundo de separacion
                     segundos_totales += publicidades[i].segundos + 1;
                     (*total_elementos_grilla)++;
                     elementoProgramado = true;
@@ -394,13 +404,16 @@ void grilla_del_dia(int *totalCanciones, int *totalPublicidades, int *totalShows
             }
         }
 
+        //Generar canciones:
         if(!elementoProgramado && !continuar)
         {
             int intentos = 0;
             int aleatorio;
 
+            //totalCanciones * 2 se refiere a la cantidad maxima de intentos que puede hacer el algoritmo para buscar una cancion que no se haya repetido:
             while(intentos < *totalCanciones * 2 && !elementoProgramado && !continuar)
             {
+                //Generar una cancion aleatoria para poner en la grilla:
                 aleatorio = rand() % *totalCanciones;
                 if(se_puede_repetir_cancion(aleatorio, segundos_totales))
                 {
@@ -410,7 +423,9 @@ void grilla_del_dia(int *totalCanciones, int *totalPublicidades, int *totalShows
                     grilla[*total_elementos_grilla].tipo = 'C';
                     strcpy(grilla[*total_elementos_grilla].nombre, canciones[aleatorio].nombre);
 
+                    //Guarda la ultima vez que se genero una cancion para verificar en la funcion (se_puede_repetir_cancion) si ya han pasado 4 horas):
                     canciones[aleatorio].ultima_vez = segundos_totales;
+                    //Continua la grilla con 1 segundo de separacion:
                     segundos_totales += canciones[aleatorio].duracion_en_segundos + 1;
                     (*total_elementos_grilla)++;
                     elementoProgramado = true;
@@ -420,7 +435,7 @@ void grilla_del_dia(int *totalCanciones, int *totalPublicidades, int *totalShows
             }
         }
         
-
+        //Si no ha podido entrar a ninguno if, sigue la grilla con 1 segundo de separacion:
         if(!elementoProgramado){
             segundos_totales += 1;
         }
@@ -434,7 +449,7 @@ void grilla_archivo(FILE *archivo, int total_elementos_grilla)
 {
     int i;
 
-    printf("Guardando grilla en archivo grilla_lunes.out...\n");
+    printf("Guardando grilla en el archivo\n");
 
     for(i = 0; i < total_elementos_grilla; i++)
     {
