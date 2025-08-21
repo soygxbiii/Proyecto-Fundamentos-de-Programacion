@@ -55,12 +55,12 @@ void cargarShows(FILE *archivo, int *totalShows);
 void segundos_a_horas(int segundos_totales, int *horas, int *minutos, int *segundos);
 bool es_horario_estelar(int segundos_totales);
 bool se_puede_repetir_cancion(int aleatorio, int segundos_totales);
-void grilla_del_dia();
-
+void grilla_del_dia(int *totalCanciones, int *totalPublicidades, int *totalShows, int *total_elementos_grilla);
+void grilla_archivo(FILE *archivo, int total_elementos_grilla);
 
 int main()
 {
-
+    int total_elementos_grilla = 0;
     int segundos_totales = 0, horas = 0, minutos = 0, segundos = 0;
     int opcion;
     int totalCanciones = 0, totalPublicidades = 0, totalShows = 0;
@@ -68,6 +68,7 @@ int main()
     FILE *archivo_Canciones = fopen("canciones.in", "r");
     FILE *archivo_Publicidad = fopen("publicidad.in", "r");
     FILE *archivo_Shows = fopen("shows.in", "r");
+    FILE *archivo_Grilla = fopen("grilla_lunes.out", "w");
 
     if(archivo_Canciones == NULL){
         printf("Error:\nEl archivo canciones.in no ha sido encontrado\n");
@@ -79,9 +80,25 @@ int main()
         fclose(archivo_Canciones);
         fclose(archivo_Publicidad);
     }else{
+        
+        printf("Cargando canciones...");
         cargarCanciones(archivo_Canciones, &totalCanciones);
+            
+        printf("Cargando publicidades...");
         cargarPublicidades(archivo_Publicidad, &totalPublicidades);
+            
+        printf("Cargando shows...");
         cargarShows(archivo_Shows, &totalShows);
+
+        fclose(archivo_Canciones); 
+        fclose(archivo_Publicidad);
+        fclose(archivo_Shows);
+
+        grilla_del_dia(&totalCanciones, &totalPublicidades, &totalShows, &total_elementos_grilla);
+
+        if(archivo_Grilla != NULL){
+            grilla_archivo(archivo_Grilla, total_elementos_grilla);
+        }
 
         int opcion;
         do{
@@ -99,7 +116,7 @@ int main()
             {
                 case 1:
                     printf("Opcion 1.\n");
-                    grilla_del_dia(&totalCanciones, &totalPublicidades, &totalShows);
+                    
                 break;
 
                 case 2:
@@ -114,9 +131,6 @@ int main()
         }while(opcion != 2);
     }
 
-    fclose(archivo_Canciones); 
-    fclose(archivo_Publicidad);
-    fclose(archivo_Shows);
     return 0;
 }
 
@@ -132,7 +146,8 @@ void cargarCanciones(FILE *archivo, int *totalCanciones)
     printf("Total de canciones: %d\n", *totalCanciones);
 
     for(i = 0; i < *totalCanciones; i++)
-    {
+    {   
+        band = false;
         j = 0;
         while(!band){
             c = fgetc(archivo);
@@ -142,7 +157,7 @@ void cargarCanciones(FILE *archivo, int *totalCanciones)
                 canciones[i].minutos = 0;
                 canciones[i].segundos = 0;
                 canciones[i].puntuacion = 0;
-                while((c = fgetc(archivo) != '\n') && (c != EOF));
+                while((c = fgetc(archivo)) != '\n' && c != EOF);
                 band = true;
             }else{
                 if(!isdigit(c))
@@ -165,7 +180,7 @@ void cargarCanciones(FILE *archivo, int *totalCanciones)
         canciones[i].ultima_vez = -1;   
         band = false;
     }
-
+    while((c = fgetc(archivo)) != '\n' && c != EOF);
     printf("\n");
     rewind(archivo);
 }
@@ -262,7 +277,7 @@ void cargarShows(FILE *archivo, int *totalShows)
 }
 
 
-void segundos_a_hora(int segundos_totales, int *horas, int *minutos, int *segundos)
+void segundos_a_horas(int segundos_totales, int *horas, int *minutos, int *segundos)
 {
     *horas = segundos_totales / 3600;
     *minutos = (segundos_totales % 3600) / 60;
@@ -289,31 +304,28 @@ bool es_horario_estelar(int segundos_totales)
 bool se_puede_repetir_cancion(int aleatorio, int segundos_totales)
 {
     int cuatroHoras = 14400;
-    bool se_puede;
 
     if(canciones[aleatorio].ultima_vez == -1)
     {
-        se_puede = true;
+        return true;
     }
-
+    
     if(segundos_totales - canciones[aleatorio].ultima_vez >= cuatroHoras)
     {
-        se_puede = true;
+        return true;
     }
 
-    se_puede = false; 
-
-    return se_puede;
+    return false;
 }
 
 
-void grilla_del_dia(int *totalCanciones, int *totalPublicidades, int *totalShows)
+void grilla_del_dia(int *totalCanciones, int *totalPublicidades, int *totalShows, int *total_elementos_grilla)
 {
     int i;
     int segundos_totales = 300; //00:05:00
-    int total_elementos_grilla = 0;
     int horas, minutos, segundos;
     bool continuar = false;
+    *total_elementos_grilla = 0;
 
     for(i = 0; i < *totalPublicidades; i++)
     {
@@ -330,26 +342,28 @@ void grilla_del_dia(int *totalCanciones, int *totalPublicidades, int *totalShows
         canciones[i].ultima_vez = -1;
     }
 
-    while(segundos_totales < 86399 && total_elementos_grilla <= 2000)
+    while(segundos_totales < 86399 && *total_elementos_grilla < 2000)
     {
         segundos_a_horas(segundos_totales, &horas, &minutos, &segundos);
-        bool elementoProgramado = false, continuar = false;
-
+        bool elementoProgramado = false;
+        continuar = false;
+        
         if(es_horario_estelar(segundos_totales) && !continuar)
         {
+            i = 0;
             while(i < *totalShows && !elementoProgramado && !continuar)
             {
                 if(shows[i].usado == 0)
                 {
-                    grilla[total_elementos_grilla].horas = horas;
-                    grilla[total_elementos_grilla].minutos = minutos;
-                    grilla[total_elementos_grilla].segundos = segundos;
-                    grilla[total_elementos_grilla].tipo = 'S';
-                    strcpy(grilla[total_elementos_grilla].nombre, shows[i].nombre);
+                    grilla[*total_elementos_grilla].horas = horas;
+                    grilla[*total_elementos_grilla].minutos = minutos;
+                    grilla[*total_elementos_grilla].segundos = segundos;
+                    grilla[*total_elementos_grilla].tipo = 'S';
+                    strcpy(grilla[*total_elementos_grilla].nombre, shows[i].nombre);
 
                     shows[i].usado = 1;
                     segundos_totales += shows[i].duracion_en_segundos + 1;
-                    total_elementos_grilla++;
+                    (*total_elementos_grilla)++;
                     elementoProgramado = true;
                     continuar = true;
                 }
@@ -362,17 +376,17 @@ void grilla_del_dia(int *totalCanciones, int *totalPublicidades, int *totalShows
             i = 0;
             while(i < *totalPublicidades && !elementoProgramado && !continuar)
             {
-                if((publicidades[i].veces_usadas < publicidades[i].veces))
+                if(publicidades[i].veces_usadas < publicidades[i].veces)
                 {
-                    grilla[total_elementos_grilla].horas = horas;
-                    grilla[total_elementos_grilla].minutos = minutos;
-                    grilla[total_elementos_grilla].segundos = segundos;
-                    grilla[total_elementos_grilla].tipo = 'P';
-                    strcpy(grilla[total_elementos_grilla].nombre, publicidades[i].empresa);
+                    grilla[*total_elementos_grilla].horas = horas;
+                    grilla[*total_elementos_grilla].minutos = minutos;
+                    grilla[*total_elementos_grilla].segundos = segundos;
+                    grilla[*total_elementos_grilla].tipo = 'P';
+                    strcpy(grilla[*total_elementos_grilla].nombre, publicidades[i].empresa);
 
                     publicidades[i].veces_usadas++;
                     segundos_totales += publicidades[i].segundos + 1;
-                    total_elementos_grilla++;
+                    (*total_elementos_grilla)++;
                     elementoProgramado = true;
                     continuar = true;
                 }
@@ -390,15 +404,15 @@ void grilla_del_dia(int *totalCanciones, int *totalPublicidades, int *totalShows
                 aleatorio = rand() % *totalCanciones;
                 if(se_puede_repetir_cancion(aleatorio, segundos_totales))
                 {
-                    grilla[total_elementos_grilla].horas = horas;
-                    grilla[total_elementos_grilla].minutos = minutos;
-                    grilla[total_elementos_grilla].segundos = segundos;
-                    grilla[total_elementos_grilla].tipo = 'C';
-                    strcpy(grilla[total_elementos_grilla].nombre, canciones[aleatorio].nombre);
+                    grilla[*total_elementos_grilla].horas = horas;
+                    grilla[*total_elementos_grilla].minutos = minutos;
+                    grilla[*total_elementos_grilla].segundos = segundos;
+                    grilla[*total_elementos_grilla].tipo = 'C';
+                    strcpy(grilla[*total_elementos_grilla].nombre, canciones[aleatorio].nombre);
 
                     canciones[aleatorio].ultima_vez = segundos_totales;
                     segundos_totales += canciones[aleatorio].duracion_en_segundos + 1;
-                    total_elementos_grilla++;
+                    (*total_elementos_grilla)++;
                     elementoProgramado = true;
                     continuar = true;
                 }
@@ -408,10 +422,25 @@ void grilla_del_dia(int *totalCanciones, int *totalPublicidades, int *totalShows
         
 
         if(!elementoProgramado){
-            segundos_totales =+ 1;
+            segundos_totales += 1;
         }
 
     }
 
-    printf("Se ha generado la grilla del día con %d elementos\n", total_elementos_grilla);
+    printf("Se ha generado la grilla del día con %d elementos\n", *total_elementos_grilla);
+}
+
+void grilla_archivo(FILE *archivo, int total_elementos_grilla)
+{
+    int i;
+
+    printf("Guardando grilla en archivo grilla_lunes.out...\n");
+
+    for(i = 0; i < total_elementos_grilla; i++)
+    {
+        fprintf(archivo, "%02d %02d %02d %c %s\n", grilla[i].horas, grilla[i].minutos, grilla[i].segundos, grilla[i].tipo, grilla[i].nombre);
+    }
+
+    fclose(archivo);
+    printf("Archivo guardado exitosamente con %d elementos\n\n", total_elementos_grilla);
 }
