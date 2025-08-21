@@ -24,16 +24,32 @@ typedef struct{
     int preferencia;
 }show;
 
-void cargarCanciones(FILE *archivo);
-void cargarPublicidades(FILE *archivo);
-void cargarShows(FILE *archivo);
-// bool es_horario_estelar(int segundos_totales);
+typedef struct{
+    char nombre[101];
+    char tipo;
+    int horas;
+    int minutos;
+    int segundos;
+}programacion;
+
+cancion canciones[1000];
+publicidad publicidades[50];
+show shows[15];
+programacion grilla[2000];
+
+void cargarCanciones(FILE *archivo, int *totalCanciones);
+void cargarPublicidades(FILE *archivo, int *totalPublicidades);
+void cargarShows(FILE *archivo, int *totalShows);
+void grilla_del_dia();
+bool es_horario_estelar(int segundos_totales);
 
 void segundos_a_horas(int segundos_totales, int *horas, int *minutos, int *segundos);
 
-int main(){
+int main()
+{
 
     int segundos_totales, horas, minutos, segundos, opcion;
+    int totalCanciones, totalPublicidades, totalShows;
     segundos_totales = 0;
 
     FILE *archivo_Canciones = fopen("canciones.in", "r");
@@ -50,9 +66,9 @@ int main(){
         fclose(archivo_Canciones);
         fclose(archivo_Publicidad);
     }else{
-        cargarCanciones(archivo_Canciones);
-        cargarPublicidades(archivo_Publicidad);
-        cargarShows(archivo_Shows);
+        cargarCanciones(archivo_Canciones, &totalCanciones);
+        cargarPublicidades(archivo_Publicidad, &totalPublicidades);
+        cargarShows(archivo_Shows, &totalShows);
 
         int opcion;
         do{
@@ -63,19 +79,23 @@ int main(){
             printf("\t| 2. Salir                                 |\n");
             printf("\t--------------------------------------------\n");
 
+            printf("\nElige una opcion: ");
             scanf("\n%d", &opcion);
 
             switch(opcion){
                 case 1:
                     printf("Opcion 1.\n");
-                    // consultar_momentoDeterminado(no se como hacerlo jafdjjsksaskd); 
+                    grilla_del_dia();
                 break;
+
                 case 2:
                     printf("Saliendo...\n");
                     printf("¡Gracias por usar el programa!\n");
                 break;
+
                 default:
                     printf("Opcion no reconocida, vuelve a intentarlo.\n");
+                break;
             }
         }while(opcion != 2);
     }
@@ -86,18 +106,18 @@ int main(){
     return 0;
 }
 
-void cargarCanciones(FILE *archivo){
-    int totalCanciones;
+void cargarCanciones(FILE *archivo, int *totalCanciones)
+{
     int i, j;
     char c;
     bool band = false;
     cancion miCancion;
 
     printf("\n");
-    fscanf(archivo,"%d\n",&totalCanciones);
-    printf("Total de canciones: %d\n",totalCanciones);
+    fscanf(archivo,"%d\n",totalCanciones);
+    printf("Total de canciones: %d\n", *totalCanciones);
 
-    for(i = 1; i <= totalCanciones; i++){
+    for(i = 1; i <= *totalCanciones; i++){
         j = 0;
         while(!band){
             c = fgetc(archivo);
@@ -133,13 +153,14 @@ void cargarCanciones(FILE *archivo){
     rewind(archivo);
 }
 
-void cargarPublicidades(FILE *archivo){
+void cargarPublicidades(FILE *archivo, int *totalPublicidades)
+{
     int i, j;
     char c;
     bool band = false;
     publicidad miPublicidad;
 
-    i = 1;
+    *totalPublicidades = 0;
 
     printf("\n");
     while(!feof(archivo)){
@@ -160,27 +181,27 @@ void cargarPublicidades(FILE *archivo){
         fscanf(archivo, "%d\n", &miPublicidad.veces);
         printf("Publicidad %d: Empresa: %s  Segundos: %d  Veces: %d\n",i, miPublicidad.empresa, miPublicidad.segundos, miPublicidad.veces);
         band = false;
-        i++;
-
+        (*totalPublicidades)++;
     }
 
+    // printf("cantidad de publicidades: %d\n", *totalPublicidades);
     printf("\n");
     rewind(archivo);
 }
 
-void cargarShows(FILE *archivo){
-    int totalShows;
+void cargarShows(FILE *archivo, int *totalShows)
+{
     int i, j;
     char c;
     bool band = false;
     show miShow;
 
     printf("\n");
-    fscanf(archivo, "%d\n",&totalShows);
+    fscanf(archivo, "%d\n", totalShows);
 
-    if((totalShows >= 3) && (totalShows <= 15)){
-        printf("Total de Shows: %d\n",totalShows);
-        for(i = 1; i <= totalShows; i++){
+    if((*totalShows >= 3) && (*totalShows <= 15)){
+        printf("Total de Shows: %d\n",*totalShows);
+        for(i = 1; i <= *totalShows; i++){
             j = 0;
             while((!band) && (j <= 101)){
                 c = fgetc(archivo);
@@ -212,19 +233,26 @@ void cargarShows(FILE *archivo){
     }
 
     rewind(archivo);
-
 }
 
-//esto es para imprimir la grilla usando HH MM SS, pero preferiblemente usemos segundos_totales para programar
-/*void segundos_a_hora(int segundos_totales, int *horas, int *minutos, int *segundos){
+void segundos_a_hora(int segundos_totales, int *horas, int *minutos, int *segundos)
+{
     *horas = segundos_totales / 3600;
     *minutos = (segundos_totales % 3600) / 60;
     *segundos = segundos_totales % 60;
 }
 
-bool es_horario_estelar(int segundos_totales){
-    return (segundos_totales >= 25200 && segundos_totales <= 32400) || (segundos_totales >= 43200 && segundos_totales <= 50400) || (segundos_totales >= 64800 && segundos_totales <= 68400);
+bool es_horario_estelar(int segundos_totales)
+{
+    bool si_es = false;
+
+    if((segundos_totales >= 25200 && segundos_totales <= 32400) || (segundos_totales >= 43200 && segundos_totales <= 50400) || (segundos_totales >= 64800 && segundos_totales <= 68400)){
+        si_es = true;
+    }
+
+    return (si_es);
+
     // 25200 a 32400 es 7:00 AM - 9:00 AM
     // 43200 a 50400 es 12:00 PM - 2:00 PM 
     // 64800 a 68400 es 06:00 PM - 07:00 PM
-}*/
+}
