@@ -24,10 +24,6 @@ typedef struct{
     int preferencia;
 }show;
 
-// cancion canciones[1000];
-// publicidad publicidades[50];
-// show shows[15];
-
 void cargarCanciones(FILE *archivo);
 void cargarPublicidades(FILE *archivo);
 void cargarShows(FILE *archivo);
@@ -69,14 +65,19 @@ int main(){
 
             scanf("\n%d", &opcion);
 
-            if(opcion == 1){
-            // consultar_momentoDeterminado(no se como hacerlo jafdjjsksaskd); 
+            switch(opcion){
+                case 1:
+                    printf("Opcion 1.\n");
+                    // consultar_momentoDeterminado(no se como hacerlo jafdjjsksaskd); 
+                break;
+                case 2:
+                    printf("Saliendo...\n");
+                    printf("¡Gracias por usar el programa!\n");
+                break;
+                default:
+                    printf("Opcion no reconocida, vuelve a intentarlo.\n");
             }
         }while(opcion != 2);
-        printf("\n\t\t¡Gracias por usar el programa!\n");
-    return 0;
-
-
     }
 
     fclose(archivo_Canciones); 
