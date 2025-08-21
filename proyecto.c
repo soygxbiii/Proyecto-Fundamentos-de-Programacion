@@ -2,6 +2,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 
 typedef struct{
@@ -10,6 +11,7 @@ typedef struct{
     int segundos;
     int puntuacion;
     int duracion_en_segundos;
+    int ultima_vez;
 }cancion;
 
 
@@ -25,9 +27,10 @@ typedef struct{
     char nombre[101];
     int minutos;
     int segundos;
-    int duracion_en_segundos;
     int segmentos;
     int preferencia;
+    int duracion_en_segundos;
+    int usado;
 }show;
 
 
@@ -51,7 +54,7 @@ void cargarPublicidades(FILE *archivo, int *totalPublicidades);
 void cargarShows(FILE *archivo, int *totalShows);
 void segundos_a_horas(int segundos_totales, int *horas, int *minutos, int *segundos);
 bool es_horario_estelar(int segundos_totales);
-bool se_puede_repetir_cancion(int aleatorio, segundos_totales);
+bool se_puede_repetir_cancion(int aleatorio, int segundos_totales);
 void grilla_del_dia();
 
 
@@ -60,7 +63,7 @@ int main()
 
     int segundos_totales = 0, horas = 0, minutos = 0, segundos = 0;
     int opcion;
-    int totalCanciones, totalPublicidades, totalShows;
+    int totalCanciones = 0, totalPublicidades = 0, totalShows = 0;
 
     FILE *archivo_Canciones = fopen("canciones.in", "r");
     FILE *archivo_Publicidad = fopen("publicidad.in", "r");
@@ -96,7 +99,7 @@ int main()
             {
                 case 1:
                     printf("Opcion 1.\n");
-                    grilla_del_dia();
+                    grilla_del_dia(&totalCanciones, &totalPublicidades, &totalShows);
                 break;
 
                 case 2:
@@ -123,45 +126,43 @@ void cargarCanciones(FILE *archivo, int *totalCanciones)
     int i, j;
     char c;
     bool band = false;
-    cancion miCancion;
 
     printf("\n");
     fscanf(archivo,"%d\n",totalCanciones);
     printf("Total de canciones: %d\n", *totalCanciones);
 
-    for(i = 1; i <= *totalCanciones; i++)
+    for(i = 0; i < *totalCanciones; i++)
     {
         j = 0;
         while(!band){
             c = fgetc(archivo);
             if(j >= 50)
             {
-                strcpy(miCancion.nombre, "(Error: debe estar dentro de un rango de 1-50)");
-                miCancion.minutos = 0;
-                miCancion.segundos = 0;
-                miCancion.puntuacion = 0;
+                strcpy(canciones[i].nombre, "(Error: debe estar dentro de un rango de 1-50)");
+                canciones[i].minutos = 0;
+                canciones[i].segundos = 0;
+                canciones[i].puntuacion = 0;
+                while((c = fgetc(archivo) != '\n') && (c != EOF));
                 band = true;
-                while((c = fgetc(archivo) != '\n') && (c != EOF)){
-
-                }
             }else{
                 if(!isdigit(c))
                 {
-                    miCancion.nombre[j] = c;
+                    canciones[i].nombre[j] = c;
                 }else{
                     band = true;
-                    miCancion.nombre[j] = '\0';
+                    canciones[i].nombre[j] = '\0';
                     ungetc(c, archivo);
                 }
             }
             j++;
         }
             
-        fscanf(archivo,"%d",&miCancion.minutos);
-        fscanf(archivo,"%d",&miCancion.segundos);
-        fscanf(archivo,"%d\n",&miCancion.puntuacion);
-        printf("Cancion %d: Nombre: %s  Minutos: %d  Segundos: %d  Puntuacion: %d\n",i, miCancion.nombre, miCancion.minutos, miCancion.segundos, miCancion.puntuacion);
-        cancion[i].duracion_en_segundos = cancion[i].minutos * 60 + cancion[i].segundos;        
+        fscanf(archivo,"%d",&canciones[i].minutos);
+        fscanf(archivo,"%d",&canciones[i].segundos);
+        fscanf(archivo,"%d\n",&canciones[i].puntuacion);
+        printf("Cancion %d: Nombre: %s  Minutos: %d  Segundos: %d  Puntuacion: %d\n",i+1, canciones[i].nombre, canciones[i].minutos, canciones[i].segundos, canciones[i].puntuacion);
+        canciones[i].duracion_en_segundos = canciones[i].minutos * 60 + canciones[i].segundos;
+        canciones[i].ultima_vez = -1;   
         band = false;
     }
 
@@ -172,15 +173,14 @@ void cargarCanciones(FILE *archivo, int *totalCanciones)
 
 void cargarPublicidades(FILE *archivo, int *totalPublicidades)
 {
-    int i, j;
+    int i = 0, j;
     char c;
     bool band = false;
-    publicidad miPublicidad;
-
+   
     *totalPublicidades = 0;
 
     printf("\n");
-    while(!feof(archivo))
+    while(!feof(archivo) && i < 50)
     {
         j = 0;
         while((!band) && (j <= 31))
@@ -188,20 +188,22 @@ void cargarPublicidades(FILE *archivo, int *totalPublicidades)
             c = fgetc(archivo);
             if(!isdigit(c))
             {
-                miPublicidad.empresa[j] = c;
+                publicidades[i].empresa[j] = c;
                 j++;
             }else{
                 band = true;
-                miPublicidad.empresa[j] = '\0';
+                publicidades[i].empresa[j] = '\0';
                 ungetc(c, archivo);
             }
         }
 
-        fscanf(archivo, "%d", &miPublicidad.segundos);
-        fscanf(archivo, "%d\n", &miPublicidad.veces);
-        printf("Publicidad %d: Empresa: %s  Segundos: %d  Veces: %d\n",i, miPublicidad.empresa, miPublicidad.segundos, miPublicidad.veces);
+        fscanf(archivo, "%d", &publicidades[i].segundos);
+        fscanf(archivo, "%d\n", &publicidades[i].veces);
+        printf("Publicidad %d: Empresa: %s  Segundos: %d  Veces: %d\n",i+1, publicidades[i].empresa, publicidades[i].segundos, publicidades[i].veces);
+        publicidades[i].veces_usadas = 0;
         band = false;
         (*totalPublicidades)++;
+        i++;
     }
 
     // printf("cantidad de publicidades: %d\n", *totalPublicidades);
@@ -222,26 +224,27 @@ void cargarShows(FILE *archivo, int *totalShows)
 
     if((*totalShows >= 3) && (*totalShows <= 15)){
         printf("Total de Shows: %d\n",*totalShows);
-        for(i = 1; i <= *totalShows; i++){
+        for(i = 0; i < *totalShows; i++){
             j = 0;
             while((!band) && (j <= 101)){
                 c = fgetc(archivo);
                 if(!isdigit(c)){
-                    miShow.nombre[j] = c;
+                    shows[i].nombre[j] = c;
                     j++;
                 }else{
                     band = true;
-                    miShow.nombre[j] = '\0';
+                    shows[i].nombre[j] = '\0';
                     ungetc(c, archivo);
                 }
             }
 
-            fscanf(archivo, "%d", &miShow.minutos);
-            fscanf(archivo, "%d", &miShow.segundos);
-            fscanf(archivo, "%d", &miShow.segmentos);
-            fscanf(archivo, "%d\n", &miShow.preferencia);
-            printf("Show %d: nombre: %s  Minutos: %d  Segundos: %d  Segmentos: %d  Preferencia: %d\n",i, miShow.nombre, miShow.minutos, miShow.segundos, miShow.segmentos, miShow.preferencia);
-            show[i].duracion_en_segundos = show[i].minutos * 60 + show[i].segundos;        
+            fscanf(archivo, "%d", &shows[i].minutos);
+            fscanf(archivo, "%d", &shows[i].segundos);
+            fscanf(archivo, "%d", &shows[i].segmentos);
+            fscanf(archivo, "%d\n", &shows[i].preferencia);
+            printf("Show %d: nombre: %s  Minutos: %d  Segundos: %d  Segmentos: %d  Preferencia: %d\n",i+1, shows[i].nombre, shows[i].minutos, shows[i].segundos, shows[i].segmentos, shows[i].preferencia);
+            shows[i].duracion_en_segundos = shows[i].minutos * 60 + shows[i].segundos;   
+            shows[i].usado = 0;     
  
             band = false;
         }
@@ -283,10 +286,10 @@ bool es_horario_estelar(int segundos_totales)
     // 64800 a 68400 es 06:00 PM - 07:00 PM
 }
 
-bool se_puede_repetir_cancion(int aleatorio, segundos_totales)
+bool se_puede_repetir_cancion(int aleatorio, int segundos_totales)
 {
     int cuatroHoras = 14400;
-    int se_puede;
+    bool se_puede;
 
     if(canciones[aleatorio].ultima_vez == -1)
     {
@@ -304,58 +307,62 @@ bool se_puede_repetir_cancion(int aleatorio, segundos_totales)
 }
 
 
-void grilla_del_dia()
+void grilla_del_dia(int *totalCanciones, int *totalPublicidades, int *totalShows)
 {
     int i;
     int segundos_totales = 300; //00:05:00
     int total_elementos_grilla = 0;
+    int horas, minutos, segundos;
+    bool continuar = false;
 
-    for(i = 0; i < totalPublicidades; i++)
+    for(i = 0; i < *totalPublicidades; i++)
     {
         publicidades[i].veces_usadas = 0;
     }
 
-    for(i = 0; i < totalShows; i++)
+    for(i = 0; i < *totalShows; i++)
     {
         shows[i].usado = 0;
     }
 
-    for(i = 0; i < totalCanciones; i++)
+    for(i = 0; i < *totalCanciones; i++)
     {
         canciones[i].ultima_vez = -1;
     }
 
-    while(segundos_totales < 86399 && total_elementos_grilla <= 2000 && !continuar)
+    while(segundos_totales < 86399 && total_elementos_grilla <= 2000)
     {
         segundos_a_horas(segundos_totales, &horas, &minutos, &segundos);
         bool elementoProgramado = false, continuar = false;
 
-        if(es_horario_estelar(segundos_totales))
+        if(es_horario_estelar(segundos_totales) && !continuar)
         {
-            for(i = 0; i < totalShows; i++)
+            while(i < *totalShows && !elementoProgramado && !continuar)
             {
-                if(show[i].usado == 0)
+                if(shows[i].usado == 0)
                 {
                     grilla[total_elementos_grilla].horas = horas;
                     grilla[total_elementos_grilla].minutos = minutos;
-                    grila[total_elementos_grilla].segundos = segundos;
-                    grila[total_elementos_grilla].tipo = 'S';
+                    grilla[total_elementos_grilla].segundos = segundos;
+                    grilla[total_elementos_grilla].tipo = 'S';
                     strcpy(grilla[total_elementos_grilla].nombre, shows[i].nombre);
 
-                    show[i].usado = 1;
-                    segundos_totales += shows[i].duracion_segundos + 1;
+                    shows[i].usado = 1;
+                    segundos_totales += shows[i].duracion_en_segundos + 1;
                     total_elementos_grilla++;
                     elementoProgramado = true;
                     continuar = true;
-                }   
+                }
+                i++;
             }
         }
 
         if(!elementoProgramado && !continuar)
-        {
-            for(i = 0; i < totalPublicidades, i++)
+        {   
+            i = 0;
+            while(i < *totalPublicidades && !elementoProgramado && !continuar)
             {
-                if((publicidades[i].veces_usadas < publicidad[i].veces))
+                if((publicidades[i].veces_usadas < publicidades[i].veces))
                 {
                     grilla[total_elementos_grilla].horas = horas;
                     grilla[total_elementos_grilla].minutos = minutos;
@@ -369,17 +376,18 @@ void grilla_del_dia()
                     elementoProgramado = true;
                     continuar = true;
                 }
+                i++;
             }
         }
 
-        if(!elementoProgramado)
+        if(!elementoProgramado && !continuar)
         {
             int intentos = 0;
             int aleatorio;
 
-            while(intentos < totalCanciones * 2 && !continuar)
+            while(intentos < *totalCanciones * 2 && !elementoProgramado && !continuar)
             {
-                aleatorio = rand() % totalCanciones;
+                aleatorio = rand() % *totalCanciones;
                 if(se_puede_repetir_cancion(aleatorio, segundos_totales))
                 {
                     grilla[total_elementos_grilla].horas = horas;
@@ -389,7 +397,7 @@ void grilla_del_dia()
                     strcpy(grilla[total_elementos_grilla].nombre, canciones[aleatorio].nombre);
 
                     canciones[aleatorio].ultima_vez = segundos_totales;
-                    segundos_totales *= canciones[aleatorio].duracion_segundos + 1;
+                    segundos_totales += canciones[aleatorio].duracion_en_segundos + 1;
                     total_elementos_grilla++;
                     elementoProgramado = true;
                     continuar = true;
@@ -405,4 +413,5 @@ void grilla_del_dia()
 
     }
 
+    printf("Se ha generado la grilla del día con %d elementos\n", total_elementos_grilla);
 }
