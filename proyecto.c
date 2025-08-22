@@ -44,7 +44,7 @@ typedef struct{
 
 
 cancion canciones[1000];
-publicidad publicidades[50];
+publicidad publicidades[100];
 show shows[15];
 programacion grilla[2000];
 
@@ -139,7 +139,7 @@ void cargarCanciones(FILE *archivo, int *totalCanciones)
 {
     int i, j;
     char c;
-    bool band = false;
+    bool band;
 
     printf("\n");
     fscanf(archivo,"%d\n",totalCanciones);
@@ -151,13 +151,13 @@ void cargarCanciones(FILE *archivo, int *totalCanciones)
         j = 0;
         while(!band){
             c = fgetc(archivo);
-            if(j >= 50)
+            if(j > 50)
             {
-                strcpy(canciones[i].nombre, "(Error: debe estar dentro de un rango de 1-50)");
-                canciones[i].minutos = 0;
-                canciones[i].segundos = 0;
-                canciones[i].puntuacion = 0;
-                while((c = fgetc(archivo)) != '\n' && c != EOF);
+                printf("El nombre de la cancion execede el maximo de caracteres");
+                printf("Por lo tanto, la cancion nro: %d no se guardara en la grilla.\n", i);
+                while((c = fgetc(archivo)) != '\n' && c != EOF){
+
+                };
                 band = true;
             }else{
                 if(!isdigit(c))
@@ -180,7 +180,6 @@ void cargarCanciones(FILE *archivo, int *totalCanciones)
         canciones[i].ultima_vez = -1;   
         band = false;
     }
-    while((c = fgetc(archivo)) != '\n' && c != EOF);
     printf("\n");
     rewind(archivo);
 }
@@ -191,11 +190,9 @@ void cargarPublicidades(FILE *archivo, int *totalPublicidades)
     int i = 0, j;
     char c;
     bool band = false;
-   
-    *totalPublicidades = 0;
 
     printf("\n");
-    while(!feof(archivo) && i < 50)
+    while(!feof(archivo) && i < 100)
     {
         j = 0;
         while((!band) && (j <= 31))
@@ -232,7 +229,6 @@ void cargarShows(FILE *archivo, int *totalShows)
     int i, j;
     char c;
     bool band = false;
-    show miShow;
 
     printf("\n");
     fscanf(archivo, "%d\n", totalShows);
