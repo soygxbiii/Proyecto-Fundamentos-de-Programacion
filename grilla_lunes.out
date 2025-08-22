@@ -194,59 +194,54 @@
 02 55 18 P Empresas La Arepa Rellena 
 02 56 18 P Empresas La Arepa Rellena 
 02 57 18 P Empresas La Arepa Rellena 
-02 58 18 C Dar es dar 
-03 01 58 C Your suffer 
-03 02 00 C Cocoon 
-03 06 35 C Six Degrees of Inner Turbulence 
-03 48 40 C Persiana Americana 
-03 53 36 C (Error: debe estar dentro de un rango de 1-50)
-03 53 37 C Complicated 
-03 57 16 C Let it be 
-04 00 43 C (Error: debe estar dentro de un rango de 1-50)
-04 00 45 C Bienvenidos al tren 
-06 58 18 C Dar es dar 
-07 01 58 S Aprendiendo a escuchar 
-07 07 29 S El anuario de los mejores 
-07 08 50 S Ciencia Critica 
-07 18 51 S El programa con el nombre mas largo y aburrido en la historia de la radio 
-07 49 22 S Partidos de damas chinas 
-08 49 28 C Persiana Americana 
-08 54 24 C Cocoon 
-08 58 59 C Complicated 
-09 02 38 C Bienvenidos al tren 
-09 05 53 C (Error: debe estar dentro de un rango de 1-50)
-09 05 54 C (Error: debe estar dentro de un rango de 1-50)
-09 05 55 C Your suffer 
-09 05 57 C Six Degrees of Inner Turbulence 
-09 48 02 C Let it be 
-10 58 18 C Dar es dar 
-12 49 28 C Persiana Americana 
-12 54 24 C Cocoon 
-12 58 59 C Complicated 
-13 02 40 C Bienvenidos al tren 
-13 05 55 C Your suffer 
-13 05 57 C (Error: debe estar dentro de un rango de 1-50)
-13 05 58 C (Error: debe estar dentro de un rango de 1-50)
-13 05 59 C Six Degrees of Inner Turbulence 
-13 48 04 C Let it be 
-14 58 18 C Dar es dar 
-16 49 28 C Persiana Americana 
-16 54 24 C Cocoon 
-16 58 59 C Complicated 
-17 02 41 C Bienvenidos al tren 
-17 05 56 C Your suffer 
-17 05 58 C (Error: debe estar dentro de un rango de 1-50)
-17 05 59 C (Error: debe estar dentro de un rango de 1-50)
-17 06 00 C Six Degrees of Inner Turbulence 
-17 48 05 C Let it be 
-18 58 18 C Dar es dar 
-20 49 28 C Persiana Americana 
-20 54 24 C Cocoon 
-20 58 59 C Complicated 
-21 02 41 C Bienvenidos al tren 
-21 05 58 C Your suffer 
-21 06 00 C (Error: debe estar dentro de un rango de 1-50)
-21 06 01 C (Error: debe estar dentro de un rango de 1-50)
-21 06 02 C Six Degrees of Inner Turbulence 
-21 48 08 C Let it be 
-22 58 18 C Dar es dar 
+02 58 18 C Complicated 
+03 01 57 C Cocoon 
+03 06 32 C Let it be 
+03 09 59 C Six Degrees of Inner Turbulence 
+03 52 04 C Dar es dar 
+03 55 44 C Your suffer 
+03 55 46 C Bienvenidos al tren 
+03 59 01 C 
+03 59 03 C Persiana Americana 
+06 58 18 C Complicated 
+07 01 57 S Aprendiendo a escuchar 
+07 07 28 S El anuario de los mejores 
+07 08 49 S Ciencia Critica 
+07 18 50 S El programa con el nombre mas largo y aburrido en la historia de la radio 
+07 49 21 S Partidos de damas chinas 
+08 49 27 C Dar es dar 
+08 53 07 C 
+08 53 08 C Six Degrees of Inner Turbulence 
+09 35 13 C Cocoon 
+09 39 48 C Bienvenidos al tren 
+09 43 03 C Persiana Americana 
+09 47 59 C Your suffer 
+09 48 01 C Let it be 
+10 58 18 C Complicated 
+12 49 27 C Dar es dar 
+12 53 07 C 
+12 53 08 C Six Degrees of Inner Turbulence 
+13 35 13 C Cocoon 
+13 39 48 C Bienvenidos al tren 
+13 43 03 C Persiana Americana 
+13 47 59 C Your suffer 
+13 48 02 C Let it be 
+14 58 18 C Complicated 
+16 49 27 C Dar es dar 
+16 53 07 C 
+16 53 08 C Six Degrees of Inner Turbulence 
+17 35 13 C Cocoon 
+17 39 49 C Bienvenidos al tren 
+17 43 05 C Persiana Americana 
+17 48 01 C Your suffer 
+17 48 03 C Let it be 
+18 58 18 C Complicated 
+20 49 28 C Dar es dar 
+20 53 08 C Six Degrees of Inner Turbulence 
+21 35 13 C Cocoon 
+21 39 48 C 
+21 39 49 C Bienvenidos al tren 
+21 43 05 C Persiana Americana 
+21 48 01 C Your suffer 
+21 48 03 C Let it be 
+22 58 18 C Complicated 

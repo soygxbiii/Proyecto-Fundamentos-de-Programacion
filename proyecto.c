@@ -137,15 +137,48 @@ int main()
 
 void cargarCanciones(FILE *archivo, int *totalCanciones)
 {
-    int i, j;
+    int i, j, largoCadena;
     char c;
-    bool band;
+    bool band = false;
+    char cadena[50];
 
     printf("\n");
     fscanf(archivo,"%d\n",totalCanciones);
     printf("Total de canciones: %d\n", *totalCanciones);
 
-    for(i = 0; i < *totalCanciones; i++)
+    for(i=0; i < *totalCanciones; i++){
+        j = 0;
+        while(!band){
+            c = fgetc(archivo);
+            if((!isdigit(c)) && j <= 50){
+                cadena[j] = c;
+            }else{
+                band = true;
+                largoCadena = strlen(cadena);
+                if(largoCadena > 50){
+                    printf("Error. El nombre es largo, debe estar en el rango de (1 - 50)\n");
+                    printf("Por lo tanto, la cancion %d NO se guardara en la grilla.\n", i+1);
+                    while((c = fgetc(archivo)) != '\n' && c != EOF){
+
+                    };
+                }else{
+                    cadena[j] = '\0';
+                    strcpy(canciones[i].nombre, cadena);
+                    ungetc(c, archivo);
+                    fscanf(archivo,"%d",&canciones[i].minutos);
+                    fscanf(archivo,"%d",&canciones[i].segundos);
+                    fscanf(archivo,"%d\n",&canciones[i].puntuacion);
+                    printf("Cancion %d: Nombre: %s  Minutos: %d  Segundos: %d  Puntuacion: %d\n",i+1, canciones[i].nombre, canciones[i].minutos, canciones[i].segundos, canciones[i].puntuacion);
+                    canciones[i].duracion_en_segundos = canciones[i].minutos * 60 + canciones[i].segundos;
+                    canciones[i].ultima_vez = -1;
+                }
+            }
+            j++;
+        }
+        band = false;
+    }
+
+    /*for(i = 0; i < *totalCanciones; i++)
     {   
         band = false;
         j = 0;
@@ -153,11 +186,12 @@ void cargarCanciones(FILE *archivo, int *totalCanciones)
             c = fgetc(archivo);
             if(j > 50)
             {
-                printf("El nombre de la cancion execede el maximo de caracteres");
-                printf("Por lo tanto, la cancion nro: %d no se guardara en la grilla.\n", i);
+                printf("El nombre de la cancion execede el maximo de caracteres  ");
+                printf("Por lo tanto, la cancion nro: %d no se guardara en la grilla.\n", i + 1);
                 while((c = fgetc(archivo)) != '\n' && c != EOF){
 
                 };
+                
                 band = true;
             }else{
                 if(!isdigit(c))
@@ -167,19 +201,19 @@ void cargarCanciones(FILE *archivo, int *totalCanciones)
                     band = true;
                     canciones[i].nombre[j] = '\0';
                     ungetc(c, archivo);
+                    fscanf(archivo,"%d",&canciones[i].minutos);
+                    fscanf(archivo,"%d",&canciones[i].segundos);
+                    fscanf(archivo,"%d\n",&canciones[i].puntuacion);
+                    printf("Cancion %d: Nombre: %s  Minutos: %d  Segundos: %d  Puntuacion: %d\n",i+1, canciones[i].nombre, canciones[i].minutos, canciones[i].segundos, canciones[i].puntuacion);
+                    canciones[i].duracion_en_segundos = canciones[i].minutos * 60 + canciones[i].segundos;
+                    canciones[i].ultima_vez = -1;
                 }
             }
             j++;
         }
-            
-        fscanf(archivo,"%d",&canciones[i].minutos);
-        fscanf(archivo,"%d",&canciones[i].segundos);
-        fscanf(archivo,"%d\n",&canciones[i].puntuacion);
-        printf("Cancion %d: Nombre: %s  Minutos: %d  Segundos: %d  Puntuacion: %d\n",i+1, canciones[i].nombre, canciones[i].minutos, canciones[i].segundos, canciones[i].puntuacion);
-        canciones[i].duracion_en_segundos = canciones[i].minutos * 60 + canciones[i].segundos;
-        canciones[i].ultima_vez = -1;   
+           
         band = false;
-    }
+    }*/
     printf("\n");
     rewind(archivo);
 }
