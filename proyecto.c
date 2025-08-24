@@ -1,4 +1,4 @@
-duracionSegundos#include <stdio.h>
+#include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
@@ -75,33 +75,45 @@ bool repetirCancion(int aleatorio, int segundosTotales);
 //grillas:
 void generarGrilla(int *totalCanciones, int *totalPublicidades, int *totalShows, int *totalElementosGrilla);
 void imprimirArchivo(const char nombreSalida[], FILE *archivo, int totalElementosGrilla);
-void totalGrillas(const char diasSemana[], FILE *archivosCanciones, FILE *archivoPublicidades, FILE *archivoShows);
+void totalGrillas(const char *nombreDia, int *totalCanciones, int *totalPublicidades, int *totalShows, int *totalElementosGrilla);
 
 
 //====== MAIN ======
 
 int main()
 {
-    int totalElementosGrilla = 0;
-    int segundosTotales = 0;
-    int opcion;
-    int totalCanciones = 0, totalPublicidades = 0, totalShows = 0;
-
-    FILE *archivosCanciones = fopen("canciones.in", "r");
-    FILE *archivosPublicidades = fopen("publicidad.in", "r");
+    FILE *archivoCanciones = fopen("canciones.in", "r");
+    FILE *archivoPublicidades = fopen("publicidad.in", "r");
     FILE *archivoShows = fopen("shows.in", "r");
 
-    if(archivosCanciones == NULL){
-        printf("Error:\nEl archivo canciones.in no ha sido encontrado\n");
-    }else if(archivoPublicidades == NULL){
-        printf("Error:\nEl archivo publicidad.in no ha sido encontrado\n");
-        fclose(archivosCanciones);
-    }else if(archivoShows == NULL){
-        printf("Error:\nEl archivo shows.in no ha sido encontrado\n");
-        fclose(archivosCanciones);
-        fclose(archivoPublicidades);
-    }else{
+    //NULL == 0
+    //if(!0) = if(1) -> Por eso entra al if
+
+    if(!archivoCanciones) 
+    {
+        printf("Error: canciones.in no encontrado\n");
+    }
+
+    if(!archivoPublicidades) 
+    {
+        printf("Error: publicidad.in no encontrado\n");
+    }
+
+    if(!archivoShows) 
+    {
+        printf("Error: shows.in no encontrado\n");
+    }
+
+    if(archivoCanciones && archivoPublicidades && archivoShows)
+    {
+        int opcion;
+        int totalCanciones = 0, totalPublicidades = 0, totalShows = 0;
         
+        //leer datos:
+        cargarCanciones(archivoCanciones, &totalCanciones);
+        cargarPublicidades(archivoPublicidades, &totalPublicidades);
+        cargarShows(archivoShows, &totalShows);
+
         //con esto cada grilla será diferente:
         srand(time(NULL)); 
 
@@ -109,15 +121,22 @@ int main()
         char diasSemana[7][10] = {"lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"};
 
         //generar las 7 grillas distintas para la semana:
-        for(int i = 0; i < 7; i++) {
-            totalGrillas(diasSemana[i],archivosCanciones, archivoPublicidades, archivoShows);
+        for(int i = 0; i < 7; i++)
+        {
+            int totalElementosGrilla = 0;
+
+            //rebobinar los archivos al inicio para leerlos desde el principio:
+            rewind(archivoCanciones);
+            rewind(archivoPublicidades);
+            rewind(archivoShows);
+
+            totalGrillas(diasSemana[i], &totalCanciones, &totalPublicidades, &totalShows, &totalElementosGrilla);
         }
 
-        for(int i = 0; i < totalPublicidades; i++){
+        /*for(int i = 0; i < totalPublicidades; i++){
             printf("intentos: %s %d\n", publicidades[i].empresa, publicidades[i].vecesUsadas);
-        }
+        }*/
         
-        int opcion;
         do{
 
             printf("\t--------------------------------------------");
@@ -146,6 +165,26 @@ int main()
                 break;
             }
         }while(opcion != 2);
+    }else{
+        printf("Saliendo...\n");
+    }
+
+    // archivo != NULL -> 1
+    //if(1) entonces entra para cerrarlo
+
+    if(archivoCanciones)
+    {
+        fclose(archivoCanciones);
+    }
+
+    if(archivoPublicidades)
+    {
+        fclose(archivoPublicidades);
+    }
+    
+    if(archivoShows)
+    {
+        fclose(archivoShows);
     }
     
     return 0;
@@ -391,7 +430,6 @@ bool repetirCancion(int aleatorio, int segundosTotales)
     return false;
 }
 
-
 void generarGrilla(int *totalCanciones, int *totalPublicidades, int *totalShows, int *totalElementosGrilla)
 {
     int segundosTotales = 300; //inicia a las 00:05:00
@@ -544,36 +582,25 @@ void generarGrilla(int *totalCanciones, int *totalPublicidades, int *totalShows,
 
 }
 
-void totalGrillas(const char *nombreDia, FILE *archivosCanciones, FILE *archivoPublicidades, FILE *archivoShows)
+void totalGrillas(const char *nombreDia, int *totalCanciones, int *totalPublicidades, int *totalShows, int *totalElementosGrilla)
 {
-    //rebobinar los archivos al inicio para leerlos desde el principio:
-    rewind(archivosCanciones);
-    rewind(archivoPublicidades);
-    rewind(archivoShows);
-    
-    //reiniciar para la grilla de cada dia:
-    int totalCanciones = 0, totalPublicidades = 0, totalShows = 0, totalElementosGrilla = 0;
-    
-    //leer datos:
-    cargarCanciones(archivosCanciones, &totalCanciones);
-    cargarPublicidades(archivoPublicidades, &totalPublicidades);
-    cargarShows(archivoShows, &totalShows);
     
     //crea los archivos para las 7 grillas:
     char nombreSalida[25];
     sprintf(nombreSalida, "grilla_%s.out", nombreDia); //{"lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"}
-    FILE *archivo_salida = fopen(nombreSalida, "w");
+    FILE *archivoSalida = fopen(nombreSalida, "w");
     
-    /*if(archivo_salida == NULL) {
+    if(!archivoSalida)
+    {
         printf("Error al crear %s\n", nombreSalida);
-        return;
-    }*/
-    
-    generarGrilla(&totalCanciones, &totalPublicidades, &totalShows, &totalElementosGrilla);
+    }else{
+        generarGrilla(totalCanciones, totalPublicidades, totalShows, totalElementosGrilla);
 
-    //genera la grilla en el archivo correspondiente:
-    imprimirArchivo(nombreDia, archivo_salida, totalElementosGrilla);
-    fclose(archivo_salida);
+        //genera la grilla en el archivo correspondiente:
+        imprimirArchivo(nombreSalida, archivoSalida, *totalElementosGrilla);
+        fclose(archivoSalida);
+    }
+    
 }
 
 
