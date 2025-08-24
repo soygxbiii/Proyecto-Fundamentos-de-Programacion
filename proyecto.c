@@ -582,6 +582,18 @@ void generarGrilla(int *totalCanciones, int *totalPublicidades, int *totalShows,
 
 }
 
+void imprimirArchivo(const char nombreSalida[], FILE *archivo, int totalElementosGrilla)
+{
+    printf("Guardando grilla en el archivo %s\n", nombreSalida);
+
+    for(int i = 0; i < totalElementosGrilla; i++)
+    {
+        fprintf(archivo, "%02d %02d %02d %c %s\n", grilla[i].horas, grilla[i].minutos, grilla[i].segundos, grilla[i].tipo, grilla[i].nombre);
+    }
+
+    printf("Archivo guardado exitosamente con %d elementos\n\n", totalElementosGrilla);
+}
+
 void totalGrillas(const char *nombreDia, int *totalCanciones, int *totalPublicidades, int *totalShows, int *totalElementosGrilla)
 {
     
@@ -601,17 +613,4 @@ void totalGrillas(const char *nombreDia, int *totalCanciones, int *totalPublicid
         fclose(archivoSalida);
     }
     
-}
-
-
-void imprimirArchivo(const char nombreSalida[], FILE *archivo, int totalElementosGrilla)
-{
-    printf("Guardando grilla en el archivo %s\n", nombreSalida);
-
-    for(int i = 0; i < totalElementosGrilla; i++)
-    {
-        fprintf(archivo, "%02d %02d %02d %c %s\n", grilla[i].horas, grilla[i].minutos, grilla[i].segundos, grilla[i].tipo, grilla[i].nombre);
-    }
-
-    printf("Archivo guardado exitosamente con %d elementos\n\n", totalElementosGrilla);
 }
