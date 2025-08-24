@@ -42,10 +42,13 @@ typedef struct{
     int segundos;
 }programacion;
 
+#define MAX_CANCIONES 1000
+#define MAX_PUBLICIDADES  100
+#define MAX_SHOWS  15
 
-cancion canciones[1000];
-publicidad publicidades[100];
-show shows[15];
+cancion canciones[MAX_CANCIONES];
+publicidad publicidades[MAX_PUBLICIDADES];
+show shows[MAX_SHOWS];
 programacion grilla[2000];
 
 
@@ -90,10 +93,6 @@ int main()
         printf("Cargando shows...");
         cargarShows(archivo_Shows, &totalShows);
 
-        fclose(archivo_Canciones); 
-        fclose(archivo_Publicidad);
-        fclose(archivo_Shows);
-
         grilla_del_dia(&totalCanciones, &totalPublicidades, &totalShows, &total_elementos_grilla);
 
         if(archivo_Grilla != NULL){
@@ -131,13 +130,17 @@ int main()
         }while(opcion != 2);
     }
 
+    fclose(archivo_Canciones); 
+    fclose(archivo_Publicidad);
+    fclose(archivo_Shows);
+
     return 0;
 }
 
 
 void cargarCanciones(FILE *archivo, int *totalCanciones)
 {
-    int i, j, largoCadena;
+    int i, j, largoCadena, k=0;
     char c;
     bool band = false;
     char cadena[50];
@@ -152,6 +155,7 @@ void cargarCanciones(FILE *archivo, int *totalCanciones)
             c = fgetc(archivo);
             if((!isdigit(c)) && j <= 50){
                 cadena[j] = c;
+                j++;
             }else{
                 band = true;
                 largoCadena = strlen(cadena);
@@ -173,47 +177,26 @@ void cargarCanciones(FILE *archivo, int *totalCanciones)
                     canciones[i].ultima_vez = -1;
                 }
             }
-            j++;
         }
         band = false;
     }
 
-    /*for(i = 0; i < *totalCanciones; i++)
-    {   
-        band = false;
-        j = 0;
-        while(!band){
-            c = fgetc(archivo);
-            if(j > 50)
-            {
-                printf("El nombre de la cancion execede el maximo de caracteres  ");
-                printf("Por lo tanto, la cancion nro: %d no se guardara en la grilla.\n", i + 1);
-                while((c = fgetc(archivo)) != '\n' && c != EOF){
-
-                };
-                
-                band = true;
-            }else{
-                if(!isdigit(c))
-                {
-                    canciones[i].nombre[j] = c;
-                }else{
-                    band = true;
-                    canciones[i].nombre[j] = '\0';
-                    ungetc(c, archivo);
-                    fscanf(archivo,"%d",&canciones[i].minutos);
-                    fscanf(archivo,"%d",&canciones[i].segundos);
-                    fscanf(archivo,"%d\n",&canciones[i].puntuacion);
-                    printf("Cancion %d: Nombre: %s  Minutos: %d  Segundos: %d  Puntuacion: %d\n",i+1, canciones[i].nombre, canciones[i].minutos, canciones[i].segundos, canciones[i].puntuacion);
-                    canciones[i].duracion_en_segundos = canciones[i].minutos * 60 + canciones[i].segundos;
-                    canciones[i].ultima_vez = -1;
-                }
+    for(i = 0; i < *totalCanciones; i++){
+        largoCadena = strlen(canciones[i].nombre);
+        if(largoCadena == 0){
+            for(j = i; j < *totalCanciones; j++){
+                strcpy(canciones[j+1].nombre, canciones[j].nombre);
+                canciones[j].minutos = canciones[j+1].minutos;
+                canciones[j].segundos = canciones[j+1].segundos;
+                canciones[j].puntuacion = canciones[j+1].puntuacion;
             }
-            j++;
+            strcpy(canciones[j+1].nombre, "");
+            k++;
         }
-           
-        band = false;
-    }*/
+    }
+
+    *totalCanciones = *totalCanciones - k;
+    
     printf("\n");
     rewind(archivo);
 }
@@ -221,37 +204,59 @@ void cargarCanciones(FILE *archivo, int *totalCanciones)
 
 void cargarPublicidades(FILE *archivo, int *totalPublicidades)
 {
-    int i = 0, j;
+    int i = 0, j, largoCadena, contPublicidades=0;
     char c;
     bool band = false;
+    char cadena[31];
 
     printf("\n");
-    while(!feof(archivo) && i < 100)
-    {
+
+    while(!feof(archivo) && (i < 100)){
         j = 0;
-        while((!band) && (j <= 31))
-        {
+        while((!band)){
             c = fgetc(archivo);
-            if(!isdigit(c))
-            {
-                publicidades[i].empresa[j] = c;
+            if((!isdigit(c)) && (j<=30)){
+                cadena[j] = c;
                 j++;
             }else{
                 band = true;
-                publicidades[i].empresa[j] = '\0';
-                ungetc(c, archivo);
+                cadena[j] = '\0';
+                largoCadena = strlen(cadena);
+                if(largoCadena > 30){
+                    printf("Error. El nombre es largo, debe estar en el rango de (1 - 30)\n");
+                    printf("Por lo tanto, la publicidad %d NO se guardara en la grilla.\n", i+1);
+                    while((c = fgetc(archivo)) != '\n' && c != EOF){
+
+                    };
+                }else{
+
+                    strcpy(publicidades[i].empresa, cadena);
+                    ungetc(c, archivo);
+                    fscanf(archivo, "%d", &publicidades[i].segundos);
+                    fscanf(archivo, "%d\n", &publicidades[i].veces);
+                    printf("Publicidad %d: Empresa: %s  Segundos: %d  Veces: %d\n",i+1, publicidades[i].empresa, publicidades[i].segundos, publicidades[i].veces);
+                    publicidades[i].veces_usadas = 0;
+                }
             }
         }
-
-        fscanf(archivo, "%d", &publicidades[i].segundos);
-        fscanf(archivo, "%d\n", &publicidades[i].veces);
-        printf("Publicidad %d: Empresa: %s  Segundos: %d  Veces: %d\n",i+1, publicidades[i].empresa, publicidades[i].segundos, publicidades[i].veces);
-        publicidades[i].veces_usadas = 0;
         band = false;
-        (*totalPublicidades)++;
+        contPublicidades++;
         i++;
     }
 
+    for(i = 0;i < contPublicidades; i++){
+        largoCadena = strlen(publicidades[i].empresa);
+        if(largoCadena == 0){
+            for(j = 0; j < *totalPublicidades; j++){
+                strcpy(publicidades[j+1].empresa, publicidades[j].empresa);
+                publicidades[j].segundos = publicidades[j+1].segundos;
+                publicidades[j].veces = publicidades[j+1].veces;
+            }
+            strcpy(publicidades[j+1].empresa, "");
+        }
+    }
+    
+    *totalPublicidades = contPublicidades;
     // printf("cantidad de publicidades: %d\n", *totalPublicidades);
     printf("\n");
     rewind(archivo);
@@ -260,9 +265,10 @@ void cargarPublicidades(FILE *archivo, int *totalPublicidades)
 
 void cargarShows(FILE *archivo, int *totalShows)
 {
-    int i, j;
+    int i, j, largoCadena, k=0;
     char c;
     bool band = false;
+    char cadena[101];
 
     printf("\n");
     fscanf(archivo, "%d\n", totalShows);
@@ -271,41 +277,63 @@ void cargarShows(FILE *archivo, int *totalShows)
         printf("Total de Shows: %d\n",*totalShows);
         for(i = 0; i < *totalShows; i++){
             j = 0;
-            while((!band) && (j <= 101)){
+            while(!band){
                 c = fgetc(archivo);
-                if(!isdigit(c)){
-                    shows[i].nombre[j] = c;
+                if(!isdigit(c) && (j<=100)){
+                    cadena[j] = c;
                     j++;
                 }else{
                     band = true;
-                    shows[i].nombre[j] = '\0';
-                    ungetc(c, archivo);
+                    largoCadena = strlen(cadena);
+                    printf("Largo cadena %d, %d\n", i, largoCadena);
+                    if(largoCadena > 100){
+                        printf("Error. El nombre es largo, debe estar en el rango de (1 - 100)\n");
+                        printf("Por lo tanto, el show %d NO se guardara en la grilla.\n", i+1);
+                        while((c = fgetc(archivo)) != '\n' && c != EOF){
+
+                        };
+                    }else{
+                        cadena[j] = '\0';
+                        strcpy(shows[i].nombre, cadena);
+                        fscanf(archivo, "%d", &shows[i].minutos);
+                        fscanf(archivo, "%d", &shows[i].segundos);
+                        fscanf(archivo, "%d", &shows[i].segmentos);
+                        fscanf(archivo, "%d\n", &shows[i].preferencia);
+                        printf("Show %d: nombre: %s  Minutos: %d  Segundos: %d  Segmentos: %d  Preferencia: %d\n",i+1, shows[i].nombre, shows[i].minutos, shows[i].segundos, shows[i].segmentos, shows[i].preferencia);
+                        shows[i].duracion_en_segundos = shows[i].minutos * 60 + shows[i].segundos;   
+                        shows[i].usado = 0;     
+ 
+                    }
+                    
                 }
             }
-
-            fscanf(archivo, "%d", &shows[i].minutos);
-            fscanf(archivo, "%d", &shows[i].segundos);
-            fscanf(archivo, "%d", &shows[i].segmentos);
-            fscanf(archivo, "%d\n", &shows[i].preferencia);
-            printf("Show %d: nombre: %s  Minutos: %d  Segundos: %d  Segmentos: %d  Preferencia: %d\n",i+1, shows[i].nombre, shows[i].minutos, shows[i].segundos, shows[i].segmentos, shows[i].preferencia);
-            shows[i].duracion_en_segundos = shows[i].minutos * 60 + shows[i].segundos;   
-            shows[i].usado = 0;     
- 
             band = false;
         }
-
-        printf("\n");
-        rewind(archivo);
-
     }else{
         printf("(Cantidad de shows no permitidos. Debe estar dentro de un rango de 3 - 15)\n");
         printf("\n");
-
     }
 
+    for(i = 0; i < *totalShows; i++){
+        largoCadena = strlen(shows[i].nombre);
+        if(largoCadena ==  0){
+            for(j = i; j < *totalShows; j++){
+            strcpy(shows[j+1].nombre, shows[j].nombre);
+            shows[j].minutos = shows[j+1].minutos;
+            shows[j].segundos = shows[j+1].segundos;
+            shows[j].segmentos = shows[j+1].segmentos;
+            shows[j].preferencia = shows[j+1].preferencia;
+            }
+        strcpy(shows[j+1].nombre, "");
+        k++;
+        }
+    }
+
+    *totalShows = *totalShows - k;
+
+    printf("\n");
     rewind(archivo);
 }
-
 
 void segundos_a_horas(int segundos_totales, int *horas, int *minutos, int *segundos)
 {
