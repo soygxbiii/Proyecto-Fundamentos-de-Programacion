@@ -214,9 +214,9 @@ void cargarCanciones(FILE *archivo, int *totalCanciones)
             }else{
                 band = true;
                 largoCadena = strlen(cadena);
+                printf("Largo cadena %d, %d\n", i, largoCadena);
                 if(largoCadena > 50){
-                    //printf("Error. El nombre es largo, debe estar en el rango de (1 - 50)\n");
-                    //printf("Por lo tanto, la cancion %d NO se guardara en la grilla.\n", i+1);
+                    printf("Error. El nombre es largo, la cancion %d NO se guardara en la grilla.\n", i+1);
                     while((c = fgetc(archivo)) != '\n' && c != EOF){
 
                     };
@@ -227,7 +227,7 @@ void cargarCanciones(FILE *archivo, int *totalCanciones)
                     fscanf(archivo,"%d",&canciones[i].minutos);
                     fscanf(archivo,"%d",&canciones[i].segundos);
                     fscanf(archivo,"%d\n",&canciones[i].puntuacion);
-                    //printf("Cancion %d: Nombre: %s  Minutos: %d  Segundos: %d  Puntuacion: %d\n",i+1, canciones[i].nombre, canciones[i].minutos, canciones[i].segundos, canciones[i].puntuacion);
+                    printf("Cancion %d: Nombre: %s  Minutos: %d  Segundos: %d  Puntuacion: %d\n",i+1, canciones[i].nombre, canciones[i].minutos, canciones[i].segundos, canciones[i].puntuacion);
                     canciones[i].duracionSegundos = canciones[i].minutos * 60 + canciones[i].segundos;
                     canciones[i].ultimaVez = -1;
                 }
@@ -251,14 +251,15 @@ void cargarCanciones(FILE *archivo, int *totalCanciones)
     }
 
     *totalCanciones = *totalCanciones - k;
+    printf("cantidad de canciones: %d\n", *totalCanciones);
     
-    //printf("\n");
+    printf("\n");
 }
 
 
 void cargarPublicidades(FILE *archivo, int *totalPublicidades)
 {
-    int i = 0, j, largoCadena, contPublicidades=0;
+    int i = 0, j, k = 0, largoCadena, contPublicidades=0;
     char c;
     bool band = false;
     char cadena[31];
@@ -276,9 +277,9 @@ void cargarPublicidades(FILE *archivo, int *totalPublicidades)
                 band = true;
                 cadena[j] = '\0';
                 largoCadena = strlen(cadena);
+                printf("Largo cadena %d, %d\n", i, largoCadena);
                 if(largoCadena > 30){
-                    //printf("Error. El nombre es largo, debe estar en el rango de (1 - 30)\n");
-                    //printf("Por lo tanto, la publicidad %d NO se guardara en la grilla.\n", i+1);
+                    printf("Error. El nombre es largo, la publicidad %d NO se guardara en la grilla.\n", i+1);
                     while((c = fgetc(archivo)) != '\n' && c != EOF){
 
                     };
@@ -288,7 +289,7 @@ void cargarPublicidades(FILE *archivo, int *totalPublicidades)
                     ungetc(c, archivo);
                     fscanf(archivo, "%d", &publicidades[i].segundos);
                     fscanf(archivo, "%d\n", &publicidades[i].veces);
-                    //printf("Publicidad %d: Empresa: %s  Segundos: %d  Veces: %d\n",i+1, publicidades[i].empresa, publicidades[i].segundos, publicidades[i].veces);
+                    printf("Publicidad %d: Empresa: %s  Segundos: %d  Veces: %d\n",i+1, publicidades[i].empresa, publicidades[i].segundos, publicidades[i].veces);
                     publicidades[i].vecesUsadas = 0;
                 }
             }
@@ -307,12 +308,13 @@ void cargarPublicidades(FILE *archivo, int *totalPublicidades)
                 publicidades[j].veces = publicidades[j+1].veces;
             }
             strcpy(publicidades[j+1].empresa, "");
+            k++;
         }
     }
     
-    *totalPublicidades = contPublicidades;
-    // printf("cantidad de publicidades: %d\n", *totalPublicidades);
-    //printf("\n");
+    *totalPublicidades = contPublicidades - k;
+    printf("cantidad de publicidades: %d\n", *totalPublicidades);
+    printf("\n");
 }
 
 
@@ -338,10 +340,9 @@ void cargarShows(FILE *archivo, int *totalShows)
                 }else{
                     band = true;
                     largoCadena = strlen(cadena);
-                    //printf("Largo cadena %d, %d\n", i, largoCadena);
+                    printf("Largo cadena %d, %d\n", i, largoCadena);
                     if(largoCadena > 100){
-                        //printf("Error. El nombre es largo, debe estar en el rango de (1 - 100)\n");
-                        //printf("Por lo tanto, el show %d NO se guardara en la grilla.\n", i+1);
+                        printf("Error. El nombre es largo, el show %d NO se guardara en la grilla.\n", i+1);
                         while((c = fgetc(archivo)) != '\n' && c != EOF){
 
                         };
@@ -352,7 +353,7 @@ void cargarShows(FILE *archivo, int *totalShows)
                         fscanf(archivo, "%d", &shows[i].segundos);
                         fscanf(archivo, "%d", &shows[i].segmentos);
                         fscanf(archivo, "%d\n", &shows[i].preferencia);
-                        //printf("Show %d: nombre: %s  Minutos: %d  Segundos: %d  Segmentos: %d  Preferencia: %d\n",i+1, shows[i].nombre, shows[i].minutos, shows[i].segundos, shows[i].segmentos, shows[i].preferencia);
+                        printf("Show %d: nombre: %s  Minutos: %d  Segundos: %d  Segmentos: %d  Preferencia: %d\n",i+1, shows[i].nombre, shows[i].minutos, shows[i].segundos, shows[i].segmentos, shows[i].preferencia);
                         shows[i].duracionSegundos = shows[i].minutos * 60 + shows[i].segundos;   
                         shows[i].veces = 0;     
  
@@ -383,8 +384,9 @@ void cargarShows(FILE *archivo, int *totalShows)
     }
 
     *totalShows = *totalShows - k;
+    printf("cantidad de shows: %d\n", *totalShows);
 
-    //printf("\n");
+    printf("\n");
 }
 
 void segundosHoras(int segundosTotales, int *horas, int *minutos, int *segundos)
