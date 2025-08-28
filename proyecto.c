@@ -264,8 +264,6 @@ void cargarPublicidades(FILE *archivo, int *totalPublicidades)
     bool band = false;
     char cadena[31];
 
-    //printf("\n");
-
     while(!feof(archivo) && (i < 100)){
         j = 0;
         while((!band)){
