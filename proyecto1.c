@@ -65,7 +65,6 @@ programacion grilla[MAX_GRILLA];
 void cargarCanciones(FILE *archivo, int *totalCanciones);
 void cargarPublicidades(FILE *archivo, int *totalPublicidades);
 void cargarShows(FILE *archivo, int *totalShows);
-void generarGrillaDiaria(char dia, *totalCanciones, *totalPublicidades, *totalShows);
 
 int main(){
     FILE *archivoCanciones = fopen("canciones.in", "r");
@@ -90,9 +89,7 @@ int main(){
         cargarShows(archivoShows, &totalShows);
 
         //Utilizaremos un ciclo para generar las grillas diarias.
-        for(i=0; i<7; i++){
-            generarGrillaDiaria(dias[i], &totalCanciones, &totalPublicidades, &totalShows);
-        }
+        
     }
 
     fclose(archivoCanciones);
@@ -106,7 +103,7 @@ int main(){
 
 void cargarCanciones(FILE *archivo, int *totalCanciones)
 {
-    int i, j, largoCadena=0, k=0;
+    int i, j, largoCadena=0, k=0, minutos, segundos, puntuacion;
     char c;
     bool band = false;
     char cadena[50];
@@ -132,40 +129,33 @@ void cargarCanciones(FILE *archivo, int *totalCanciones)
                         }
                     }else{
                         ungetc(c, archivo);
-                        strcpy(canciones[i].nombre, cadena);
+                        /*
                         fscanf(archivo,"%d",&canciones[i].minutos);
                         fscanf(archivo,"%d",&canciones[i].segundos);
                         fscanf(archivo,"%d",&canciones[i].puntuacion);
-                        c = fgetc(archivo);
-                        printf("Cancion %d: %s %d %d %d\n",i+1, canciones[i].nombre, canciones[i].minutos, canciones[i].segundos, canciones[i].puntuacion);
+                        c = fgetc(archivo);*/
 
-
-                        /*if(canciones[i].segundos < 0 || canciones[i].segundos > 60)
-                        {
-                            printf("Error: segundos invalidos para la cancion %d\n", i+1);
-                            while((c = fgetc(archivo)) != '\n' && c != EOF)
-                            {
-
-                            }
-                            strcpy(canciones[i].nombre, "");
-                        }else{
-                            fscanf(archivo,"%d\n",&canciones[i].puntuacion);
-                            if(canciones[i].puntuacion < 1 || canciones[i].puntuacion > 100)
-                            {
-                                printf("Error: puntuacion invalida para la cancion %d\n", i+1);
-                                while((c = fgetc(archivo)) != '\n' && c != EOF)
-                                {
-
-                                }
-                                strcpy(canciones[i].nombre, "");
+                        fscanf(archivo,"%d",&minutos);
+                        fscanf(archivo,"%d",&segundos);
+                        if((segundos >= 0) && (segundos < 60)){
+                            fscanf(archivo,"%d",&puntuacion);
+                            if((puntuacion >= 1) && (puntuacion <= 100)){
+                                strcpy(canciones[i].nombre, cadena);
+                                canciones[i].minutos = minutos;
+                                canciones[i].segundos = segundos;
+                                canciones[i].puntuacion = puntuacion;
+                                printf("Cancion %d: %s %d %d %d\n",i+1, canciones[i].nombre, canciones[i].minutos, canciones[i].segundos, canciones[i].puntuacion);
                             }else{
-                                printf("Cancion %d: Nombre: %s  Minutos: %d  Segundos: %d  Puntuacion: %d\n",i+1, canciones[i].nombre, canciones[i].minutos, canciones[i].segundos, canciones[i].puntuacion);
-                                canciones[i].duracionSegundos = canciones[i].minutos * 60 + canciones[i].segundos;
-                                printf("Duración en segundos: %d\n", canciones[i].duracionSegundos);
-                                canciones[i].ultimaVez = -1;
+                                printf("Error: puntuacion invalida para la cancion %d, debe estar en el rango (1 - 100)\n", i+1);
                             }
-                            
-                        }*/
+
+                        }else{
+                            printf("Error: segundos invalidos para la cancion %d\n", i+1);
+                            while((c != '\n') && (c != EOF)){
+                                c = fgetc(archivo);
+                            }
+                        }
+                        c = fgetc(archivo);
                     }
                     band = true;
                 }
@@ -358,6 +348,3 @@ void cargarShows(FILE *archivo, int *totalShows)
     }
 }
 
-void generarGrillaDiaria(char *dia, *totalCanciones, *totalPublicidades, *totalShows){
-    char nombreSalida[20];
-}

@@ -680,3 +680,20 @@ void totalGrillas(const char *nombreDia, int *totalCanciones, int *totalPublicid
     }
     
 }
+
+strcpy(canciones[i].nombre, "");
+                            fscanf(archivo,"%d\n",&canciones[i].puntuacion);
+                            if(canciones[i].puntuacion < 1 || canciones[i].puntuacion > 100)
+                            {
+                                printf("Error: puntuacion invalida para la cancion %d\n", i+1);
+                                while((c = fgetc(archivo)) != '\n' && c != EOF)
+                                {
+
+                                }
+                                strcpy(canciones[i].nombre, "");
+                            }else{
+                                printf("Cancion %d: Nombre: %s  Minutos: %d  Segundos: %d  Puntuacion: %d\n",i+1, canciones[i].nombre, canciones[i].minutos, canciones[i].segundos, canciones[i].puntuacion);
+                                canciones[i].duracionSegundos = canciones[i].minutos * 60 + canciones[i].segundos;
+                                printf("Duración en segundos: %d\n", canciones[i].duracionSegundos);
+                                canciones[i].ultimaVez = -1;
+                            }
