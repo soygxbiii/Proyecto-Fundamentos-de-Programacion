@@ -66,6 +66,12 @@ void cargarCanciones(FILE *archivo, int *totalCanciones);
 void cargarPublicidades(FILE *archivo, int *totalPublicidades);
 void cargarShows(FILE *archivo, int *totalShows);
 
+//grillas:
+void totalGrillas(const char nombreSalida[]);
+
+
+//====== MAIN ======
+
 int main(){
     FILE *archivoCanciones = fopen("canciones.in", "r");
     FILE *archivoPublicidades = fopen("publicidad.in", "r");
@@ -80,16 +86,27 @@ int main(){
     }else{
         int totalCanciones = 0, totalPublicidades = 0, totalShows = 0;
         int i;
-        //Arreglo para generar los archivos de salida.
-        char dias[7][10] = {"lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"};
-        
+
         //cargar datos de entrada (archivos de entrada).
         cargarCanciones(archivoCanciones, &totalCanciones);
         cargarPublicidades(archivoPublicidades, &totalPublicidades);
         cargarShows(archivoShows, &totalShows);
 
-        //Utilizaremos un ciclo para generar las grillas diarias.
-        
+        //arreglo para crear los archivos de salida eficientemente: 
+        char diasSemana[7][10] = {"lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"};
+
+        //generar las 7 grillas distintas para la semana:
+        for(int i = 0; i < 7; i++)
+        {
+            int totalElementosGrilla = 0;
+
+            //rebobinar los archivos al inicio para leerlos desde el principio:
+            // rewind(archivoCanciones);
+            // rewind(archivoPublicidades);
+            // rewind(archivoShows);
+
+            totalGrillas(diasSemana[i]);
+        }
     }
 
     fclose(archivoCanciones);
@@ -328,5 +345,14 @@ void cargarShows(FILE *archivo, int *totalShows)
         printf("(Cantidad de shows no permitidos. Debe estar dentro de un rango de 3 - 15)\n");
         printf("\n");
     }
+}
+
+
+void totalGrillas(const char *nombreDia)
+{
+    //crea los archivos para las 7 grillas:
+    char nombreSalida[25];
+    sprintf(nombreSalida, "grilla_%s.out", nombreDia); //{"lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"}
+    FILE *archivoSalida = fopen(nombreSalida, "w");
 }
 
