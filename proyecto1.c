@@ -67,7 +67,10 @@ void cargarPublicidades(FILE *archivo, int *totalPublicidades);
 void cargarShows(FILE *archivo, int *totalShows);
 
 //grillas:
-void totalGrillas(const char nombreSalida[]);
+//void totalGrillas(const char nombreSalida[]);
+bool esHorarioEstelar(int hora);
+void totalGrillas(const char nombreSalida[], int *totalCanciones, int *totalPublicidades, int *totalShows)
+
 
 
 //====== MAIN ======
@@ -99,7 +102,7 @@ int main(){
         for(int i = 0; i < 7; i++)
         {
             int totalElementosGrilla = 0;
-            totalGrillas(diasSemana[i]);
+            totalGrillas(diasSemana[i], &totalCanciones, &totalPublicidades, &totalShows);
         }
     }
 
@@ -298,6 +301,7 @@ void cargarShows(FILE *archivo, int *totalShows)
                                 shows[i].segundos = segundos;
                                 shows[i].segmentos = segmentos;
                                 shows[i].preferencia = preferencia;
+                                shows[i].veces = 0;
                                 printf("Show %d: %s %d %d %d %d\n",i+1, shows[i].nombre, shows[i].minutos, shows[i].segundos, shows[i].segmentos, shows[i].preferencia);
                             }else{
                                 printf("Error: preferencia invalida para la cancion %d, debe estar en el rango (1 - 10)\n", i+1);
@@ -327,6 +331,7 @@ void cargarShows(FILE *archivo, int *totalShows)
                     shows[j].segundos = shows[j+1].segundos;
                     shows[j].segmentos = shows[j+1].segmentos;
                     shows[j].preferencia = shows[j+1].preferencia;
+                    shows[j].veces = shows[j+1].veces;
                 }
                 *totalShows = *totalShows -1;
             }
@@ -341,17 +346,65 @@ void cargarShows(FILE *archivo, int *totalShows)
     }
 }
 
-void convertidorSegundos(int segundosTotales, int *horas, int *minutos, int *segundos)
-{
-    *horas = segundosTotales / 3600;
-    *minutos = (segundosTotales % 3600) / 60;
-    *segundos = segundosTotales % 60;
+bool esHorarioEstelar(int hora){
+    bool bandera;
+    if((hora >= 07) & (hora <= 09)){
+        bandera = true;
+    }else if((hora >= 12) && (hora <= 14)){
+        bandera = true;
+    }else if((hora >= 18) && (hora <= 19)){
+        bandera = true;
+    }else{
+        bandera = false;
+    }
+
+    return bandera;
 }
 
-void totalGrillas(const char *nombreDia)
+void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, int *totalShows){
+    int horas = 00;
+    int minutos = 05;
+    int segundos = 00;
+    int opcion, i;
+    bool bandera;
+
+    while((horas != 23) || (minutos != 59) || (segundos != 59)){
+        bandera = esHorarioEstelar(horas);
+        
+        if(bandera){
+            // Se tomara en cuenta solo shows.
+            opcion = 1;
+        }else{
+            //Generar un número aleatorio del 1 al 3 para decidir el tipo de contenido:
+            //1: show, 2: canción, 3: publicidad:
+            opcion = (rand() % 3) + 1; 
+        }
+
+        switch(opcion){
+            case 1:
+                // Case Show
+                i = (rand() % *totalShows) + 1;
+                if(shows[i].veces <= shows[i].segmentos){
+                    
+                }
+
+            break;
+        }
+        
+    }
+
+
+
+}
+
+void totalGrillas(const char *nombreDia, int *totalCanciones, int *totalPublicidades, int *totalShows)
 {
     //crea los archivos para las 7 grillas:
     char nombreSalida[25];
+    int totalCanciones = *totalCanciones;
+    int totalPublicidades = *totalPublicidades;
+    int totalShows = *totalShows;
     sprintf(nombreSalida, "grilla_%s.out", nombreDia); //{"lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"}
     FILE *archivoSalida = fopen(nombreSalida, "w");
+    generarGrilla(archivoSalida, &totalCanciones, &totalPublicidades, &totalShows);
 }
