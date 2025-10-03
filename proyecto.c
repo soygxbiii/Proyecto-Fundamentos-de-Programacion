@@ -511,7 +511,7 @@ void generarGrilla(int *totalCanciones, int *totalPublicidades, int *totalShows,
         canciones[i].ultimaVez = -1;
     }
 
-    while(segundosTotales <= 86399 && *totalElementosGrilla < 2000)
+    while(segundosTotales <= 86399)
     {
         segundosHoras(segundosTotales, &horas, &minutos, &segundos);
         elementoProgramado = 0;

@@ -99,12 +99,6 @@ int main(){
         for(int i = 0; i < 7; i++)
         {
             int totalElementosGrilla = 0;
-
-            //rebobinar los archivos al inicio para leerlos desde el principio:
-            // rewind(archivoCanciones);
-            // rewind(archivoPublicidades);
-            // rewind(archivoShows);
-
             totalGrillas(diasSemana[i]);
         }
     }
@@ -347,6 +341,12 @@ void cargarShows(FILE *archivo, int *totalShows)
     }
 }
 
+void convertidorSegundos(int segundosTotales, int *horas, int *minutos, int *segundos)
+{
+    *horas = segundosTotales / 3600;
+    *minutos = (segundosTotales % 3600) / 60;
+    *segundos = segundosTotales % 60;
+}
 
 void totalGrillas(const char *nombreDia)
 {
@@ -355,4 +355,3 @@ void totalGrillas(const char *nombreDia)
     sprintf(nombreSalida, "grilla_%s.out", nombreDia); //{"lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"}
     FILE *archivoSalida = fopen(nombreSalida, "w");
 }
-
