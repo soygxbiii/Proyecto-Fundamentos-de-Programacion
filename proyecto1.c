@@ -69,9 +69,8 @@ void cargarShows(FILE *archivo, int *totalShows);
 //grillas:
 //void totalGrillas(const char nombreSalida[]);
 bool esHorarioEstelar(int hora);
-void totalGrillas(const char nombreSalida[], int *totalCanciones, int *totalPublicidades, int *totalShows)
-
-
+void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, int *totalShows);
+FILE* totalGrillas(const char nombreSalida[]);
 
 //====== MAIN ======
 
@@ -102,7 +101,15 @@ int main(){
         for(int i = 0; i < 7; i++)
         {
             int totalElementosGrilla = 0;
-            totalGrillas(diasSemana[i], &totalCanciones, &totalPublicidades, &totalShows);
+            FILE* archivoDia = totalGrillas(diasSemana[i]);
+            if(archivoDia == NULL){
+                printf("Error.\n");
+            }else{
+                generarGrilla(archivoDia, &totalCanciones, &totalPublicidades, &totalShows);
+                //fprintf(archivoDia, "%d", i);
+                fclose(archivoDia);
+
+            }
         }
     }
 
@@ -115,8 +122,7 @@ int main(){
 
 //====== FUNCIONES ======
 
-void cargarCanciones(FILE *archivo, int *totalCanciones)
-{
+void cargarCanciones(FILE *archivo, int *totalCanciones){
     int i, j, largoCadena=0, minutos, segundos, puntuacion;
     char c;
     bool band = false;
@@ -198,8 +204,7 @@ void cargarCanciones(FILE *archivo, int *totalCanciones)
 }
 
 
-void cargarPublicidades(FILE *archivo, int *totalPublicidades)
-{
+void cargarPublicidades(FILE *archivo, int *totalPublicidades){
     int i = 0, j, largoCadena, contPublicidades=0;
     int segundos;
     char c;
@@ -262,8 +267,7 @@ void cargarPublicidades(FILE *archivo, int *totalPublicidades)
 }
 
 
-void cargarShows(FILE *archivo, int *totalShows)
-{
+void cargarShows(FILE *archivo, int *totalShows){
     int i, j, largoCadena, minutos, segundos, segmentos, preferencia;
     char c;
     bool band = false;
@@ -348,7 +352,8 @@ void cargarShows(FILE *archivo, int *totalShows)
 
 bool esHorarioEstelar(int hora){
     bool bandera;
-    if((hora >= 07) & (hora <= 09)){
+
+    if((hora >= 7) & (hora <= 9)){
         bandera = true;
     }else if((hora >= 12) && (hora <= 14)){
         bandera = true;
@@ -362,13 +367,16 @@ bool esHorarioEstelar(int hora){
 }
 
 void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, int *totalShows){
-    int horas = 00;
-    int minutos = 05;
-    int segundos = 00;
+    int horas = 0;
+    int minutos = 5;
+    int segundos = 0;
     int opcion, i;
     bool bandera;
+    bandera = esHorarioEstelar(horas);
+    printf("Bandera: %d\n", bandera);
+    fprintf(archivo, "%02d", minutos);
 
-    while((horas != 23) || (minutos != 59) || (segundos != 59)){
+    /*while((horas != 23) || (minutos != 59) || (segundos != 59)){
         bandera = esHorarioEstelar(horas);
         
         if(bandera){
@@ -385,26 +393,23 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
                 // Case Show
                 i = (rand() % *totalShows) + 1;
                 if(shows[i].veces <= shows[i].segmentos){
-                    
+                    imprimirArchivo(archivo, &horas, &minutos, &segundos, shows[i].nombre);
                 }
 
             break;
         }
         
-    }
+    }*/
 
 
 
 }
 
-void totalGrillas(const char *nombreDia, int *totalCanciones, int *totalPublicidades, int *totalShows)
-{
+FILE* totalGrillas(const char *nombreDia){
     //crea los archivos para las 7 grillas:
     char nombreSalida[25];
-    int totalCanciones = *totalCanciones;
-    int totalPublicidades = *totalPublicidades;
-    int totalShows = *totalShows;
     sprintf(nombreSalida, "grilla_%s.out", nombreDia); //{"lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"}
     FILE *archivoSalida = fopen(nombreSalida, "w");
-    generarGrilla(archivoSalida, &totalCanciones, &totalPublicidades, &totalShows);
+    
+    return archivoSalida;
 }
