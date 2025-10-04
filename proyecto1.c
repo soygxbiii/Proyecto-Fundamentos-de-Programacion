@@ -416,6 +416,7 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
     int segundos = 0;
     int opcion, i;
     bool bandera;
+    bool desabilitarOpcion1 = false;
     char tipo = '';
     fprintf(archivo, "%02d", minutos);
 
@@ -426,9 +427,14 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
             // Se tomara en cuenta solo shows.
             opcion = 1;
         }else{
-            //Generar un número aleatorio del 1 al 3 para decidir el tipo de contenido:
-            //1: show, 2: canción, 3: publicidad.
-            opcion = (rand() % 3) + 1; 
+            
+            if(desabilitarOpcion1){
+                opcion = (rand()% 2) + 2
+            }else{
+                //Generar un número aleatorio del 1 al 3 para decidir el tipo de contenido:
+                //1: show, 2: canción, 3: publicidad.
+                opcion = (rand() % 3) + 1; 
+            }
         }
 
         switch(opcion){
@@ -448,7 +454,7 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
                     if(i <= *totalShows){
                         imprimirArchivo(archivo, &horas, &minutos, &segundos, &tipo, shows[i].nombre);
                     }else{
-                        //desabilitarOpcion1 = true;
+                        desabilitarOpcion1 = true;
                     }
                     
                 }
