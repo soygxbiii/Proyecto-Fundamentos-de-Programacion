@@ -79,6 +79,7 @@ int main(){
     FILE *archivoCanciones = fopen("canciones.in", "r");
     FILE *archivoPublicidades = fopen("publicidad.in", "r");
     FILE *archivoShows = fopen("shows.in", "r");
+    srand(time(NULL));
 
     if(archivoCanciones == NULL){
         printf("Error: canciones.in no encontrado\n");
@@ -351,6 +352,14 @@ void cargarShows(FILE *archivo, int *totalShows){
     }
 }
 
+void imprimirArchivo(FILE *archivo, int *horas, int *minutos, int *segundos, char *tipo, const char *nombreElemento){
+    fprintf(archivo, "%02d ", *horas);
+    fprintf(archivo, "%02d ", *minutos);
+    fprintf(archivo, "%02d ", *segundos);
+    fprintf(archivo, "%c ", *tipo);
+    fprintf(archivo, "%s", nombreElemento);
+}
+
 bool esHorarioEstelar(int hora){
     bool bandera;
 
@@ -407,6 +416,7 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
     int segundos = 0;
     int opcion, i;
     bool bandera;
+    char tipo = '';
     fprintf(archivo, "%02d", minutos);
 
     while((horas != 23) || (minutos != 59) || (segundos != 59)){
@@ -417,23 +427,36 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
             opcion = 1;
         }else{
             //Generar un número aleatorio del 1 al 3 para decidir el tipo de contenido:
-            //1: show, 2: canción, 3: publicidad:
+            //1: show, 2: canción, 3: publicidad.
             opcion = (rand() % 3) + 1; 
         }
 
         switch(opcion){
             case 1:
                 // Case Show
+                tipo = 'S';
                 i = (rand() % *totalShows) + 1;
                 if(shows[i].veces <= shows[i].segmentos){
-                    imprimirArchivo(archivo, &horas, &minutos, &segundos, shows[i].nombre);
+                    imprimirArchivo(archivo, &horas, &minutos, &segundos, &tipo, shows[i].nombre);
                     shows[i].veces = shows[i].veces + 1;
                 }else{
+                    i = 0;
+                    while((i <= *totalShows) && (shows[i].veces >= shows[i].segmentos)){
+                        i++;
+                    }
+
+                    if(i <= *totalShows){
+                        imprimirArchivo(archivo, &horas, &minutos, &segundos, &tipo, shows[i].nombre);
+                    }else{
+                        //desabilitarOpcion1 = true;
+                    }
                     
                 }
 
             break;
         }
+
+        if()
         
     }
 
