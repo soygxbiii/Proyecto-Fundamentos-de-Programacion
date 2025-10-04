@@ -418,7 +418,7 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
     int opcion, i;
     bool bandera;
     bool desabilitarOpcion1 = false;
-    bool desabilitarOpcion2 = false;
+    bool desabilitarOpcion3 = false;
     char tipo = '';
     fprintf(archivo, "%02d", minutos);
 
