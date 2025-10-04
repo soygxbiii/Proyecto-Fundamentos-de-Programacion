@@ -69,6 +69,7 @@ void cargarShows(FILE *archivo, int *totalShows);
 //grillas:
 //void totalGrillas(const char nombreSalida[]);
 bool esHorarioEstelar(int hora);
+int popularidad(int aleatorio);
 void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, int *totalShows);
 FILE* totalGrillas(const char nombreSalida[]);
 
@@ -366,6 +367,40 @@ bool esHorarioEstelar(int hora){
     return bandera;
 }
 
+int popularidad(int aleatorio)
+{
+    int veces;
+    int puntuacion = canciones[aleatorio].puntuacion;
+    
+    if(puntuacion >= 90){
+        veces = 7;
+    }else{
+        if(puntuacion >= 80){
+        veces = 6;
+        }else{
+            if(puntuacion >= 70){
+                veces = 5;
+                }else{
+                    if(puntuacion >= 60){
+                        veces = 4;
+                    }else{
+                        if (puntuacion >= 50){
+                            veces = 3;
+                        }else{
+                            if (puntuacion >= 40){
+                            veces = 2;
+                        }else{
+                            veces = 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    return veces;
+}
+
 void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, int *totalShows){
     int horas = 0;
     int minutos = 5;
@@ -400,7 +435,7 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
             break;
         }
         
-    }*/
+    }
 
 
 
