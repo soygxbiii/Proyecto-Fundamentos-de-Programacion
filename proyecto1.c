@@ -418,7 +418,6 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
     int opcion, i;
     bool bandera;
     bool desabilitarOpcion1 = false;
-    bool desabilitarOpcion3 = false;
     char tipo = '';
     fprintf(archivo, "%02d", minutos);
 
@@ -431,21 +430,11 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
         }else{
             
             if(desabilitarOpcion1){
-                if(desabilitarOpcion3){
-                    opcion = 2;
-                }else{
-                    //canciones o publicidad: 2 o 3
-                    opcion = (rand() % 2) + 2;
-                }
+                opcion = (rand()% 2) + 2
             }else{
-                if(desabilitarOpcion3){
-                    //shows o canciones: 1 o 2
-                    opcion = (rand() % 2) + 1;
-                }else{
-                    //Generar un número aleatorio del 1 al 3 para decidir el tipo de contenido:
-                    //1: show, 2: canción, 3: publicidad.
-                    opcion = (rand() % 3) + 1;
-                }   
+                //Generar un número aleatorio del 1 al 3 para decidir el tipo de contenido:
+                //1: show, 2: canción, 3: publicidad.
+                opcion = (rand() % 3) + 1; 
             }
         }
 
@@ -472,30 +461,6 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
                 }
                 minutos = minutos + shows[i].minutos;
                 segundos = segundos + shows[i].segundos;
-
-            break;
-
-            case 3:
-                // Case Publicidad
-                tipo = 'C';
-                i = (rand() % *totalPublicidades) + 1;
-                if(publicidades[i].vecesUsadas <= publicidades[i].veces){
-                    imprimirArchivo(archivo, &horas, &minutos, &segundos, &tipo, publicidades[i].nombre);
-                    publicidades[i].vecesUsadas++;
-                }else{
-                    i = 0;
-                    while((i <= *totalPublicidades) && (publicidades[i].vecesUsadas >= publicidades[i].veces)){
-                        i++;
-                    }
-
-                    if(i <= *totalPublicidades){
-                        imprimirArchivo(archivo, &horas, &minutos, &segundos, &tipo, publicidades[i].nombre);
-                    }else{
-                        desabilitarOpcion3 = true;
-                    }
-                    
-                }
-                segundos = segundos + publicidades[i].segundos;
 
             break;
         }
