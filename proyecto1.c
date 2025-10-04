@@ -372,11 +372,9 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
     int segundos = 0;
     int opcion, i;
     bool bandera;
-    bandera = esHorarioEstelar(horas);
-    printf("Bandera: %d\n", bandera);
     fprintf(archivo, "%02d", minutos);
 
-    /*while((horas != 23) || (minutos != 59) || (segundos != 59)){
+    while((horas != 23) || (minutos != 59) || (segundos != 59)){
         bandera = esHorarioEstelar(horas);
         
         if(bandera){
@@ -394,6 +392,9 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
                 i = (rand() % *totalShows) + 1;
                 if(shows[i].veces <= shows[i].segmentos){
                     imprimirArchivo(archivo, &horas, &minutos, &segundos, shows[i].nombre);
+                    shows[i].veces = shows[i].veces + 1;
+                }else{
+                    
                 }
 
             break;
