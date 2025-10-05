@@ -14,6 +14,7 @@ typedef struct{
     int puntuacion;
     int duracionSegundos; //para avanzar el tiempo en la grilla
     int ultimaVez; //necesaria para saber si ya pasaron 4 horas
+    int veces;
 }cancion;
 
 
@@ -415,9 +416,10 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
     int horas = 0;
     int minutos = 5;
     int segundos = 0;
-    int opcion, i;
+    int opcion, i, popularidad;
     bool bandera;
     bool desabilitarOpcion1 = false;
+    bool desabilitarOpcion2 = false;
     bool desabilitarOpcion3 = false;
     char tipo = '';
     fprintf(archivo, "%02d", minutos);
@@ -426,26 +428,36 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
         bandera = esHorarioEstelar(horas);
         
         if(bandera){
-            // Se tomara en cuenta solo shows.
             opcion = 1;
         }else{
-            
-            if(desabilitarOpcion1){
-                if(desabilitarOpcion3){
-                    opcion = 2;
-                }else{
-                    //canciones o publicidad: 2 o 3
-                    opcion = (rand() % 2) + 2;
-                }
+            if(desabilitarOpcion1 && desabilitarOpcion2){
+                opcion = 3; //publicidad
             }else{
-                if(desabilitarOpcion3){
-                    //shows o canciones: 1 o 2
-                    opcion = (rand() % 2) + 1;
+                if(desabilitarOpcion1 && desabilitarOpcion3){
+                    opcion = 2; //canciones
                 }else{
-                    //Generar un número aleatorio del 1 al 3 para decidir el tipo de contenido:
-                    //1: show, 2: canción, 3: publicidad.
-                    opcion = (rand() % 3) + 1;
-                }   
+                    if(desabilitarOpcion2 && desabilitarOpcion3){
+                        opcion = 1; //shows
+                    }else{
+                        if(desabilitarOpcion1){
+                            opcion = (rand() % 2) + 2; //2 o 3
+                            //rand() % 2 genera: 0 o 1, entonces... rand() % 2) + 2 genera: 0 + 1: 2 y 1 + 2: 3
+                        }else{
+                            if(desabilitarOpcion2){
+                                opcion = (rand() % 2) * 2 + 1; //1 o 3
+                                //rand() % 2 genera 0 o 1, entonces... (rand() % 2) * 2 genera: 0 * 2: 0 y 1 * 2: 2
+                                //entonces...  ((rand() % 2) * 1) + 2 genera: 0 + 1: 1 y 2 + 1: 3
+                            }else{
+                                if(desabilitarOpcion3){
+                                    opcion = (rand() % 2) + 1; //1 o 2
+                                    //rand() % 2 genera 0 o 1, entonces... (rand() % 2) + 1 genera: 0 + 1: 1 y 1+1: 1
+                                }else{
+                                    opcion = (rand() % 3) + 1; //1, 2 o 3
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -471,7 +483,32 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
                     
                 }
                 minutos = minutos + shows[i].minutos;
-                segundos = segundos + shows[i].segundos;
+                segundos = segundos + shows[i].segundos + 1;
+
+            break;
+
+            case 2:
+                // Case Cancion
+                tipo = 'C';
+                i = (rand() % *totalCanciones) + 1;
+                popularidad = popularidad(i);
+                if(canciones[i].veces <= popularidad){
+                    imprimirArchivo(archivo, &horas, &minutos, &segundos, &tipo, canciones[i].nombre);
+                    canciones[i].veces = canciones[i].veces + 1;
+                }else{
+                    i = 0;
+                    while((i <= *totalCanciones) && (canciones[i].veces >= popularidad)){
+                        i++;
+                    }
+
+                    if(i <= *totalCanciones){
+                        imprimirArchivo(archivo, &horas, &minutos, &segundos, &tipo, canciones[i].nombre);
+                    }else{
+                        desabilitarOpcion2 = true;
+                    }
+                }
+                minutos = minutos + canciones[i].minutos;
+                segundos = segundos + canciones[i].segundos + 1;
 
             break;
 
@@ -495,7 +532,7 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
                     }
                     
                 }
-                segundos = segundos + publicidades[i].segundos;
+                segundos = segundos + publicidades[i].segundos + 1;
 
             break;
         }
