@@ -12,9 +12,9 @@ typedef struct{
     int minutos;
     int segundos;
     int puntuacion;
-    int duracionSegundos; //para avanzar el tiempo en la grilla
-    int ultimaVez; //necesaria para saber si ya pasaron 4 horas
     int veces;
+    int ultimaHora; //necesaria para saber si ya pasaron 4 horas
+
 }cancion;
 
 
@@ -32,7 +32,7 @@ typedef struct{
     int segundos;
     int segmentos; //el maximo de veces a repetir
     int preferencia;
-    int duracionSegundos; //para avanzar el tiempo en la grilla
+    // int duracionSegundos; //para avanzar el tiempo en la grilla
     int veces; //cuantas veces se ha repetido en la grilla
 }show;
 
@@ -71,6 +71,7 @@ void cargarShows(FILE *archivo, int *totalShows);
 //void totalGrillas(const char nombreSalida[]);
 void imprimirArchivo(FILE *archivo, int *horas, int *minutos, int *segundos, char *tipo, const char *nombreElemento);
 bool esHorarioEstelar(int hora);
+int repetirCancion(int i, int hora);
 int popularidad(int aleatorio);
 void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, int *totalShows);
 FILE* totalGrillas(const char nombreSalida[]);
@@ -354,11 +355,11 @@ void cargarShows(FILE *archivo, int *totalShows){
     }
 }
 
-void imprimirArchivo(FILE *archivo, int *horas, int *minutos, int *segundos, char tipo, const char *nombreElemento){
+void imprimirArchivo(FILE *archivo, int *horas, int *minutos, int *segundos, char *tipo, const char *nombreElemento){
     fprintf(archivo, "%02d ", *horas);
     fprintf(archivo, "%02d ", *minutos);
     fprintf(archivo, "%02d ", *segundos);
-    fprintf(archivo, "%c ", tipo);
+    fprintf(archivo, "%c ", *tipo);
     fprintf(archivo, "%s", nombreElemento);
 }
 
@@ -376,6 +377,22 @@ bool esHorarioEstelar(int hora){
     }
 
     return bandera;
+}
+
+int repetirCancion(int i, int hora){
+    int ultimaHora = canciones[i].ultimaHora;
+    int diferencia;
+
+    if(ultimaHora == -1){
+        return 1;
+    }
+
+    diferencia = horas - ultimaHora;
+    if(diferencia >= 4){
+        return 1;
+    }else{
+        return 0;
+    }
 }
 
 int popularidad(int aleatorio)
@@ -431,13 +448,17 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
     int horas = 0;
     int minutos = 5;
     int segundos = 0;
-    int opcion, i, popularidad, contShows = 0;
+    int opcion, i, popularidad;
     bool bandera;
     bool desabilitarOpcion1 = false;
     //bool desabilitarOpcion2 = false;
     bool desabilitarOpcion3 = false;
     char tipo = '';
     fprintf(archivo, "%02d", minutos);
+
+    for(i = 0; i < *totalCanciones, i++){
+        canciones[i].ultimaVez = -1;
+    }
 
     while((horas != 23) || (minutos != 59) || (segundos != 59)){
         bandera = esHorarioEstelar(horas);
@@ -487,9 +508,10 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
                 tipo = 'C';
                 i = (rand() % *totalCanciones) + 1;
                 popularidad = popularidad(i);
-                if(canciones[i].veces <= popularidad){
+                if(canciones[i].veces <= popularidad && repetirCancion(i, horas)){
                     imprimirArchivo(archivo, &horas, &minutos, &segundos, &tipo, canciones[i].nombre);
                     canciones[i].veces = canciones[i].veces + 1;
+                    canciones[i].ultimaHora = horas;
                 }else{
                     i = 0;
                     while((i <= *totalCanciones) && (canciones[i].veces >= popularidad)){
@@ -531,21 +553,29 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
 
             case 3:
                 // Case Show
-                if(contShows <= *totalShows){ // ContShow: LLeva el control de los shows reproducidos, de manera que no se repita el mismo show en el dia.
-                    while(shows[contShows].veces <= shows[contShows].segmentos){
-                        i = (rand() % *totalShows) + 1; // Para elegir las canciones y publicidades, de manera que no se repitan las misma entre cada segmento del show.
-                        imprimirArchivo(archivo, &horas, &minutos, &segundos, tipo = 'S', shows[contShows].nombre);
-                        llevarTiempo(&horas, &minutos, &segundos, shows[contShows].minutos, shows[contShows].segundos);
-                        imprimirArchivo(archivo, &horas, &minutos, &segundos, tipo = 'C', canciones[i].nombre);
-                        llevarTiempo(&horas, &minutos, &segundos, canciones[i].minutos, canciones[i].segundos);
-                        imprimirArchivo(archivo, &horas, &minutos, &segundos, tipo = 'P', publicidades[i].empresa);
-                        llevarTiempo(&horas, &minutos, &segundos, 0, publicidades[i].segundos); // Se coloca el 0, porque las publicidades solo estan definidas en segundos.
-                        publicidades[i].veces = publicidades[i].veces + 1; // Se incremeta el numero de veces que ha salido al aire la publicidad.
-                        shows[contShows].veces = shows[contShows].veces + 1;
-                    }
-                    contShows++;
+                tipo = 'S';
+                i = (rand() % *totalShows) + 1;
+                if(shows[i].veces <= shows[i].segmentos){
+                    imprimirArchivo(archivo, &horas, &minutos, &segundos, &tipo, shows[i].nombre);
+                    llevarTiempo(&horas, &minutos, &segundos, shows[i].minutos, shows[i].segundos);
+                    tipo = 'C';
+                    imprimirArchivo(archivo, &horas, &minutos, &segundos, &tipo, canciones[i].nombre);
+                    llevarTiempo(&horas, &minutos, &segundos, canciones[i].minutos, canciones[i].segundos);
+                    shows[i].veces = shows[i].veces + 1;
                 }else{
-                    desabilitarOpcion1 = true; // Si no hay mas shows por reproducir, el programa solo reproducira canciones y publicidades.
+                    i = 0;
+                    while((i <= *totalShows) && (shows[i].veces >= shows[i].segmentos)){
+                        i++;
+                    }
+                    if(i <= *totalShows){
+                        imprimirArchivo(archivo, &horas, &minutos, &segundos, &tipo, shows[i].nombre);
+                        llevarTiempo(&horas, &minutos, &segundos, shows[i].minutos, shows[i].segundos);
+                        tipo = 'C';
+                        imprimirArchivo(archivo, &horas, &minutos, &segundos, &tipo, canciones[i].nombre);
+                        llevarTiempo(&horas, &minutos, &segundos, canciones[i].minutos, canciones[i].segundos);
+                    }else{
+                        desabilitarOpcion1 = true;
+                    } 
                 }
             break;
         }  
