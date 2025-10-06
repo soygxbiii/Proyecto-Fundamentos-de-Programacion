@@ -14,6 +14,7 @@ typedef struct{
     int puntuacion;
     int veces;
     int ultimaHora; //necesaria para saber si ya pasaron 4 horas
+    int ultimoM; // Complementa si ya pasaron las 4 horas
 
 }cancion;
 
@@ -68,10 +69,11 @@ void cargarPublicidades(FILE *archivo, int *totalPublicidades);
 void cargarShows(FILE *archivo, int *totalShows);
 
 //grillas:
-//void totalGrillas(const char nombreSalida[]);
 void imprimirArchivo(FILE *archivo, int *horas, int *minutos, int *segundos, char *tipo, const char *nombreElemento);
 bool esHorarioEstelar(int hora);
+bool repetirCancion(int i, int horas, int minutos);
 int popularidad(int aleatorio);
+void llevarTiempo(int *horas, int *minutos, int *segundos, int m, int s);
 void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, int *totalShows);
 FILE* totalGrillas(const char nombreSalida[]);
 
@@ -354,11 +356,11 @@ void cargarShows(FILE *archivo, int *totalShows){
     }
 }
 
-void imprimirArchivo(FILE *archivo, int *horas, int *minutos, int *segundos, char *tipo, const char *nombreElemento){
+void imprimirArchivo(FILE *archivo, int *horas, int *minutos, int *segundos, char tipo, const char *nombreElemento){
     fprintf(archivo, "%02d ", *horas);
     fprintf(archivo, "%02d ", *minutos);
     fprintf(archivo, "%02d ", *segundos);
-    fprintf(archivo, "%c ", *tipo);
+    fprintf(archivo, "%c ", tipo);
     fprintf(archivo, "%s", nombreElemento);
 }
 
@@ -378,20 +380,24 @@ bool esHorarioEstelar(int hora){
     return bandera;
 }
 
-bool repetirCancion(int i, int horas){
+bool repetirCancion(int i, int horas, int minutos){
     int ultimaHora = canciones[i].ultimaHora;
+    int ultimoM = canciones[i].ultimoM;
     int diferencia;
+    bool bandera;    
 
-    if(ultimaHora == -1){
-        return 1;
-    }
-
-    diferencia = horas - ultimaHora;
-    if(diferencia >= 4){
-        return 1;
+    if(ultimaHora == 0){
+        bandera = true;
     }else{
-        return 0;
+        diferencia = horas - ultimaHora;
+        if((diferencia >= 4) && (minutos >= ultimoM)){
+            bandera true;
+        }else{
+            bandera false;
+        }
     }
+
+    return bandera;
 }
 
 int popularidad(int aleatorio)
@@ -399,32 +405,14 @@ int popularidad(int aleatorio)
     int veces;
     int puntuacion = canciones[aleatorio].puntuacion;
     
-    if(puntuacion >= 90){
-        veces = 7;
+    if(puntuacion >= 50){
+        veces = 4;
+    }else if((puntuacion >= 20) && (puntuacion < 50)){
+        veces = 2;
     }else{
-        if(puntuacion >= 80){
-        veces = 6;
-        }else{
-            if(puntuacion >= 70){
-                veces = 5;
-                }else{
-                    if(puntuacion >= 60){
-                        veces = 4;
-                    }else{
-                        if (puntuacion >= 50){
-                            veces = 3;
-                        }else{
-                            if (puntuacion >= 40){
-                            veces = 2;
-                        }else{
-                            veces = 1;
-                        }
-                    }
-                }
-            }
-        }
+        veces = 1;
     }
-    
+
     return veces;
 }
 void llevarTiempo(int *horas, int *minutos, int *segundos, int m, int s){
@@ -448,15 +436,15 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
     int minutos = 5;
     int segundos = 0;
     int opcion, i, popularidad;
-    bool bandera;
-    bool desabilitarOpcion1 = false;
-    //bool desabilitarOpcion2 = false;
+    bool bandera, esDisponible;
     bool desabilitarOpcion3 = false;
     char tipo = '';
     fprintf(archivo, "%02d", minutos);
 
-    for(i = 0; i < *totalCanciones, i++){
-        canciones[i].ultimaVez = -1;
+    for(i = 0; i <= *totalCanciones, i++){
+        canciones[i].veces = 0;
+        canciones[i].ultimaHora = 0;
+        canciones[i].ultimoM = 0;
     }
 
     while((horas != 23) || (minutos != 59) || (segundos != 59)){
@@ -470,61 +458,26 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
             }else{
                 opcion = (rand() % 3) + 1; //1, 2 o 3
             }
-            /*if(desabilitarOpcion1 && desabilitarOpcion2){
-                opcion = 3; //publicidad
-            }else{
-                if(desabilitarOpcion1 && desabilitarOpcion3){
-                    opcion = 2; //canciones
-                }else{
-                    if(desabilitarOpcion2 && desabilitarOpcion3){
-                        opcion = 1; //shows
-                    }else{
-                        if(desabilitarOpcion1){
-                            opcion = (rand() % 2) + 2; //2 o 3
-                            //rand() % 2 genera: 0 o 1, entonces... rand() % 2) + 2 genera: 0 + 1: 2 y 1 + 2: 3
-                        }else{
-                            if(desabilitarOpcion2){
-                                opcion = (rand() % 2) * 2 + 1; //1 o 3
-                                //rand() % 2 genera 0 o 1, entonces... (rand() % 2) * 2 genera: 0 * 2: 0 y 1 * 2: 2
-                                //entonces...  ((rand() % 2) * 1) + 2 genera: 0 + 1: 1 y 2 + 1: 3
-                            }else{
-                                if(desabilitarOpcion3){
-                                    opcion = (rand() % 2) + 1; //1 o 2
-                                    //rand() % 2 genera 0 o 1, entonces... (rand() % 2) + 1 genera: 0 + 1: 1 y 1+1: 1
-                                }else{
-                                    opcion = (rand() % 3) + 1; //1, 2 o 3
-                                }
-                            }
-                        }
-                    }
-                }
-            }*/
         }
 
         switch(opcion){
             case 1:
                 // Case Cancion
                 tipo = 'C';
-                i = (rand() % *totalCanciones) + 1;
-                popularidad = popularidad(i);
-                if(canciones[i].veces <= popularidad && repetirCancion(i, horas)){
-                    imprimirArchivo(archivo, &horas, &minutos, &segundos, &tipo, canciones[i].nombre);
-                    canciones[i].veces = canciones[i].veces + 1;
-                    canciones[i].ultimaHora = horas;
-                }else{
-                    i = 0;
-                    while((i <= *totalCanciones) && (canciones[i].veces >= popularidad)){
-                        i++;
-                    }
-
-                    if(i <= *totalCanciones){
-                        imprimirArchivo(archivo, &horas, &minutos, &segundos, &tipo, canciones[i].nombre);
-                    }else{
-                        desabilitarOpcion2 = true;
+                bandera = false;
+                while(!bandera){
+                    i = (rand() % *totalCanciones) + 1;
+                    popularidad = popularidad(i);
+                    esDisponible = repetirCancion(i, horas, minutos);
+                    if((canciones[i].veces <= popularidad) && (esDisponible)){
+                        imprimirArchivo(archivo, &horas, &minutos, &segundos, tipo, canciones[i].nombre);
+                        llevarTiempo(&horas, &minutos, &segundos, canciones[i].minutos, canciones[i].segundos);
+                        canciones[i].veces = canciones[i].veces + 1;
+                        canciones[i].ultimaHora = horas;
+                        canciones[i].ultimoM = minutos;
+                        bandera = true;
                     }
                 }
-                minutos = minutos + canciones[i].minutos;
-                segundos = segundos + canciones[i].segundos + 1;
             break;
 
             case 2:
