@@ -117,8 +117,6 @@ int main(){
                 grillaGeneral(archivoDia, archivoGeneral, i);
                 //fprintf(archivoDia, "%d", i);
                 fclose(archivoDia);
-                fclose(archivoGeneral);
-
             }
         }
     }
@@ -126,6 +124,7 @@ int main(){
     fclose(archivoCanciones);
     fclose(archivoPublicidades);
     fclose(archivoShows);
+    fclose(archivoGeneral);
 
     return 0;
 }
