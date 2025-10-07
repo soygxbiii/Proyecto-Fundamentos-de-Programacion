@@ -66,13 +66,13 @@ void cargarPublicidades(FILE *archivo, int *totalPublicidades);
 void cargarShows(FILE *archivo, int *totalShows);
 
 //grillas:
-void imprimirArchivo(FILE *archivo, int *horas, int *minutos, int *segundos, char *tipo, const char *nombreElemento);
+void imprimirArchivo(FILE *archivo, int *horas, int *minutos, int *segundos, char tipo, const char *nombreElemento);
 int esHorarioEstelar(int hora);
 int repetirCancion(int i, int horas, int minutos);
-int popularidad(int aleatorio);
+int calcularPopularidad(int aleatorio);
 void llevarTiempo(int *horas, int *minutos, int *segundos, int m, int s);
 void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, int *totalShows);
-void grillaGeneral(FILE *archivoGeneral, FILE *archivoSalida, int i);
+void grillaGeneral(FILE *archivoEntrada, FILE *archivoSalida, int i);
 
 //====== MAIN ======
 
@@ -81,7 +81,7 @@ int main(){
     FILE *archivoCanciones = fopen("canciones.in", "r");
     FILE *archivoPublicidades = fopen("publicidad.in", "r");
     FILE *archivoShows = fopen("shows.in", "r");
-    FILE *archivoGeneral = fopen("grillas_semanal", "w");
+    FILE *archivoGeneral = fopen("grillas_semanal.out", "w+");
     FILE *totalGrillas(const char nombreSalida[]);
 
     srand(time(NULL));
@@ -93,6 +93,7 @@ int main(){
     }else if(archivoShows == NULL){
         printf("Error: shows.in no encontrado\n");
     }else if(archivoGeneral == NULL){
+        printf("Error: grillas_semanal.out no encontrado\n");
     }else{ 
         int totalCanciones = 0, totalPublicidades = 0, totalShows = 0;
         int i;
@@ -115,7 +116,6 @@ int main(){
             }else{
                 generarGrilla(archivoDia, &totalCanciones, &totalPublicidades, &totalShows);
                 grillaGeneral(archivoDia, archivoGeneral, i);
-                //fprintf(archivoDia, "%d", i);
                 fclose(archivoDia);
             }
         }
@@ -361,8 +361,8 @@ void cargarShows(FILE *archivo, int *totalShows){
 
 void imprimirArchivo(FILE *archivo, int *horas, int *minutos, int *segundos, char tipo, const char *nombreElemento){
 
-    fprintf(archivo, "%02d %02d %02d %c %s\n", *horas, *minutos, *segundos, tipo, *nombreElemento);
-    printf("%02d %02d %02d %c %s\n", *horas, *minutos, *segundos, tipo, *nombreElemento);
+    fprintf(archivo, "%02d %02d %02d %c %s\n", *horas, *minutos, *segundos, tipo, nombreElemento);
+    printf("%02d %02d %02d %c %s\n", *horas, *minutos, *segundos, tipo, nombreElemento);
 
 }
 
@@ -393,16 +393,16 @@ int repetirCancion(int i, int horas, int minutos){
     }else{
         diferencia = horas - ultimaHora;
         if((diferencia >= 4) && (minutos >= ultimoM)){
-            bandera 1;
+            bandera = 1;
         }else{
-            bandera 0;
+            bandera = 0;
         }
     }
 
     return bandera;
 }
 
-int popularidad(int aleatorio)
+int calcularPopularidad(int aleatorio)
 {
     int veces;
     int puntuacion = canciones[aleatorio].puntuacion;
@@ -438,13 +438,13 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
     int horas = 0;
     int minutos = 5;
     int segundos = 0;
-    int opcion, i, popularidad;
+    int opcion, i, popularidad, contShows;
     int bandera, esDisponible;
     int desabilitarOpcion3 = 0;
-    char tipo = '';
+    char tipo = ' ';
     fprintf(archivo, "%02d", minutos);
 
-    for(i = 0; i <= *totalCanciones, i++){
+    for(i = 0; i <= *totalCanciones; i++){
         canciones[i].veces = 0;
         canciones[i].ultimaHora = 0;
         canciones[i].ultimoM = 0;
@@ -470,7 +470,7 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
                 bandera = 0;
                 while(!bandera){
                     i = (rand() % *totalCanciones) + 1;
-                    popularidad = popularidad(i);
+                    popularidad = calcularPopularidad(i);
                     esDisponible = repetirCancion(i, horas, minutos);
                     if((canciones[i].veces <= popularidad) && (esDisponible)){
                         imprimirArchivo(archivo, &horas, &minutos, &segundos, tipo, canciones[i].nombre);
@@ -490,7 +490,7 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
                 while(!bandera){
                     i = (rand() % *totalPublicidades) + 1;
                     if(publicidades[i].vecesUsadas <= publicidades[i].veces){
-                        imprimirArchivo(archivo, &horas, &minutos, &segundos, &tipo, publicidades[i].nombre);
+                        imprimirArchivo(archivo, &horas, &minutos, &segundos, tipo, publicidades[i].empresa);
                         llevarTiempo(&horas, &minutos, &segundos, 0, publicidades[i].segundos);
                         publicidades[i].vecesUsadas++;
                         bandera = 1;
@@ -515,7 +515,7 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
                 }
                 contShows++;
             }else{
-                desabilitarOpcion1 = 1; // Si no hay mas shows por reproducir, el programa solo reproducira canciones y publicidades.
+                desabilitarOpcion3 = 1; // Si no hay mas shows por reproducir, el programa solo reproducira canciones y publicidades.
             }
         break;
     }  
@@ -523,11 +523,11 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
 
 }
 
-FILE *grillaGeneral(FILE *archivoEntrada, FILE *archivoSalida, int i){
+void grillaGeneral(FILE *archivoEntrada, FILE *archivoSalida, int i){
     char linea[1000];
 
     rewind(archivoEntrada);
-    while(fgets(linea, sizeof(linea),archivoEntrada)) != NULL{
+    while(fgets(linea, sizeof(linea),archivoEntrada) != NULL){
         fprintf(archivoSalida, "%d | %s", i, linea);
     }
 }
