@@ -104,7 +104,6 @@ int main(){
 
         //arreglo para crear los archivos de salida eficientemente: 
         char diasSemana[7][10] = {"lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"};
-        contadorDias = 0;
 
         //generar las 7 grillas distintas para la semana:
         for(int i = 1; i <= 7; i++)
