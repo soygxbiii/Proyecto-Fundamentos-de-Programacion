@@ -1,90 +1,182 @@
-00 05 01 P Zapatos comodos de piedra C.A 
-00 05 17 C Persiana Americana 
-00 05 19 P Zapatos comodos de piedra C.A 
-00 05 35 P Zapatos comodos de piedra C.A 
-00 05 51 C Dar es dar 
-00 05 52 P Zapatos comodos de piedra C.A 
-00 06 12 P Zapatos comodos de piedra C.A 
-00 06 28 C Six Degrees of Inner Turbulence 
-00 06 30 P Empresas La Arepa Rellena 
-00 07 30 C Let it be 
-00 07 31 C Bienvenidos al tren 
-00 07 34 C Complicated 
-00 07 39 P Zapatos comodos de piedra C.A 
-00 07 56 P Empresas La Arepa Rellena 
-04 05 17 C Persiana Americana 
-04 05 26 P Zapatos comodos de piedra C.A 
-04 05 43 P Empresas La Arepa Rellena 
-04 06 43 C Dar es dar 
-04 06 44 P Zapatos comodos de piedra C.A 
-04 07 00 P Empresas La Arepa Rellena 
-04 08 00 C Complicated 
-04 08 02 C Six Degrees of Inner Turbulence 
-04 08 03 C Let it be 
-04 08 04 C Bienvenidos al tren 
-04 08 08 P Zapatos comodos de piedra C.A 
-04 08 26 P Empresas La Arepa Rellena 
-08 05 17 C Persiana Americana 
-08 05 19 P Empresas La Arepa Rellena 
-08 06 19 P Zapatos comodos de piedra C.A 
-08 06 43 C Dar es dar 
-08 06 44 P Empresas La Arepa Rellena 
-08 07 44 S Ciencia Critica 
-08 07 45 P Zapatos comodos de piedra C.A 
-08 08 01 P Zapatos comodos de piedra C.A 
-08 08 17 C Complicated 
-08 08 18 S El anuario de los mejores 
-08 08 19 S El anuario de los mejores 
-08 08 20 S Ciencia Critica 
-08 08 21 C Let it be 
-08 08 22 P Zapatos comodos de piedra C.A 
-08 08 38 S El anuario de los mejores 
-08 08 39 C Six Degrees of Inner Turbulence 
-08 08 40 P Empresas La Arepa Rellena 
-08 09 40 C Bienvenidos al tren 
-08 09 41 P Empresas La Arepa Rellena 
-08 10 41 S El programa con el nombre mas largo y aburrido en la historia de la radio 
-08 10 42 S Ciencia Critica 
-08 10 43 S El programa con el nombre mas largo y aburrido en la historia de la radio 
-08 10 44 S Ciencia Critica 
-08 10 46 P Empresas La Arepa Rellena 
-08 11 46 P Zapatos comodos de piedra C.A 
-12 05 17 C Persiana Americana 
-12 05 18 S El anuario de los mejores 
-12 05 19 S El anuario de los mejores 
-12 05 20 P Empresas La Arepa Rellena 
-12 06 20 S Aprendiendo a escuchar 
-12 06 22 P Empresas La Arepa Rellena 
-12 07 22 C Dar es dar 
-12 07 23 P Empresas La Arepa Rellena 
-12 08 23 P Empresas La Arepa Rellena 
-12 09 23 C Complicated 
-12 09 24 P Empresas La Arepa Rellena 
-12 10 24 S Aprendiendo a escuchar 
-12 10 25 P Empresas La Arepa Rellena 
-12 11 25 C Bienvenidos al tren 
-12 11 26 P Empresas La Arepa Rellena 
-12 12 26 C Six Degrees of Inner Turbulence 
-12 12 27 C Let it be 
-12 12 28 P Empresas La Arepa Rellena 
-12 13 29 P Empresas La Arepa Rellena 
-16 05 17 C Persiana Americana 
-16 05 23 P Empresas La Arepa Rellena 
-16 07 30 C Dar es dar 
-16 09 23 C Complicated 
-16 11 29 C Bienvenidos al tren 
-16 12 26 C Six Degrees of Inner Turbulence 
-16 12 30 C Let it be 
-18 00 05 S El anuario de los mejores 
-18 00 11 S El anuario de los mejores 
-18 00 15 S Aprendiendo a escuchar 
-18 00 16 S Aprendiendo a escuchar 
-18 00 19 S El anuario de los mejores 
-18 00 22 S El anuario de los mejores 
-18 00 23 S El anuario de los mejores 
-20 05 19 C Persiana Americana 
-20 07 38 C Dar es dar 
-20 09 23 C Complicated 
-20 11 30 C Bienvenidos al tren 
-20 12 28 C Six Degrees of Inner Turbulence 
-20 12 31 C Let it be 
+GRILLA DEL DIA
+==============
+05 00 00 P Zapatos comodos de piedra C.A
+05 00 26 C Let it be
+05 04 19 P Pollos de goma S.R.L
+05 04 35 P Zapatos comodos de piedra C.A
+05 05 01 C Complicated
+05 08 40 P Pollos de goma S.R.L
+05 08 56 P Zapatos comodos de piedra C.A
+05 09 22 P Empresas La Arepa Rellena
+05 10 22 C Persiana Americana
+05 15 18 P Zapatos comodos de piedra C.A
+05 15 44 C Dar es dar
+05 19 24 C Bienvenidos al tren
+05 22 39 C Six Degrees of Inner Turbulence
+06 04 44 S Aprendiendo a escuchar
+06 10 14 C Persiana Americana
+06 15 09 P Empresas La Arepa Rellena
+06 16 09 P Pollos de goma S.R.L
+06 16 25 C Complicated
+06 20 04 S El anuario de los mejores
+06 21 24 C Let it be
+06 25 16 P Zapatos comodos de piedra C.A
+06 25 42 C Bienvenidos al tren
+06 28 57 C Complicated
+06 32 36 P Empresas La Arepa Rellena
+06 33 36 S Ciencia Critica
+06 44 10 C Dar es dar
+06 47 49 P Empresas La Arepa Rellena
+06 48 49 C Dar es dar
+06 52 29 S abieedfajdsfljeroqoefjdsncadsmkglrkhqohrqejwjksnafjkdnsafjnkdfdncansdfgjeowqiwoerjoewajklasnfsdlnfsd
+07 13 02 C Six Degrees of Inner Turbulence
+07 55 06 P Empresas La Arepa Rellena
+07 56 06 S El programa con el nombre mas largo y aburrido en la historia de la radio
+08 26 36 C Let it be
+08 30 28 P Zapatos comodos de piedra C.A
+08 30 54 S Partidos de damas chinas
+09 30 59 C Let it be
+09 34 51 P Pollos de goma S.R.L
+10 00 01 P Empresas La Arepa Rellena
+10 01 01 P Zapatos comodos de piedra C.A
+10 01 27 C Persiana Americana
+10 06 23 P Empresas La Arepa Rellena
+10 07 25 C Complicated
+10 11 04 C Six Degrees of Inner Turbulence
+10 53 10 P Zapatos comodos de piedra C.A
+10 53 36 C Dar es dar
+10 57 20 C Bienvenidos al tren
+11 00 35 P Empresas La Arepa Rellena
+11 01 35 P Pollos de goma S.R.L
+11 01 51 P Zapatos comodos de piedra C.A
+11 02 18 C Let it be
+11 06 11 P Zapatos comodos de piedra C.A
+11 06 37 P Empresas La Arepa Rellena
+11 07 37 P Empresas La Arepa Rellena
+11 08 37 C Bienvenidos al tren
+11 11 52 C Complicated
+11 15 31 P Zapatos comodos de piedra C.A
+11 15 57 C Six Degrees of Inner Turbulence
+11 58 02 C Six Degrees of Inner Turbulence
+15 00 00 P Empresas La Arepa Rellena
+15 01 01 C Dar es dar
+15 04 41 C Let it be
+15 08 34 C Six Degrees of Inner Turbulence
+15 50 41 C Persiana Americana
+15 55 38 P Pollos de goma S.R.L
+15 55 54 P Empresas La Arepa Rellena
+15 56 54 C Complicated
+16 00 33 C Bienvenidos al tren
+16 03 48 P Zapatos comodos de piedra C.A
+16 04 14 C Bienvenidos al tren
+16 07 29 C Persiana Americana
+16 12 25 C Dar es dar
+16 16 05 C Persiana Americana
+16 21 03 P Empresas La Arepa Rellena
+16 22 05 C Let it be
+16 25 59 C Bienvenidos al tren
+16 29 15 C Bienvenidos al tren
+16 32 31 P Empresas La Arepa Rellena
+16 33 32 P Pollos de goma S.R.L
+16 33 48 P Zapatos comodos de piedra C.A
+16 34 15 P Empresas La Arepa Rellena
+16 35 15 C Bienvenidos al tren
+16 38 30 P Zapatos comodos de piedra C.A
+16 38 56 P Empresas La Arepa Rellena
+16 39 57 P Empresas La Arepa Rellena
+16 40 57 P Empresas La Arepa Rellena
+16 41 58 P Zapatos comodos de piedra C.A
+16 42 24 P Empresas La Arepa Rellena
+16 43 24 P Zapatos comodos de piedra C.A
+16 43 50 P Empresas La Arepa Rellena
+16 44 50 P Zapatos comodos de piedra C.A
+16 45 16 P Zapatos comodos de piedra C.A
+16 45 42 P Zapatos comodos de piedra C.A
+16 46 08 P Zapatos comodos de piedra C.A
+16 46 39 P Zapatos comodos de piedra C.A
+16 47 05 P Zapatos comodos de piedra C.A
+16 47 33 P Zapatos comodos de piedra C.A
+16 47 59 C Persiana Americana
+16 52 55 C Complicated
+16 56 34 P Zapatos comodos de piedra C.A
+16 57 00 P Zapatos comodos de piedra C.A
+16 57 26 P Zapatos comodos de piedra C.A
+16 57 53 C Complicated
+17 01 34 P Zapatos comodos de piedra C.A
+17 02 01 P Zapatos comodos de piedra C.A
+17 02 29 P Zapatos comodos de piedra C.A
+17 02 58 C Complicated
+17 06 39 C Bienvenidos al tren
+17 09 54 P Zapatos comodos de piedra C.A
+17 10 20 C Six Degrees of Inner Turbulence
+17 52 25 C Bienvenidos al tren
+17 55 41 C Bienvenidos al tren
+17 58 56 P Zapatos comodos de piedra C.A
+17 59 22 C Persiana Americana
+20 00 04 P Empresas La Arepa Rellena
+20 01 04 C Let it be
+20 04 57 P Zapatos comodos de piedra C.A
+20 05 23 P Empresas La Arepa Rellena
+20 06 23 C Persiana Americana
+20 11 19 C Complicated
+20 14 59 P Empresas La Arepa Rellena
+20 16 00 P Empresas La Arepa Rellena
+20 17 00 C Six Degrees of Inner Turbulence
+20 59 05 P Empresas La Arepa Rellena
+21 00 05 C Dar es dar
+21 03 45 P Zapatos comodos de piedra C.A
+21 04 11 P Empresas La Arepa Rellena
+21 05 11 C Bienvenidos al tren
+21 08 26 C Persiana Americana
+21 13 22 P Pollos de goma S.R.L
+21 13 38 P Zapatos comodos de piedra C.A
+21 14 04 P Pollos de goma S.R.L
+21 14 20 C Bienvenidos al tren
+21 17 35 P Pollos de goma S.R.L
+21 17 51 P Pollos de goma S.R.L
+21 18 07 P Empresas La Arepa Rellena
+21 19 07 P Zapatos comodos de piedra C.A
+21 19 33 P Pollos de goma S.R.L
+21 19 49 C Bienvenidos al tren
+21 23 04 C Complicated
+21 26 43 P Pollos de goma S.R.L
+21 26 59 P Empresas La Arepa Rellena
+21 27 59 C Complicated
+21 31 38 P Zapatos comodos de piedra C.A
+21 32 04 C Bienvenidos al tren
+21 35 19 C Let it be
+21 39 12 C Bienvenidos al tren
+21 42 27 C Persiana Americana
+21 47 23 C Six Degrees of Inner Turbulence
+22 29 28 P Zapatos comodos de piedra C.A
+22 29 54 P Zapatos comodos de piedra C.A
+22 30 20 C Six Degrees of Inner Turbulence
+23 12 25 C Complicated
+23 16 04 P Empresas La Arepa Rellena
+23 17 04 P Zapatos comodos de piedra C.A
+23 17 30 C Let it be
+23 21 23 P Empresas La Arepa Rellena
+23 22 23 P Zapatos comodos de piedra C.A
+23 22 49 C Dar es dar
+23 26 29 P Empresas La Arepa Rellena
+23 27 29 P Pollos de goma S.R.L
+23 27 45 P Empresas La Arepa Rellena
+23 28 45 P Empresas La Arepa Rellena
+23 29 45 P Empresas La Arepa Rellena
+23 30 45 C Let it be
+23 34 38 C Complicated
+23 38 17 P Empresas La Arepa Rellena
+23 39 17 P Zapatos comodos de piedra C.A
+23 39 43 P Pollos de goma S.R.L
+23 39 59 P Zapatos comodos de piedra C.A
+23 40 25 C Let it be
+23 44 18 C Bienvenidos al tren
+23 47 33 C Dar es dar
+23 51 13 P Pollos de goma S.R.L
+23 51 29 P Empresas La Arepa Rellena
+23 52 29 P Empresas La Arepa Rellena
+23 53 29 C Bienvenidos al tren
+23 56 44 P Pollos de goma S.R.L
+23 57 00 C Let it be
+==============
+FIN DE GRILLA
