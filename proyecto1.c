@@ -55,7 +55,6 @@ void avanzarTiempo(int *horas, int *minutos, int *segundos, int minutos_add, int
 int elegirPublicidad(int totalPublicidades);
 int elegirCancion(int totalCanciones, int horas, int minutos, int segundos);
 void crearGrillaDia(FILE *archivo, int totalCanciones, int totalPublicidades, int totalShows);
-void crearArchivoSemanal(FILE *archivoEntrada, FILE *archivoSalida, int dia);
 FILE* crearArchivoDia(char nombreDia[]);
 
 //====== MAIN ======
@@ -109,9 +108,22 @@ int main(){
         if(archivoDia != NULL){
             printf("Creando grilla para %s...\n", dias[i]);
             crearGrillaDia(archivoDia, totalCanciones, totalPublicidades, totalShows);
-            crearArchivoSemanal(archivoDia, archivoSemanal, i+1);
             fclose(archivoDia);
-            printf("\n");
+
+
+            fprintf(archivoSemanal, "DIA %d\n", i+1);
+            char nombreArchivo[30];
+            sprintf(nombreArchivo, "grilla_%s.out", dias[i]);
+            FILE *archivoLectura = fopen(nombreArchivo, "r"); //vuelve a abrir los archivos de la grilla pero ahora en modo lectura
+            
+            if(archivoLectura != NULL){
+                int c;
+                while((c = fgetc(archivoLectura)) != EOF){
+                    fputc(c, archivoSemanal);
+                }
+                fclose(archivoLectura);
+            }
+            fprintf(archivoSemanal, "\n");
         }
     }
     
@@ -660,19 +672,6 @@ void crearGrillaDia(FILE *archivo, int totalCanciones, int totalPublicidades, in
     }
     
     fprintf(archivo, "==============\n");
-    fprintf(archivo, "FIN DE GRILLA\n");
-}
-
-void crearArchivoSemanal(FILE *archivoEntrada, FILE *archivoSalida, int dia){
-    char linea[200];
-    
-    fseek(archivoEntrada, 0, SEEK_SET);
-    
-    fprintf(archivoSalida, "=== DIA %d ===\n", dia);
-    while(fgets(linea, sizeof(linea), archivoEntrada) != NULL){
-        fprintf(archivoSalida, "%s", linea);
-    }
-    fprintf(archivoSalida, "\n");
 }
 
 FILE* crearArchivoDia(char nombreDia[]){
