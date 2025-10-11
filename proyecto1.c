@@ -12,8 +12,7 @@ typedef struct{
     int segundos;
     int puntuacion;
     int veces;
-    int ultimaHora; //necesaria para saber si ya pasaron 4 horas
-    int ultimoM; // Complementa si ya pasaron las 4 horas
+    int ultimaVez;
 }cancion;
 
 
@@ -71,7 +70,7 @@ int esHorarioEstelar(int hora);
 int calcularPopularidad(int aleatorio);
 void llevarTiempo(int *horas, int *minutos, int *segundos, int m, int s);
 int escogerPublicidad(int totalP);
-int escogerCancion(int totalC, int *horas, int *minutos);
+int escogerCancion(int totalC, int horas, int minutos, int segundos);
 void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, int *totalShows);
 void grillaGeneral(FILE *archivoEntrada, FILE *archivoSalida, int i);
 
@@ -433,22 +432,24 @@ int escogerPublicidad(int totalP){
     return resultado;
 }
 
-int escogerCancion(int totalC, int *horas, int *minutos){
+int escogerCancion(int totalC, int horas, int minutos, int segundos){
     int bandera = 0, esDisponible;
-    int diferenciaH;
     int i, popularidad, resultado = 0;
+    int segundosTotales = horas * 3600 + minutos * 60 + segundos;
+    int cuatroHoras = 14400;
 
     while(!bandera){
         i = (rand() % totalC) + 1;
         popularidad = calcularPopularidad(i);
 
-        if(canciones[i].ultimaHora == 0){
+        if(canciones[i].ultimaVez == -1){
+           
             esDisponible = 1;
-        }else{
-            diferenciaH = (*horas - canciones[i].ultimaHora);
-            if((diferenciaH >= 4) && (*minutos >= canciones[i].ultimoM)){
+        } else {
+        
+            if(segundosTotales - canciones[i].ultimaVez >= cuatroHoras){
                 esDisponible = 1;
-            }else{
+            } else {
                 esDisponible = 0;
             }
         }
@@ -456,8 +457,7 @@ int escogerCancion(int totalC, int *horas, int *minutos){
         if((canciones[i].veces <= popularidad) && (esDisponible == 1)){
             resultado = i;
             canciones[i].veces++;
-            canciones[i].ultimaHora = *horas;
-            canciones[i].ultimoM = *minutos;
+            canciones[i].ultimaVez = segundosTotales;
             bandera = 1;
         }
     }
@@ -477,8 +477,7 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
 
     for(i = 0; i <= *totalCanciones; i++){
         canciones[i].veces = 1;
-        canciones[i].ultimaHora = 0;
-        //canciones[i].ultimoM = 0;
+        canciones[i].ultimaVez = -1;
     }
 
     for(i = 0; i <= *totalShows; i++){
@@ -506,7 +505,7 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
             case 1:
                 // Case Cancion
                 tipo = 'C';
-                i = escogerCancion(totalC, &horas, &minutos);
+                i = escogerCancion(totalC, horas, minutos, segundos);
                 imprimirArchivo(archivo, &horas, &minutos, &segundos, tipo, canciones[i].nombre);
                 llevarTiempo(&horas, &minutos, &segundos, canciones[i].minutos, canciones[i].segundos);                  
             break;
@@ -523,7 +522,7 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
             // Case Show
             if(contShows <= *totalShows){ // ContShow: LLeva el control de los shows reproducidos, de manera que no se repita el mismo show en el dia.
                 while(shows[contShows].veces <= shows[contShows].segmentos){
-                    i = escogerCancion(totalC, &horas, &minutos);
+                    i = escogerCancion(totalC, horas, minutos, segundos);
                     imprimirArchivo(archivo, &horas, &minutos, &segundos, tipo = 'S', shows[contShows].nombre);
                     llevarTiempo(&horas, &minutos, &segundos, shows[contShows].minutos, shows[contShows].segundos);
                     imprimirArchivo(archivo, &horas, &minutos, &segundos, tipo = 'C', canciones[i].nombre);
