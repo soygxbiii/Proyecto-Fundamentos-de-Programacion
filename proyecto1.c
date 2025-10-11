@@ -68,9 +68,10 @@ void cargarShows(FILE *archivo, int *totalShows);
 //grillas:
 void imprimirArchivo(FILE *archivo, int *horas, int *minutos, int *segundos, char tipo, const char *nombreElemento);
 int esHorarioEstelar(int hora);
-int repetirCancion(int i, int horas, int minutos);
 int calcularPopularidad(int aleatorio);
 void llevarTiempo(int *horas, int *minutos, int *segundos, int m, int s);
+int escogerPublicidad(int totalP);
+int escogerCancion(int totalC, int *horas, int *minutos);
 void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, int *totalShows);
 void grillaGeneral(FILE *archivoEntrada, FILE *archivoSalida, int i);
 
@@ -107,7 +108,7 @@ int main(){
         char diasSemana[7][10] = {"lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"};
 
         //generar las 7 grillas distintas para la semana:
-        for(int i = 1; i <= 7; i++)
+        for(int i = 0; i < 7; i++)
         {
             int totalElementosGrilla = 0;
             FILE* archivoDia = totalGrillas(diasSemana[i]);
@@ -115,7 +116,7 @@ int main(){
                 printf("Error.\n");
             }else{
                 generarGrilla(archivoDia, &totalCanciones, &totalPublicidades, &totalShows);
-                grillaGeneral(archivoDia, archivoGeneral, i);
+                grillaGeneral(archivoDia, archivoGeneral, i+1);
                 fclose(archivoDia);
             }
         }
@@ -153,7 +154,7 @@ void cargarCanciones(FILE *archivo, int *totalCanciones){
                     cadena[j] = '\0';
                     largoCadena = strlen(cadena);
                     if(largoCadena > 50){
-                        printf("Error. El nombre es largo, la cancion %d NO se guardara en la grilla.\n", i+1);
+                        //printf("Error. El nombre es largo, la cancion %d NO se guardara en la grilla.\n", i+1);
                         while((c != '\n') && (c != EOF)){
                             c = fgetc(archivo);                        
                         }
@@ -168,9 +169,9 @@ void cargarCanciones(FILE *archivo, int *totalCanciones){
                                 canciones[i].minutos = minutos;
                                 canciones[i].segundos = segundos;
                                 canciones[i].puntuacion = puntuacion;
-                                printf("Cancion %d: %s %d %d %d\n",i+1, canciones[i].nombre, canciones[i].minutos, canciones[i].segundos, canciones[i].puntuacion);
+                                //printf("Cancion %d: %s %d %d %d\n",i+1, canciones[i].nombre, canciones[i].minutos, canciones[i].segundos, canciones[i].puntuacion);
                             }else{
-                                printf("Error: puntuacion invalida para la cancion %d, debe estar en el rango (1 - 100)\n", i+1);
+                               // printf("Error: puntuacion invalida para la cancion %d, debe estar en el rango (1 - 100)\n", i+1);
                             }
 
                         }else{
@@ -190,7 +191,6 @@ void cargarCanciones(FILE *archivo, int *totalCanciones){
         for(i = 0; i <= *totalCanciones; i++){
             largoCadena = strlen(canciones[i].nombre);
             if(largoCadena == 0){
-                printf("I: %d\n",i);
                 for(j = i; j <= *totalCanciones; j++){
                     strcpy(auxNom, canciones[j+1].nombre);
                     strcpy(canciones[j+1].nombre, canciones[j].nombre);
@@ -203,7 +203,7 @@ void cargarCanciones(FILE *archivo, int *totalCanciones){
             }
         }
     
-        printf("cantidad de canciones: %d\n", *totalCanciones);
+        //printf("cantidad de canciones: %d\n", *totalCanciones);
 
     }else{
         printf("Cantidad de canciones no permitidas. Debe estar dentro de un rango de 1 - 1000\n");
@@ -232,7 +232,7 @@ void cargarPublicidades(FILE *archivo, int *totalPublicidades){
                 cadena[j] = '\0';
                 largoCadena = strlen(cadena);
                 if(largoCadena > 30){
-                    printf("Error. El nombre es largo, la publicidad %d NO se guardara en la grilla.\n", i+1);
+                    //printf("Error. El nombre es largo, la publicidad %d NO se guardara en la grilla.\n", i+1);
                     while((c != '\n') && (c != EOF)){
                         c = fgetc(archivo);
                     };
@@ -244,9 +244,9 @@ void cargarPublicidades(FILE *archivo, int *totalPublicidades){
                         publicidades[i].segundos = segundos;
                         fscanf(archivo,"%d",&publicidades[i].veces);
                         contPublicidades++;
-                        printf("Publicidad %d: Empresa: %s  Segundos: %d  Veces: %d\n",i+1, publicidades[i].empresa, publicidades[i].segundos, publicidades[i].veces);
+                        //printf("Publicidad %d: Empresa: %s  Segundos: %d  Veces: %d\n",i+1, publicidades[i].empresa, publicidades[i].segundos, publicidades[i].veces);
                     }else{
-                        printf("Error: segundos invalidos para la publicidad %d\n", i+1);
+                        //printf("Error: segundos invalidos para la publicidad %d\n", i+1);
                         while((c != '\n') && (c != EOF)){
                             c = fgetc(archivo);
                         }
@@ -271,8 +271,8 @@ void cargarPublicidades(FILE *archivo, int *totalPublicidades){
     }
     
     *totalPublicidades = contPublicidades;
-    printf("cantidad de publicidades: %d\n", *totalPublicidades);
-    printf("\n");
+    //printf("cantidad de publicidades: %d\n", *totalPublicidades);
+    //printf("\n");
 }
 
 
@@ -297,7 +297,7 @@ void cargarShows(FILE *archivo, int *totalShows){
                     cadena[j] = '\0';
                     largoCadena = strlen(cadena);
                     if(largoCadena > 100){
-                        printf("Error. El nombre es largo, el show %d NO se guardara en la grilla.\n", i+1);
+                        //printf("Error. El nombre es largo, el show %d NO se guardara en la grilla.\n", i+1);
                         while((c = fgetc(archivo)) != '\n' && c != EOF){
 
                         }
@@ -315,12 +315,12 @@ void cargarShows(FILE *archivo, int *totalShows){
                                 shows[i].segmentos = segmentos;
                                 shows[i].preferencia = preferencia;
                                 shows[i].veces = 0;
-                                printf("Show %d: %s %d %d %d %d\n",i+1, shows[i].nombre, shows[i].minutos, shows[i].segundos, shows[i].segmentos, shows[i].preferencia);
+                                //printf("Show %d: %s %d %d %d %d\n",i+1, shows[i].nombre, shows[i].minutos, shows[i].segundos, shows[i].segmentos, shows[i].preferencia);
                             }else{
-                                printf("Error: preferencia invalida para la cancion %d, debe estar en el rango (1 - 10)\n", i+1);
+                                //printf("Error: preferencia invalida para la cancion %d, debe estar en el rango (1 - 10)\n", i+1);
                             }
                         }else{
-                            printf("Error: segundos invalidos para la cancion %d\n", i+1);
+                            //printf("Error: segundos invalidos para la cancion %d\n", i+1);
                             while((c != '\n') && (c != EOF)){
                                 c = fgetc(archivo);
                             }
@@ -350,8 +350,8 @@ void cargarShows(FILE *archivo, int *totalShows){
             }
         }
 
-        printf("cantidad de shows: %d\n", *totalShows);
-        printf("\n");
+        //printf("cantidad de shows: %d\n", *totalShows);
+        //printf("\n");
 
     }else{
         printf("(Cantidad de shows no permitidos. Debe estar dentro de un rango de 3 - 15)\n");
@@ -362,6 +362,11 @@ void cargarShows(FILE *archivo, int *totalShows){
 void imprimirArchivo(FILE *archivo, int *horas, int *minutos, int *segundos, char tipo, const char *nombreElemento){
 
     fprintf(archivo, "%02d %02d %02d %c %s\n", *horas, *minutos, *segundos, tipo, nombreElemento);
+    /*fprintf(archivo, "%02d ", *horas);
+    fprintf(archivo, "%02d ", *minutos);
+    fprintf(archivo, "%02d ", *segundos);
+    fprintf(archivo, "%c ", tipo);
+    fprintf(archivo, "%s\n", nombreElemento);*/
     printf("%02d %02d %02d %c %s\n", *horas, *minutos, *segundos, tipo, nombreElemento);
 
 }
@@ -377,26 +382,6 @@ int esHorarioEstelar(int hora){
         bandera = 1;
     }else{
         bandera = 0;
-    }
-
-    return bandera;
-}
-
-int repetirCancion(int i, int horas, int minutos){
-    int ultimaHora = canciones[i].ultimaHora;
-    int ultimoM = canciones[i].ultimoM;
-    int diferencia;
-    int bandera;    
-
-    if(ultimaHora == 0){
-        bandera = 1;
-    }else{
-        diferencia = horas - ultimaHora;
-        if((diferencia >= 4) && (minutos >= ultimoM)){
-            bandera = 1;
-        }else{
-            bandera = 0;
-        }
     }
 
     return bandera;
@@ -434,23 +419,77 @@ void llevarTiempo(int *horas, int *minutos, int *segundos, int m, int s){
 
 }
 
+int escogerPublicidad(int totalP){
+    int i, resultado = 0;
+    int bandera = 0;
+    while(!bandera){
+        i = (rand() % totalP) + 1;
+        if(publicidades[i].vecesUsadas <= publicidades[i].veces){
+            resultado = i;
+            publicidades[i].vecesUsadas++;
+            bandera = 1;
+        }
+    }
+    return resultado;
+}
+
+int escogerCancion(int totalC, int *horas, int *minutos){
+    int bandera = 0, esDisponible;
+    int diferenciaH;
+    int i, popularidad, resultado = 0;
+
+    while(!bandera){
+        i = (rand() % totalC) + 1;
+        popularidad = calcularPopularidad(i);
+
+        if(canciones[i].ultimaHora == 0){
+            esDisponible = 1;
+        }else{
+            diferenciaH = (*horas - canciones[i].ultimaHora);
+            if((diferenciaH >= 4) && (*minutos >= canciones[i].ultimoM)){
+                esDisponible = 1;
+            }else{
+                esDisponible = 0;
+            }
+        }
+
+        if((canciones[i].veces <= popularidad) && (esDisponible == 1)){
+            resultado = i;
+            canciones[i].veces++;
+            canciones[i].ultimaHora = *horas;
+            canciones[i].ultimoM = *minutos;
+            bandera = 1;
+        }
+    }
+
+    return resultado;
+}
+
 void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, int *totalShows){
     int horas = 0;
     int minutos = 5;
     int segundos = 0;
-    int opcion, i, popularidad, contShows;
-    int bandera, esDisponible;
-    int desabilitarOpcion3 = 0;
+    int opcion, i, contShows = 0;
+    int bandera, desabilitarOpcion3 = 0;
+    int totalP = *totalPublicidades, totalC = *totalCanciones;
     char tipo = ' ';
-    fprintf(archivo, "%02d", minutos);
+    //fprintf(archivo, "%02d", minutos);
 
     for(i = 0; i <= *totalCanciones; i++){
-        canciones[i].veces = 0;
+        canciones[i].veces = 1;
         canciones[i].ultimaHora = 0;
-        canciones[i].ultimoM = 0;
+        //canciones[i].ultimoM = 0;
     }
 
-    while((horas != 23) || (minutos != 59) || (segundos != 59)){
+    for(i = 0; i <= *totalShows; i++){
+        shows[i].veces = 1;
+    }
+
+    for(i = 0; i <= *totalPublicidades; i++){
+        publicidades[i].vecesUsadas = 1;
+    }
+
+    while(horas <= 23 || (horas == 23 && minutos <= 59) || (horas == 23 && minutos == 59 && segundos <= 59)){
         bandera = esHorarioEstelar(horas);
         
         if(bandera){
@@ -467,50 +506,31 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
             case 1:
                 // Case Cancion
                 tipo = 'C';
-                bandera = 0;
-                while(!bandera){
-                    i = (rand() % *totalCanciones) + 1;
-                    popularidad = calcularPopularidad(i);
-                    esDisponible = repetirCancion(i, horas, minutos);
-                    if((canciones[i].veces <= popularidad) && (esDisponible)){
-                        imprimirArchivo(archivo, &horas, &minutos, &segundos, tipo, canciones[i].nombre);
-                        llevarTiempo(&horas, &minutos, &segundos, canciones[i].minutos, canciones[i].segundos);
-                        canciones[i].veces = canciones[i].veces + 1;
-                        canciones[i].ultimaHora = horas;
-                        canciones[i].ultimoM = minutos;
-                        bandera = 1;
-                    }
-                }
+                i = escogerCancion(totalC, &horas, &minutos);
+                imprimirArchivo(archivo, &horas, &minutos, &segundos, tipo, canciones[i].nombre);
+                llevarTiempo(&horas, &minutos, &segundos, canciones[i].minutos, canciones[i].segundos);                  
             break;
 
             case 2:
                 // Case Publicidad
                 tipo = 'P';
-                bandera = 0;
-                while(!bandera){
-                    i = (rand() % *totalPublicidades) + 1;
-                    if(publicidades[i].vecesUsadas <= publicidades[i].veces){
-                        imprimirArchivo(archivo, &horas, &minutos, &segundos, tipo, publicidades[i].empresa);
-                        llevarTiempo(&horas, &minutos, &segundos, 0, publicidades[i].segundos);
-                        publicidades[i].vecesUsadas++;
-                        bandera = 1;
-                    }
-                }
-
+                i = escogerPublicidad(totalP);
+                imprimirArchivo(archivo, &horas, &minutos, &segundos, tipo, publicidades[i].empresa);
+                llevarTiempo(&horas, &minutos, &segundos, 0, publicidades[i].segundos);
             break;
 
             case 3:
             // Case Show
             if(contShows <= *totalShows){ // ContShow: LLeva el control de los shows reproducidos, de manera que no se repita el mismo show en el dia.
                 while(shows[contShows].veces <= shows[contShows].segmentos){
-                    i = (rand() % *totalShows) + 1; // Para elegir las canciones y publicidades, de manera que no se repitan las misma entre cada segmento del show.
+                    i = escogerCancion(totalC, &horas, &minutos);
                     imprimirArchivo(archivo, &horas, &minutos, &segundos, tipo = 'S', shows[contShows].nombre);
                     llevarTiempo(&horas, &minutos, &segundos, shows[contShows].minutos, shows[contShows].segundos);
                     imprimirArchivo(archivo, &horas, &minutos, &segundos, tipo = 'C', canciones[i].nombre);
                     llevarTiempo(&horas, &minutos, &segundos, canciones[i].minutos, canciones[i].segundos);
+                    i = escogerPublicidad(totalP);
                     imprimirArchivo(archivo, &horas, &minutos, &segundos, tipo = 'P', publicidades[i].empresa);
-                    llevarTiempo(&horas, &minutos, &segundos, 0, publicidades[i].segundos); // Se coloca el 0, porque las publicidades solo estan definidas en segundos.
-                    publicidades[i].veces = publicidades[i].veces + 1; // Se incremeta el numero de veces que ha salido al aire la publicidad.
+                    llevarTiempo(&horas, &minutos, &segundos, 0, publicidades[i].segundos);
                     shows[contShows].veces = shows[contShows].veces + 1;
                 }
                 contShows++;
@@ -532,7 +552,7 @@ void grillaGeneral(FILE *archivoEntrada, FILE *archivoSalida, int i){
     }
 }
 
-FILE *totalGrillas(const char *nombreDia){
+FILE * totalGrillas(const char *nombreDia){
     //crea los archivos para las 7 grillas:
     char nombreSalida[25];
     sprintf(nombreSalida, "grilla_%s.out", nombreDia); //{"lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"}
