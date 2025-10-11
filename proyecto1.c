@@ -142,7 +142,7 @@ void cargarCanciones(FILE *archivo, int *totalCanciones){
 
     if((*totalCanciones > 0) && (*totalCanciones <= 1000))
     {
-        for(i=0; i <= *totalCanciones; i++){
+        for(i=0; i < *totalCanciones; i++){
             j = 0;
             while(!band){
                 c = fgetc(archivo);
@@ -169,6 +169,7 @@ void cargarCanciones(FILE *archivo, int *totalCanciones){
                                 canciones[i].segundos = segundos;
                                 canciones[i].puntuacion = puntuacion;
                                 //printf("Cancion %d: %s %d %d %d\n",i+1, canciones[i].nombre, canciones[i].minutos, canciones[i].segundos, canciones[i].puntuacion);
+                                c = fgetc(archivo);
                             }else{
                                // printf("Error: puntuacion invalida para la cancion %d, debe estar en el rango (1 - 100)\n", i+1);
                             }
@@ -179,7 +180,6 @@ void cargarCanciones(FILE *archivo, int *totalCanciones){
                                 c = fgetc(archivo);
                             }
                         }
-                        c = fgetc(archivo);
                     }
                     band = 1;
                 }
@@ -187,10 +187,10 @@ void cargarCanciones(FILE *archivo, int *totalCanciones){
             band = 0;
         }
     
-        for(i = 0; i <= *totalCanciones; i++){
+        for(i = 0; i < *totalCanciones; i++){
             largoCadena = strlen(canciones[i].nombre);
             if(largoCadena == 0){
-                for(j = i; j <= *totalCanciones; j++){
+                for(j = i; j < *totalCanciones; j++){
                     strcpy(auxNom, canciones[j+1].nombre);
                     strcpy(canciones[j+1].nombre, canciones[j].nombre);
                     strcpy(canciones[j].nombre, auxNom);
@@ -202,7 +202,7 @@ void cargarCanciones(FILE *archivo, int *totalCanciones){
             }
         }
     
-        //printf("cantidad de canciones: %d\n", *totalCanciones);
+        printf("cantidad de canciones: %d\n", *totalCanciones);
 
     }else{
         printf("Cantidad de canciones no permitidas. Debe estar dentro de un rango de 1 - 1000\n");
@@ -258,10 +258,10 @@ void cargarPublicidades(FILE *archivo, int *totalPublicidades){
         i++;
     }
 
-    for(i = 0;i < contPublicidades; i++){
+    for(i = 0;i <= contPublicidades; i++){
         largoCadena = strlen(publicidades[i].empresa);
         if(largoCadena == 0){
-            for(j = 0; j < *totalPublicidades; j++){
+            for(j = 0; j <= *totalPublicidades; j++){
                 strcpy(publicidades[j+1].empresa, publicidades[j].empresa);
                 publicidades[j].segundos = publicidades[j+1].segundos;
                 publicidades[j].veces = publicidades[j+1].veces;
@@ -359,13 +359,7 @@ void cargarShows(FILE *archivo, int *totalShows){
 }
 
 void imprimirArchivo(FILE *archivo, int *horas, int *minutos, int *segundos, char tipo, const char *nombreElemento){
-
     fprintf(archivo, "%02d %02d %02d %c %s\n", *horas, *minutos, *segundos, tipo, nombreElemento);
-    /*fprintf(archivo, "%02d ", *horas);
-    fprintf(archivo, "%02d ", *minutos);
-    fprintf(archivo, "%02d ", *segundos);
-    fprintf(archivo, "%c ", tipo);
-    fprintf(archivo, "%s\n", nombreElemento);*/
     printf("%02d %02d %02d %c %s\n", *horas, *minutos, *segundos, tipo, nombreElemento);
 
 }
@@ -439,7 +433,7 @@ int escogerCancion(int totalC, int horas, int minutos, int segundos){
     int cuatroHoras = 14400;
 
     while(!bandera){
-        i = (rand() % totalC) + 1;
+        i = (rand() % totalC);
         popularidad = calcularPopularidad(i);
 
         if(canciones[i].ultimaVez == -1){
@@ -488,10 +482,18 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
         publicidades[i].vecesUsadas = 1;
     }
 
-    while(horas <= 23 || (horas == 23 && minutos <= 59) || (horas == 23 && minutos == 59 && segundos <= 59)){
+    while((horas <= 23) || (horas == 23 && minutos <= 59) || (horas == 23 && minutos == 59 && segundos <= 59)){
         bandera = esHorarioEstelar(horas);
-        
+
         if(bandera){
+            opcion = 3;
+        }else if((horas >= 6) && (horas < 21 )){
+            opcion = (rand() % 3) + 1; //1, 2 o 3
+        }else{
+            opcion = (rand() % 2) + 1; //1 o 2
+        }
+        
+        /*if(bandera){
             opcion = 3;
         }else{
             if(desabilitarOpcion3){
@@ -499,7 +501,7 @@ void generarGrilla(FILE *archivo, int *totalCanciones, int *totalPublicidades, i
             }else{
                 opcion = (rand() % 3) + 1; //1, 2 o 3
             }
-        }
+        }*/
 
         switch(opcion){
             case 1:
