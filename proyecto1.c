@@ -106,7 +106,7 @@ int main(){
     for(int i = 0; i < 7; i++){
         FILE *archivoDia = crearArchivoDia(dias[i]);
         if(archivoDia != NULL){
-            printf("Creando grilla para %s...\n", dias[i]);
+            printf("Creando grilla para %s...\n\n", dias[i]);
             crearGrillaDia(archivoDia, totalCanciones, totalPublicidades, totalShows);
             fclose(archivoDia);
 
@@ -126,6 +126,11 @@ int main(){
             fprintf(archivoSemanal, "\n");
         }
     }
+
+    printf("------------- MENU -------------\n");
+    printf("1. Consultar un momento determinado del dia.\n");
+    printf("2. Consultar por Dia y hora especifico.\n");
+    printf("3. Salir.\n");
     
     fclose(archivoCanciones);
     fclose(archivoPublicidades);
@@ -136,102 +141,7 @@ int main(){
     return 0;
 }
 
-//====== FUNCIONES ======
-
-/*void cargarCanciones(FILE *archivo, int *totalCanciones){
-    fscanf(archivo, "%d", totalCanciones);
-    
-    for(int i = 0; i < *totalCanciones; i++){
-        char nombre[51];
-        int minutos, segundos, puntuacion;
-        
-        // Leer nombre hasta encontrar un dígito
-        int j = 0;
-        char c;
-        while((c = fgetc(archivo)) != EOF){
-            if(isdigit(c)){
-                ungetc(c, archivo);
-                break;
-            }
-            if(j < 50 && c != '\n'){
-                nombre[j++] = c;
-            }
-        }
-        if(j > 0 && nombre[j-1] == ' '){
-            j--;
-        }
-        nombre[j] = '\0';
-        
-        fscanf(archivo, "%d %d %d", &minutos, &segundos, &puntuacion);
-        
-        strcpy(canciones[i].nombre, nombre);
-        canciones[i].minutos = minutos;
-        canciones[i].segundos = segundos;
-        canciones[i].puntuacion = puntuacion;
-        canciones[i].veces = 0;
-        canciones[i].ultimaVez = -1;
-    }
-}
-
-void cargarPublicidades(FILE *archivo, int *totalPublicidades){
-    *totalPublicidades = 0;
-    char linea[100];
-    
-    while(fgets(linea, sizeof(linea), archivo) != NULL && *totalPublicidades < MAX_PUBLICIDADES){
-        char empresa[31];
-        int segundos, veces;
-        
-        if(sscanf(linea, "%30[^0-9] %d %d", empresa, &segundos, &veces) == 3){
-            // Quitar espacios al final del nombre
-            int len = strlen(empresa);
-            while(len > 0 && empresa[len-1] == ' '){
-                empresa[len-1] = '\0';
-                len--;
-            }
-            
-            strcpy(publicidades[*totalPublicidades].empresa, empresa);
-            publicidades[*totalPublicidades].segundos = segundos;
-            publicidades[*totalPublicidades].veces = veces;
-            publicidades[*totalPublicidades].vecesUsadas = 0;
-            (*totalPublicidades)++;
-        }
-    }
-}
-
-void cargarShows(FILE *archivo, int *totalShows){
-    fscanf(archivo, "%d", totalShows);
-    
-    for(int i = 0; i < *totalShows; i++){
-        char nombre[101];
-        int minutos, segundos, segmentos, preferencia;
-        
-        // Leer nombre hasta encontrar un dígito
-        int j = 0;
-        char c;
-        while((c = fgetc(archivo)) != EOF){
-            if(isdigit(c)){
-                ungetc(c, archivo);
-                break;
-            }
-            if(j < 100 && c != '\n'){
-                nombre[j++] = c;
-            }
-        }
-        if(j > 0 && nombre[j-1] == ' '){
-            j--;
-        }
-        nombre[j] = '\0';
-        
-        fscanf(archivo, "%d %d %d %d", &minutos, &segundos, &segmentos, &preferencia);
-        
-        strcpy(shows[i].nombre, nombre);
-        shows[i].minutos = minutos;
-        shows[i].segundos = segundos;
-        shows[i].segmentos = segmentos;
-        shows[i].preferencia = preferencia;
-        shows[i].veces = 0;
-    }
-}*/
+//--------------FUNCIONES-------------------
 
 void cargarCanciones(FILE *archivo, int *totalCanciones){
     int i, j, largoCadena=0, minutos, segundos, puntuacion;
@@ -372,8 +282,7 @@ void cargarPublicidades(FILE *archivo, int *totalPublicidades){
     }
     
     *totalPublicidades = contPublicidades;
-    //printf("cantidad de publicidades: %d\n", *totalPublicidades);
-    //printf("\n");
+
 }
 
 
@@ -451,9 +360,6 @@ void cargarShows(FILE *archivo, int *totalShows){
             }
         }
 
-        //printf("cantidad de shows: %d\n", *totalShows);
-        //printf("\n");
-
     }else{
         printf("(Cantidad de shows no permitidos. Debe estar dentro de un rango de 3 - 15)\n");
         printf("\n");
@@ -468,22 +374,29 @@ void imprimirEnArchivo(FILE *archivo, int horas, int minutos, int segundos, char
 }
 
 int esHorarioEstelar(int hora){
-    if((hora >= 7 && hora <= 9) || 
-       (hora >= 12 && hora <= 14) || 
-       (hora >= 18 && hora <= 19)){
-        return 1;
+    int bandera = 0;
+    if((hora >= 7 && hora <= 9) ||  (hora >= 12 && hora <= 14) || (hora >= 18 && hora <= 19)){
+        bandera = 1;
     }
-    return 0;
+
+    return bandera;
 }
 
-int calcularPopularidad(int indice){
-    int puntuacion = canciones[indice].puntuacion;
+int calcularPopularidad(int i){
+    int puntuacion = canciones[i].puntuacion;
+    int veces;
     
-    if(puntuacion >= 80) return 5;
-    else if(puntuacion >= 60) return 4;
-    else if(puntuacion >= 40) return 3;
-    else if(puntuacion >= 20) return 2;
-    else return 1;
+    if(puntuacion >= 50){
+        veces = 5;
+    }else if((puntuacion >= 20) && (puntuacion < 50)){
+        veces = 3;
+    }else if((puntuacion >= 10) && (puntuacion < 20)){
+        veces = 2;
+    }else{
+        veces = 1;
+    }
+
+    return veces;
 }
 
 void avanzarTiempo(int *horas, int *minutos, int *segundos, int minutos_add, int segundos_add){
@@ -522,13 +435,12 @@ int elegirPublicidad(int totalPublicidades){
 }
 
 int elegirCancion(int totalCanciones, int horas, int minutos, int segundos){
-    if(totalCanciones == 0) return -1;
-    
     int tiempoActual = horas * 3600 + minutos * 60 + segundos;
     int intentos = 0;
+    int i, popularidad;
     
     // Primero buscar canciones que no se hayan usado hoy
-    for(int i = 0; i < totalCanciones; i++){
+    for(i = 0; i < totalCanciones; i++){
         if(canciones[i].veces == 0){
             canciones[i].veces++;
             canciones[i].ultimaVez = tiempoActual;
@@ -537,9 +449,9 @@ int elegirCancion(int totalCanciones, int horas, int minutos, int segundos){
     }
     
     // Si todas se han usado, buscar las que pueden repetirse (cada 4 horas)
-    while(intentos < 100){
-        int i = rand() % totalCanciones;
-        int popularidad = calcularPopularidad(i);
+    while(intentos < totalCanciones){
+        i = rand() % totalCanciones;
+        popularidad = calcularPopularidad(i);
         
         // Verificar si la canción puede repetirse (cada 4 horas)
         int puedeRepetirse = 1;
@@ -582,87 +494,84 @@ int elegirCancion(int totalCanciones, int horas, int minutos, int segundos){
 }
 
 void crearGrillaDia(FILE *archivo, int totalCanciones, int totalPublicidades, int totalShows){
-    int horas = 5;
-    int minutos = 0;
+    int horas = 0;
+    int minutos = 5;
     int segundos = 0;
-    int showsUsados = 0;
-    int bandera;
+    int contShows = 0;
+    int bandera, i, opcion;
     
     // Reiniciar contadores
-    for(int i = 0; i < totalCanciones; i++){
+    for(i = 0; i < totalCanciones; i++){
         canciones[i].veces = 0;
         canciones[i].ultimaVez = -1;
     }
-    for(int i = 0; i < totalPublicidades; i++){
+    for(i = 0; i < totalPublicidades; i++){
         publicidades[i].vecesUsadas = 0;
     }
-    for(int i = 0; i < totalShows; i++){
+    for(i = 0; i < totalShows; i++){
         shows[i].veces = 0;
     }
     
-    fprintf(archivo, "GRILLA DEL DIA\n");
-    fprintf(archivo, "==============\n");
+    fprintf(archivo, "--------------GRILLA DEL DIA-------------\n\n");
+    //fprintf(archivo, "==============\n");
     
-    while(horas < 24){
-        int opcion;
-        
+    while(horas < 24){        
         bandera = esHorarioEstelar(horas);
 
-        if(bandera){
+
+        if(bandera == 1){
             opcion = 3;
-        }else if((horas >= 6) && (horas < 21 )){
-            opcion = (rand() % 3) + 1; //1, 2 o 3
         }else{
             opcion = (rand() % 2) + 1; //1 o 2
         }
         
-        
         switch(opcion){
-            case 1: {
-                int cancionIdx = elegirCancion(totalCanciones, horas, minutos, segundos);
-                if(cancionIdx != -1){
-                    imprimirEnArchivo(archivo, horas, minutos, segundos, 'C', canciones[cancionIdx].nombre);
-                    avanzarTiempo(&horas, &minutos, &segundos, canciones[cancionIdx].minutos, canciones[cancionIdx].segundos);
+            case 1: 
+                i = elegirCancion(totalCanciones, horas, minutos, segundos);
+                if(i != -1){
+                    imprimirEnArchivo(archivo, horas, minutos, segundos, 'C', canciones[i].nombre);
+                    avanzarTiempo(&horas, &minutos, &segundos, canciones[i].minutos, canciones[i].segundos);
                 }
-                break;
-            }
+            break;
             
-            case 2: {
-                int publicidadIdx = elegirPublicidad(totalPublicidades);
-                if(publicidadIdx != -1){
-                    imprimirEnArchivo(archivo, horas, minutos, segundos, 'P', publicidades[publicidadIdx].empresa);
-                    avanzarTiempo(&horas, &minutos, &segundos, 0, publicidades[publicidadIdx].segundos);
+            case 2: 
+                i = elegirPublicidad(totalPublicidades);
+                if(i != -1){
+                    imprimirEnArchivo(archivo, horas, minutos, segundos, 'P', publicidades[i].empresa);
+                    avanzarTiempo(&horas, &minutos, &segundos, 0, publicidades[i].segundos);
                 }
-                break;
-            }
+            break;
             
-            case 3: {
-                if(showsUsados < totalShows){
-                    // Mostrar el show
-                    imprimirEnArchivo(archivo, horas, minutos, segundos, 'S', shows[showsUsados].nombre);
-                    avanzarTiempo(&horas, &minutos, &segundos, shows[showsUsados].minutos, shows[showsUsados].segundos);
-                    
-                    // Canción después del show
-                    int cancionIdx = elegirCancion(totalCanciones, horas, minutos, segundos);
-                    if(cancionIdx != -1){
-                        imprimirEnArchivo(archivo, horas, minutos, segundos, 'C', canciones[cancionIdx].nombre);
-                        avanzarTiempo(&horas, &minutos, &segundos, canciones[cancionIdx].minutos, canciones[cancionIdx].segundos);
-                    }
-                    
-                    // Publicidad después de la canción
-                    int publicidadIdx = elegirPublicidad(totalPublicidades);
-                    if(publicidadIdx != -1){
-                        imprimirEnArchivo(archivo, horas, minutos, segundos, 'P', publicidades[publicidadIdx].empresa);
-                        avanzarTiempo(&horas, &minutos, &segundos, 0, publicidades[publicidadIdx].segundos);
-                    }
-                    
-                    showsUsados++;
+            case 3: 
+                if(contShows < totalShows){
+                    while(shows[contShows].veces < shows[contShows].segmentos){
+                        // Mostrar el show
+                        imprimirEnArchivo(archivo, horas, minutos, segundos, 'S', shows[contShows].nombre);
+                        avanzarTiempo(&horas, &minutos, &segundos, shows[contShows].minutos, shows[contShows].segundos);
+                        
+                        // Canción después del show
+                        i = elegirCancion(totalCanciones, horas, minutos, segundos);
+                        if(i != -1){
+                            imprimirEnArchivo(archivo, horas, minutos, segundos, 'C', canciones[i].nombre);
+                            avanzarTiempo(&horas, &minutos, &segundos, canciones[i].minutos, canciones[i].segundos);
+                        }
+                        
+                        // Publicidad después de la canción
+                        i = elegirPublicidad(totalPublicidades);
+                        if(i != -1){
+                            imprimirEnArchivo(archivo, horas, minutos, segundos, 'P', publicidades[i].empresa);
+                            avanzarTiempo(&horas, &minutos, &segundos, 0, publicidades[i].segundos);
+                        }
+
+                        shows[contShows].veces = shows[contShows].veces + 1;
+
+                    }                    
                 }
-                break;
-            }
+                contShows++;
+            break;
         }
         
-        // Pequeña pausa entre elementos
+        // Pausa entre elementos (segundo de separacion).
         avanzarTiempo(&horas, &minutos, &segundos, 0, 1);
         
         // Verificar si hemos llegado al final del día
