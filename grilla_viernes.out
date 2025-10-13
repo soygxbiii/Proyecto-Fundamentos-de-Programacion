@@ -1,199 +1,190 @@
 =============== GRILLA DEL DIA ===============
-00 05 00 C Money 
-00 11 23 P Zapatos comodos de piedra C.A 
-00 11 39 P Zapatos comodos de piedra C.A 
-00 11 55 C Voices Inside My Head 
-00 16 49 C One World (Not Three) 
-00 21 37 C Don't Stand So Close to Me 
-00 25 40 P Empresas La Arepa Rellena 
-00 26 40 C Don't Stop Believin' 
-00 30 59 P Empresas La Arepa Rellena 
-00 31 59 P Empresas La Arepa Rellena 
-00 32 59 P Empresas La Arepa Rellena 
-00 33 59 P Empresas La Arepa Rellena 
-00 34 59 C Persiana Americana 
-00 39 55 C Hole in My Life 
-00 44 48 P Empresas La Arepa Rellena 
-00 45 48 P Empresas La Arepa Rellena 
-00 46 48 C Darkness 
-00 50 03 C Sweet Caroline 
-00 53 27 C King of Pain 
-00 58 27 P Empresas La Arepa Rellena 
-00 59 27 P Empresas La Arepa Rellena 
-01 00 27 P Empresas La Arepa Rellena 
-01 01 27 C Masoko Tanga 
-01 07 09 C Wish You Were Here 
-01 12 45 P Empresas La Arepa Rellena 
-01 13 45 P Empresas La Arepa Rellena 
-01 14 45 C Wrapped Around Your Finger 
-01 20 01 P Empresas La Arepa Rellena 
-01 21 01 C Bombs Away 
-01 26 08 C Every Breath You Take 
-01 30 22 C Driven to Tears 
-01 33 43 P Empresas La Arepa Rellena 
-01 34 43 C Wonderwall 
-01 39 02 P Empresas La Arepa Rellena 
-01 40 02 P Empresas La Arepa Rellena 
-01 41 02 P Empresas La Arepa Rellena 
-01 42 02 P Empresas La Arepa Rellena 
-01 43 02 C Paint It Black 
-01 46 48 C Voices Inside My Head 
-01 51 42 P Empresas La Arepa Rellena 
-01 52 42 C Hungry for You 
-01 55 35 C Bring on the Night 
-02 00 39 C So Lonely 
-02 05 30 P Empresas La Arepa Rellena 
-02 06 30 P Empresas La Arepa Rellena 
-02 07 30 P Empresas La Arepa Rellena 
-02 08 30 C Light My Fire 
-02 15 37 P Empresas La Arepa Rellena 
-02 16 38 P Empresas La Arepa Rellena 
-02 17 38 P Empresas La Arepa Rellena 
-02 18 38 P Empresas La Arepa Rellena 
-02 19 38 P Empresas La Arepa Rellena 
-02 20 38 P Empresas La Arepa Rellena 
-02 21 38 P Empresas La Arepa Rellena 
-02 22 40 P Empresas La Arepa Rellena 
-02 23 40 C Thunderstruck 
-02 28 33 C One World (Not Three) 
-02 33 21 P Empresas La Arepa Rellena 
-02 34 21 C Tea in the Sahara 
-02 38 36 C Yesterday 
-02 40 41 P Empresas La Arepa Rellena 
-02 41 42 C Smells Like Teen Spirit 
-02 46 44 P Empresas La Arepa Rellena 
-02 47 44 P Empresas La Arepa Rellena 
-02 48 44 P Empresas La Arepa Rellena 
-02 49 44 P Empresas La Arepa Rellena 
-02 50 44 C King of Pain 
-02 55 44 C Stairway to Heaven 
-03 03 47 P Empresas La Arepa Rellena 
-03 04 47 C Complicated 
-03 08 26 C Invisible Sun 
-03 12 11 C Crossroads 
-03 16 28 P Empresas La Arepa Rellena 
-03 17 28 P Empresas La Arepa Rellena 
-03 18 28 C Let it be 
-03 22 21 P Empresas La Arepa Rellena 
-03 23 23 P Empresas La Arepa Rellena 
-03 24 23 C Omegaman 
-03 30 08 P Empresas La Arepa Rellena 
-03 31 08 C Hey Jude 
-03 38 20 P Empresas La Arepa Rellena 
-03 39 20 C When the World Is Running Down 
-03 45 00 P Empresas La Arepa Rellena 
-03 46 01 C Canary in a Coalmine 
-03 48 36 C De Do Do Do, De Da Da Da 
-03 52 46 C Every Little Thing She Does Is Magic 
-03 57 13 C Livin' on a Prayer 
-04 01 26 C Billie Jean 
-04 06 23 C Enter Sandman 
-04 11 55 C Masoko Tanga 
-04 17 37 C Hallelujah 
-04 22 18 C Man in a Suitcase 
-04 24 41 C Bienvenidos al tren 
-04 27 58 C Bring on the Night 
-04 33 03 C Stairway to Heaven 
-04 41 08 C One World (Not Three) 
-04 46 01 C Smoke on the Water 
-04 51 52 C Sweet Caroline 
-04 55 19 C Six Degrees of Inner Turbulence 
-05 37 25 C Hole in My Life 
-05 42 19 C Miss Gradenko 
-05 44 21 C Synchronicity II 
-05 49 27 C Imagine 
-05 52 36 C Masoko Tanga 
-05 58 18 C Secret Journey 
-06 03 59 C All Along the Watchtower 
-06 08 31 C Demolition Man 
-06 14 31 C Don't Stand So Close to Me 
-06 18 37 C Wrapped Around Your Finger 
-06 23 53 C Sweet Child O' Mine 
-06 29 52 C Dar es dar 
-06 33 38 C Man in a Suitcase 
-06 36 00 C Let It Be 
-06 40 04 C Walking on the Moon 
-06 45 06 C Wonderwall 
-06 49 26 C Bohemian Rhapsody 
-06 55 22 C Darkness 
-06 58 37 C Stairway to Heaven 
-07 06 40 S Aprendiendo a escuchar 
-07 12 10 C So Lonely 
-07 17 00 S Aprendiendo a escuchar 
-07 22 30 C Demolition Man 
-07 28 27 S Aprendiendo a escuchar 
-07 33 57 C Wrapped Around Your Finger 
-07 39 12 S Aprendiendo a escuchar 
-07 44 43 S El anuario de los mejores 
-07 46 03 C Let it be 
-07 49 55 S El anuario de los mejores 
-07 51 15 S El anuario de los mejores 
-07 52 35 C King of Pain 
-07 57 34 S El anuario de los mejores 
-07 58 54 S El anuario de los mejores 
-08 00 14 C Every Breath You Take 
-08 04 27 S El anuario de los mejores 
-08 05 47 S El anuario de los mejores 
-08 07 07 S El anuario de los mejores 
-08 08 27 S El anuario de los mejores 
-08 09 47 C Roxanne 
-08 12 59 S El anuario de los mejores 
-08 14 19 C Driven to Tears 
-08 17 40 S Ciencia Critica 
-08 28 14 C Voices Inside My Head 
-08 33 07 S Ciencia Critica 
-08 43 41 S Ciencia Critica 
-08 54 15 C Miss Gradenko 
-08 56 15 S Ciencia Critica 
-09 06 50 S El programa con el nombre mas largo y aburrido en la historia de la radio 
-09 37 20 C King of Pain 
-09 42 19 S El programa con el nombre mas largo y aburrido en la historia de la radio 
-10 12 49 C Bring on the Night 
-10 17 58 C Wish You Were Here 
-10 23 36 C Shadows in the Rain 
-10 28 40 C Invisible Sun 
-10 32 28 C Darkness 
-10 35 45 C Persiana Americana 
-10 40 45 C Lose Yourself 
-10 46 15 C Canary in a Coalmine 
-10 48 51 C Light My Fire 
-10 56 03 C Wonderwall 
-11 00 28 C Masoko Tanga 
-11 06 10 C Masoko Tanga 
-11 11 58 C Hole in My Life 
-11 16 52 C Hey Jude 
-11 24 04 C So Lonely 
-11 28 55 C Bombs Away 
-11 34 02 C Secret Journey 
-11 39 39 C Sweet Child O' Mine 
-11 45 39 C All Along the Watchtower 
-11 50 14 C Omegaman 
-11 56 00 C Every Breath You Take 
-12 00 14 S Partidos de damas chinas 
-13 00 20 S Los valentinos 
-13 40 52 S Los valentinos 
-14 21 24 C Miss Gradenko 
-14 23 24 S Los valentinos 
-15 03 56 S Los valentinos 
-15 44 28 C Dream On 
-15 48 54 S Los valentinos 
-16 29 26 C Rehumanize Yourself 
-16 32 36 S Los valentinos 
-17 13 08 C Spirits in the Material World 
-17 17 07 S Los valentinos 
-17 57 39 C Six Degrees of Inner Turbulence 
-18 39 43 S Los valentinos 
-19 20 15 C Hole in My Life 
-19 25 08 S Música sin fronteras 
-20 10 23 C Don't Stop Believin' 
-20 14 41 S Música sin fronteras 
-20 59 56 C Paint It Black 
-21 03 41 S Música sin fronteras 
-21 48 56 C Masoko Tanga 
-21 54 37 S Música sin fronteras 
-22 39 52 C Bombs Away 
-22 44 58 S Música sin fronteras 
-23 30 13 C Yesterday 
-23 32 16 S Música sin fronteras 
-23 59 59 C Purple Haze 
+00 05 00 P Zapatos comodos de piedra C.A 
+00 05 16 C Stairway to Heaven 
+00 13 19 C Another Brick in the Wall 
+00 19 30 C Bring on the Night 
+00 24 34 C Wrapped Around Your Finger 
+00 29 50 C Darkness 
+00 33 05 P Zapatos comodos de piedra C.A 
+00 33 21 P Empresas La Arepa Rellena 
+00 34 21 C Stairway to Heaven 
+00 42 24 P Empresas La Arepa Rellena 
+00 43 24 P Empresas La Arepa Rellena 
+00 44 24 P Empresas La Arepa Rellena 
+00 45 24 P Empresas La Arepa Rellena 
+00 46 24 P Empresas La Arepa Rellena 
+00 47 24 P Empresas La Arepa Rellena 
+00 48 24 C Sweet Caroline 
+00 51 48 C Dream On 
+00 56 15 C Thunderstruck 
+01 01 08 P Empresas La Arepa Rellena 
+01 02 08 P Empresas La Arepa Rellena 
+01 03 08 P Empresas La Arepa Rellena 
+01 04 08 C Every Breath You Take 
+01 08 22 P Empresas La Arepa Rellena 
+01 09 22 P Empresas La Arepa Rellena 
+01 10 22 C Omegaman 
+01 16 06 C When the World Is Running Down 
+01 21 45 C Driven to Tears 
+01 25 06 P Empresas La Arepa Rellena 
+01 26 06 C Spirits in the Material World 
+01 30 06 C Hotel California 
+01 36 39 C Shadows in the Rain 
+01 41 42 P Empresas La Arepa Rellena 
+01 42 42 C Bring on the Night 
+01 47 46 C Six Degrees of Inner Turbulence 
+02 29 51 P Empresas La Arepa Rellena 
+02 30 51 C Darkness 
+02 34 06 P Empresas La Arepa Rellena 
+02 35 07 P Empresas La Arepa Rellena 
+02 36 07 C Comfortably Numb 
+02 43 01 P Empresas La Arepa Rellena 
+02 44 01 P Empresas La Arepa Rellena 
+02 45 01 C Demolition Man 
+02 50 59 P Empresas La Arepa Rellena 
+02 51 59 P Empresas La Arepa Rellena 
+02 52 59 C Hole in My Life 
+02 57 52 P Empresas La Arepa Rellena 
+02 58 53 C Man in a Suitcase 
+03 01 14 C Man in a Suitcase 
+03 03 34 P Empresas La Arepa Rellena 
+03 04 34 C Lose Yourself 
+03 10 01 C Demolition Man 
+03 15 59 P Empresas La Arepa Rellena 
+03 16 59 P Empresas La Arepa Rellena 
+03 17 59 C One World (Not Three) 
+03 22 48 P Empresas La Arepa Rellena 
+03 23 48 P Empresas La Arepa Rellena 
+03 24 48 C Hey Jude 
+03 32 00 C Let It Be 
+03 36 04 P Empresas La Arepa Rellena 
+03 37 04 C Miss Gradenko 
+03 39 05 C Canary in a Coalmine 
+03 41 40 P Empresas La Arepa Rellena 
+03 42 40 P Empresas La Arepa Rellena 
+03 43 40 C Crossroads 
+03 47 56 P Empresas La Arepa Rellena 
+03 48 56 C Rehumanize Yourself 
+03 52 07 C Canary in a Coalmine 
+03 54 42 C Synchronicity II 
+03 59 50 P Empresas La Arepa Rellena 
+04 00 50 C Smells Like Teen Spirit 
+04 05 52 P Empresas La Arepa Rellena 
+04 06 53 P Empresas La Arepa Rellena 
+04 07 53 P Empresas La Arepa Rellena 
+04 08 53 C Let it be 
+04 12 47 P Empresas La Arepa Rellena 
+04 13 48 C Invisible Sun 
+04 17 35 C November Rain 
+04 26 33 C Shadows in the Rain 
+04 31 36 P Empresas La Arepa Rellena 
+04 32 36 C Billie Jean 
+04 37 32 C Hole in My Life 
+04 42 26 C Stairway to Heaven 
+04 50 30 C Bring on the Night 
+04 55 34 C Masoko Tanga 
+05 01 18 C Wish You Were Here 
+05 06 54 C Hungry for You 
+05 09 47 P Empresas La Arepa Rellena 
+05 10 47 P Empresas La Arepa Rellena 
+05 11 47 P Empresas La Arepa Rellena 
+05 12 47 P Empresas La Arepa Rellena 
+05 13 47 P Empresas La Arepa Rellena 
+05 14 48 C Hallelujah 
+05 19 29 C Enter Sandman 
+05 24 59 P Empresas La Arepa Rellena 
+05 25 59 C Masoko Tanga 
+05 31 41 C Message in a Bottle 
+05 36 34 C Spirits in the Material World 
+05 40 35 C Free Bird 
+05 49 45 C Thunderstruck 
+05 54 39 C When the World Is Running Down 
+06 00 18 C Livin' on a Prayer 
+06 04 35 C Secret Journey 
+06 10 11 C Light My Fire 
+06 17 18 C Can't Stand Losing You 
+06 20 18 C Six Degrees of Inner Turbulence 
+07 02 23 S Aprendiendo a escuchar 
+07 07 53 S Aprendiendo a escuchar 
+07 13 23 S Aprendiendo a escuchar 
+07 18 53 C Walking on the Moon 
+07 23 54 S Aprendiendo a escuchar 
+07 29 24 C King of Pain 
+07 34 24 S El anuario de los mejores 
+07 35 44 C Comfortably Numb 
+07 42 37 S El anuario de los mejores 
+07 43 57 C Hotel California 
+07 50 29 S El anuario de los mejores 
+07 51 49 C Don't Stand So Close to Me 
+07 55 51 S El anuario de los mejores 
+07 57 11 S El anuario de los mejores 
+07 58 31 C Like a Rolling Stone 
+08 04 44 S El anuario de los mejores 
+08 06 04 S El anuario de los mejores 
+08 07 24 S El anuario de los mejores 
+08 08 44 C Stairway to Heaven 
+08 16 46 S El anuario de los mejores 
+08 18 06 C Purple Haze 
+08 20 56 S El anuario de los mejores 
+08 22 16 C Another Brick in the Wall 
+08 28 27 S Ciencia Critica 
+08 39 01 C Bienvenidos al tren 
+08 42 15 S Ciencia Critica 
+08 52 49 C Every Breath You Take 
+08 57 02 S Ciencia Critica 
+09 07 36 S Ciencia Critica 
+09 18 10 C Smoke on the Water 
+09 23 54 S El programa con el nombre mas largo y aburrido en la historia de la radio 
+09 54 24 S El programa con el nombre mas largo y aburrido en la historia de la radio 
+10 24 54 C Shadows in the Rain 
+10 30 02 C Paint It Black 
+10 33 50 C Every Little Thing She Does Is Magic 
+10 38 13 C Sweet Child O' Mine 
+10 44 10 C Bombs Away 
+10 49 20 C Roxanne 
+10 52 35 C Canary in a Coalmine 
+10 55 13 C Hallelujah 
+10 59 54 C Imagine 
+11 02 59 C Masoko Tanga 
+11 08 42 C Bombs Away 
+11 13 52 C King of Pain 
+11 18 55 C Omegaman 
+11 24 39 C Too Much Information 
+11 29 23 C Tea in the Sahara 
+11 33 38 C Persiana Americana 
+11 38 37 C Voices Inside My Head 
+11 43 31 C Sweet Caroline 
+11 46 55 C When the World Is Running Down 
+11 52 35 C Omegaman 
+11 58 22 C Man in a Suitcase 
+12 00 42 S Partidos de damas chinas 
+13 00 47 C Six Degrees of Inner Turbulence 
+13 42 52 S Los valentinos 
+14 23 24 C Thunderstruck 
+14 28 16 S Los valentinos 
+15 08 48 C One World (Not Three) 
+15 13 35 S Los valentinos 
+15 54 07 C Money 
+16 00 29 S Los valentinos 
+16 41 01 C Purple Haze 
+16 43 51 S Los valentinos 
+17 24 23 C Walking on the Moon 
+17 29 24 S Los valentinos 
+18 09 56 C November Rain 
+18 18 53 S Los valentinos 
+18 59 25 C Shadows in the Rain 
+19 04 27 S Los valentinos 
+19 44 59 C Bohemian Rhapsody 
+19 50 55 S Música sin fronteras 
+20 36 10 C Wonderwall 
+20 40 28 S Música sin fronteras 
+21 25 43 C Hole in My Life 
+21 30 35 S Música sin fronteras 
+22 15 50 C Stairway to Heaven 
+22 23 52 S Música sin fronteras 
+23 09 07 C Wish You Were Here 
+23 14 42 S Música sin fronteras 
+23 59 57 C Sweet Child O' Mine 
+23 59 59 S Música sin fronteras 
+23 59 59 C Enter Sandman 
 ==============================================
