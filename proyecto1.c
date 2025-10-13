@@ -1,3 +1,8 @@
+//16-10-2025
+//Abimar Roche    Gabriela Mora
+//32197246        31541893
+//Fundamentos de Programacion Sec. 06
+
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
@@ -45,21 +50,27 @@ show shows[MAX_SHOWS];
 
 //====== PROTOTIPADO ======
 
-void cargarCanciones(FILE *archivo, int *totalCanciones);
-void cargarPublicidades(FILE *archivo, int *totalPublicidades);
-void cargarShows(FILE *archivo, int *totalShows);
-void imprimirEnArchivo(FILE *archivo, int horas, int minutos, int segundos, char tipo, char nombre[]);
+void cargarCanciones(FILE *archivo, int *totalCanciones, cancion canciones[]);
+void cargarPublicidades(FILE *archivo, int *totalPublicidades, publicidad publicidades[]);
+void cargarShows(FILE *archivo, int *totalShows, show shows[]);
+
 int esHorarioEstelar(int hora);
-int calcularPopularidad(int indice);
+int calcularPopularidad(int indice, cancion canciones[]);
+int elegirPublicidad(int totalPublicidades, publicidad publicidades[]);
+int elegirCancion(int totalCanciones, cancion canciones[], int horas, int minutos, int segundos);
+
+void imprimirEnArchivo(FILE *archivo, int horas, int minutos, int segundos, char tipo, char nombre[]);
 void avanzarTiempo(int *horas, int *minutos, int *segundos, int minutos_add, int segundos_add);
-int elegirPublicidad(int totalPublicidades);
-int elegirCancion(int totalCanciones, int horas, int minutos, int segundos);
-void crearGrillaDia(FILE *archivo, int totalCanciones, int totalPublicidades, int totalShows);
+void crearGrillaDia(FILE *archivo, int totalCanciones, int totalPublicidades, int totalShows, cancion canciones[], publicidad publicidades[], show shows[]);
 FILE* crearArchivoDia(char nombreDia[]);
+
+void momentoDia(FILE *archivo, int opcionHora);
+void buscarCancion(FILE *archivo, char nombreCancion[]);
 
 //====== MAIN ======
 
-int main(){
+int main()
+{
     FILE *archivoCanciones = fopen("canciones.in", "r");
     FILE *archivoPublicidades = fopen("publicidad.in", "r");
     FILE *archivoShows = fopen("shows.in", "r");
@@ -68,85 +79,191 @@ int main(){
     srand(time(NULL));
     
     if(archivoCanciones == NULL){
-        printf("Error: No se pudo abrir canciones.in\n");
-        return 1;
-    }
-    if(archivoPublicidades == NULL){
-        printf("Error: No se pudo abrir publicidad.in\n");
-        fclose(archivoCanciones);
-        return 1;
-    }
-    if(archivoShows == NULL){
-        printf("Error: No se pudo abrir shows.in\n");
-        fclose(archivoCanciones);
-        fclose(archivoPublicidades);
-        return 1;
-    }
-    if(archivoSemanal == NULL){
-        printf("Error: No se pudo crear grillas_semanal.out\n");
-        fclose(archivoCanciones);
-        fclose(archivoPublicidades);
-        fclose(archivoShows);
-        return 1;
-    }
-    
-    int totalCanciones = 0, totalPublicidades = 0, totalShows = 0;
-    
-    cargarCanciones(archivoCanciones, &totalCanciones);
-    cargarPublicidades(archivoPublicidades, &totalPublicidades);
-    cargarShows(archivoShows, &totalShows);
-    
-    printf("Datos cargados:\n");
-    printf("- Canciones: %d\n", totalCanciones);
-    printf("- Publicidades: %d\n", totalPublicidades);
-    printf("- Shows: %d\n", totalShows);
-    
-    char dias[7][10] = {"lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"};
-    
-    for(int i = 0; i < 7; i++){
-        FILE *archivoDia = crearArchivoDia(dias[i]);
-        if(archivoDia != NULL){
-            printf("Creando grilla para %s...\n\n", dias[i]);
-            crearGrillaDia(archivoDia, totalCanciones, totalPublicidades, totalShows);
-            fclose(archivoDia);
+        printf("Error: canciones.in no encontrado\n");
+    }else if(archivoPublicidades == NULL){
+        printf("Error: publicidad.in no encontrado\n");
+    }else if(archivoShows == NULL){
+        printf("Error: shows.in no encontrado\n");
+    }else{
 
+        int opcion, subOpcion, i;
+        int totalCanciones = 0, totalPublicidades = 0, totalShows = 0;
+        char nombreArchivo[30];
+        char dias[7][10] = {"lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"};
 
-            fprintf(archivoSemanal, "DIA %d\n", i+1);
-            char nombreArchivo[30];
-            sprintf(nombreArchivo, "grilla_%s.out", dias[i]);
-            FILE *archivoLectura = fopen(nombreArchivo, "r"); //vuelve a abrir los archivos de la grilla pero ahora en modo lectura
-            
-            if(archivoLectura != NULL){
-                int c;
-                while((c = fgetc(archivoLectura)) != EOF){
-                    fputc(c, archivoSemanal);
+        cargarCanciones(archivoCanciones, &totalCanciones, canciones);
+        cargarPublicidades(archivoPublicidades, &totalPublicidades, publicidades);
+        cargarShows(archivoShows, &totalShows, shows);
+        
+        for(i = 0; i < 7; i++)
+        {
+            FILE *archivoDia = crearArchivoDia(dias[i]);
+
+            if(archivoDia != NULL)
+            {
+                crearGrillaDia(archivoDia, totalCanciones, totalPublicidades, totalShows, canciones, publicidades, shows);
+                fclose(archivoDia);
+    
+                fprintf(archivoSemanal, "DIA %d\n", i+1);
+                sprintf(nombreArchivo, "grilla_%s.out", dias[i]);
+                FILE *archivoLectura = fopen(nombreArchivo, "r"); //vuelve a abrir los archivos de la grilla pero ahora en modo lectura
+                
+                if(archivoLectura != NULL)
+                {
+                    int c;
+                    while((c = fgetc(archivoLectura)) != EOF)
+                    {
+                        fputc(c, archivoSemanal);
+                    }
+                    fclose(archivoLectura);
                 }
-                fclose(archivoLectura);
+
+                fprintf(archivoSemanal, "\n");
             }
-            fprintf(archivoSemanal, "\n");
+        }
+    
+        printf("\n\t--------------------------------------------");
+        printf("\n\t|            MENÚ DE CONSULTAS:            |\n");
+        printf("\t| 1. Elegir dia de la semana               |\n");
+        printf("\t| 2. Salir                                 |\n");
+        printf("\t--------------------------------------------\n");
+    
+        printf("\nEscoge una opcion: ");
+        scanf("\n%d", &opcion);
+    
+        switch(opcion)
+        {
+            case 1:
+                printf("\t--------------------------------------------");
+                printf("\n\t|         ELEGIR DIA DE LA SEMANA:         |\n");
+                printf("\t| 1. Lunes                                 |\n");
+                printf("\t| 2. Martes                                |\n");
+                printf("\t| 3. Miercoles                             |\n");
+                printf("\t| 4. Jueves                                |\n");
+                printf("\t| 5. Viernes                               |\n");
+                printf("\t| 6. Sabado                                |\n");
+                printf("\t| 7. Domingo                               |\n");
+                printf("\t--------------------------------------------\n");
+    
+    
+                do{
+                    printf("\nEscoge una opcion: ");
+                    scanf("\n%d", &i);
+
+                    if(!(i >= 1 && i <= 7))
+                    {
+                        printf("Error: Ingrese un número valido\n");
+                    }
+
+                }while(i < 1 || i > 7);
+    
+                sprintf(nombreArchivo, "grilla_%s.out", dias[i-1]);
+                FILE *archivoLectura = fopen(nombreArchivo, "r"); //vuelve a abrir los archivos de la grilla pero ahora en modo lectura
+    
+                do{
+                    printf("\t--------------------------------------------");
+                    printf("\n\t|               CONSULTAR:                 |\n");
+                    printf("\t| 1. Mostrar por pantalla                  |\n");
+                    printf("\t| 2. Momento determinado del dia           |\n");
+                    printf("\t| 3. Buscar cancion                        |\n");
+                    printf("\t| 4. Salir                                 |\n");
+                    printf("\t--------------------------------------------\n");
+            
+                    printf("\nEscoge una opcion: ");
+                    scanf("\n%d", &subOpcion);
+
+                    switch(subOpcion){
+                        case 1:
+                            rewind(archivoLectura);
+
+                            printf("\nCargando...\n");
+                            if(archivoLectura != NULL)
+                            {
+                                int c;
+                                while((c = fgetc(archivoLectura)) != EOF)
+                                {
+                                    putchar(c);
+                                }
+                                printf("¡Generada exitosamente la grilla del dia %s!\n\n", dias[i-1]);
+                            }
+                        break;
+        
+                        case 2:
+                            printf("\nIngrese solo la hora, debe estar entre 00 y 23: ");
+                            int opcionHora;
+        
+                            do
+                            {
+                                scanf("%d", &opcionHora);
+                                if(opcionHora < 0 || opcionHora > 23)
+                                {
+                                    printf("Error: La hora debe estar entre 00 y 23: ");
+                                }
+                            }while(opcionHora < 0 || opcionHora > 23);
+        
+                            printf("\nCargando...\n");
+                            printf("--- Programación desde las %02d:00 ---\n", opcionHora);
+    
+                            if(archivoLectura != NULL)
+                            {
+                                momentoDia(archivoLectura, opcionHora);
+                                printf("\n");
+                            }
+                        break;
+                        
+                        case 3:
+                            printf("\nIngrese el nombre de la canción a buscar: ");
+                            char nombreCancion[100];
+
+                            getchar();
+                            fgets(nombreCancion, sizeof(nombreCancion), stdin);
+                            nombreCancion[strcspn(nombreCancion, "\n")] = 0;
+    
+                            printf("Buscando '%s'...\n\n", nombreCancion);
+    
+                            if(archivoLectura != NULL)
+                            {
+                                buscarCancion(archivoLectura, nombreCancion);
+                                printf("\n");
+                            }
+                        break;
+                        
+                        case 4:
+                        printf("Saliendo...\n¡Gracias por usar el programa!\n");
+                        break;
+        
+                        default:
+                        printf("Opcion no reconocida, vuelva a intentarlo.\n");
+                        break;
+                    }
+                }while(subOpcion != 4);
+                break;
+    
+            case 2:
+                printf("Saliendo...\n¡Gracias por usar el programa!\n");
+            break;
+    
+            default:
+                printf("Opcion no reconocida, vuelva a intentarlo.\n");
+            break;
         }
     }
 
-    printf("------------- MENU -------------\n");
-    printf("1. Consultar un momento determinado del dia.\n");
-    printf("2. Consultar por Dia y hora especifico.\n");
-    printf("3. Salir.\n");
-    
     fclose(archivoCanciones);
     fclose(archivoPublicidades);
     fclose(archivoShows);
     fclose(archivoSemanal);
-    
-    printf("Todas las grillas se han creado exitosamente!\n");
+
     return 0;
 }
 
 //--------------FUNCIONES-------------------
 
-void cargarCanciones(FILE *archivo, int *totalCanciones){
-    int i, j, largoCadena=0, minutos, segundos, puntuacion;
+void cargarCanciones(FILE *archivo, int *totalCanciones, cancion canciones[])
+{
+    int i, j, minutos, segundos, puntuacion;
+    int band = 0, largoCadena = 0 ;
     char c;
-    int band = 0;
     char cadena[50];
     char auxNom[50];
 
@@ -214,21 +331,18 @@ void cargarCanciones(FILE *archivo, int *totalCanciones){
             }
         }
     
-        printf("cantidad de canciones: %d\n", *totalCanciones);
-
     }else{
         printf("Cantidad de canciones no permitidas. Debe estar dentro de un rango de 1 - 1000\n");
     }
     
-    printf("\n");
 }
 
 
-void cargarPublicidades(FILE *archivo, int *totalPublicidades){
-    int i = 0, j, largoCadena, contPublicidades=0;
-    int segundos;
+void cargarPublicidades(FILE *archivo, int *totalPublicidades, publicidad publicidades[])
+{
+    int i = 0, band = 0, contPublicidades = 0;
+    int segundos, j, largoCadena;
     char c;
-    int band = 0;
     char cadena[31];
 
     while(!feof(archivo) && (i < 100)){
@@ -286,10 +400,11 @@ void cargarPublicidades(FILE *archivo, int *totalPublicidades){
 }
 
 
-void cargarShows(FILE *archivo, int *totalShows){
+void cargarShows(FILE *archivo, int *totalShows, show shows[])
+{
     int i, j, largoCadena, minutos, segundos, segmentos, preferencia;
-    char c;
     int band = 0;
+    char c;
     char cadena[101];
     char auxNom[101];
 
@@ -362,44 +477,100 @@ void cargarShows(FILE *archivo, int *totalShows){
 
     }else{
         printf("(Cantidad de shows no permitidos. Debe estar dentro de un rango de 3 - 15)\n");
-        printf("\n");
     }
 }
 
 
-void imprimirEnArchivo(FILE *archivo, int horas, int minutos, int segundos, char tipo, char nombre[]){
-    fprintf(archivo, "%02d %02d %02d %c %s\n", horas, minutos, segundos, tipo, nombre);
-    printf("%02d %02d %02d %c %s\n", horas, minutos, segundos, tipo, nombre);
-
-}
-
-int esHorarioEstelar(int hora){
+int esHorarioEstelar(int hora)
+{
     int bandera = 0;
-    if((hora >= 7 && hora <= 9) ||  (hora >= 12 && hora <= 14) || (hora >= 18 && hora <= 19)){
+
+    if((hora >= 7 && hora <= 9) ||  (hora >= 12 && hora <= 14) || (hora >= 18 && hora <= 19))
+    {
         bandera = 1;
     }
 
     return bandera;
 }
 
-int calcularPopularidad(int i){
+int calcularPopularidad(int i, cancion canciones[])
+{
     int puntuacion = canciones[i].puntuacion;
     int veces;
     
-    if(puntuacion >= 50){
+    if(puntuacion >= 50)
+    {
         veces = 5;
-    }else if((puntuacion >= 20) && (puntuacion < 50)){
+    }
+    
+    if((puntuacion >= 20) && (puntuacion < 50))
+    {
         veces = 3;
-    }else if((puntuacion >= 10) && (puntuacion < 20)){
+    }
+    
+    if((puntuacion >= 10) && (puntuacion < 20))
+    {
         veces = 2;
-    }else{
+    }
+    
+    if(puntuacion < 10)
+    {
         veces = 1;
     }
 
     return veces;
 }
 
-void avanzarTiempo(int *horas, int *minutos, int *segundos, int minutos_add, int segundos_add){
+int elegirPublicidad(int totalPublicidades, publicidad publicidades[])
+{
+    int bandera = -1;
+
+    for(int intentos = 0; intentos < 10; intentos++)
+    {
+        int i = rand() % totalPublicidades;
+        if(publicidades[i].vecesUsadas < publicidades[i].veces)
+        {
+            publicidades[i].vecesUsadas++;
+            bandera = i;
+        }
+    }
+    
+    return bandera;
+}
+
+int elegirCancion(int totalCanciones, cancion canciones[], int horas, int minutos, int segundos)
+{
+    int tiempoActual = horas * 3600 + minutos * 60 + segundos;
+    int bandera = -1;
+    
+    // Elegir una canción aleatoria
+    int i = rand() % totalCanciones;
+    int popularidad = calcularPopularidad(i, canciones);
+    
+    // Verificar si se puede repetir (usando tu lógica)
+    if(canciones[i].ultimaVez == -1 || (tiempoActual - canciones[i].ultimaVez) >= 14400)
+    {
+        
+        // Verificar límite de popularidad
+        if(canciones[i].veces < popularidad)
+        {
+            canciones[i].veces++;
+            canciones[i].ultimaVez = tiempoActual;
+            bandera = i;
+        }
+    }
+    
+    return bandera;
+}
+
+
+void imprimirEnArchivo(FILE *archivo, int horas, int minutos, int segundos, char tipo, char nombre[])
+{
+    fprintf(archivo, "%02d %02d %02d %c %s\n", horas, minutos, segundos, tipo, nombre);
+}
+
+void avanzarTiempo(int *horas, int *minutos, int *segundos, int minutos_add, int segundos_add)
+{
     *segundos += segundos_add;
     *minutos += minutos_add;
     
@@ -420,44 +591,8 @@ void avanzarTiempo(int *horas, int *minutos, int *segundos, int minutos_add, int
     }
 }
 
-int elegirPublicidad(int totalPublicidades){
-    if(totalPublicidades == 0) return -1;
-    
-    for(int intentos = 0; intentos < 10; intentos++){
-        int i = rand() % totalPublicidades;
-        if(publicidades[i].vecesUsadas < publicidades[i].veces){
-            publicidades[i].vecesUsadas++;
-            return i;
-        }
-    }
-    
-    return -1;
-}
-
-int elegirCancion(int totalCanciones, int horas, int minutos, int segundos){
-    if (totalCanciones == 0) return -1;
-    
-    int tiempoActual = horas * 3600 + minutos * 60 + segundos;
-    
-    // Elegir una canción aleatoria
-    int i = rand() % totalCanciones;
-    int popularidad = calcularPopularidad(i);
-    
-    // Verificar si se puede repetir (usando tu lógica)
-    if(canciones[i].ultimaVez == -1 || (tiempoActual - canciones[i].ultimaVez) >= 14400){
-        
-        // Verificar límite de popularidad
-        if(canciones[i].veces < popularidad){
-            canciones[i].veces++;
-            canciones[i].ultimaVez = tiempoActual;
-            return i;
-        }
-    }
-    
-    return -1;
-}
-
-void crearGrillaDia(FILE *archivo, int totalCanciones, int totalPublicidades, int totalShows){
+void crearGrillaDia(FILE *archivo, int totalCanciones, int totalPublicidades, int totalShows, cancion canciones[], publicidad publicidades[], show shows[])
+{
     int horas = 0;
     int minutos = 5;
     int segundos = 0;
@@ -465,21 +600,26 @@ void crearGrillaDia(FILE *archivo, int totalCanciones, int totalPublicidades, in
     int bandera, i, opcion;
     
     // Reiniciar contadores
-    for(i = 0; i < totalCanciones; i++){
+    for(i = 0; i < totalCanciones; i++)
+    {
         canciones[i].veces = 0;
         canciones[i].ultimaVez = -1;
     }
-    for(i = 0; i < totalPublicidades; i++){
+
+    for(i = 0; i < totalPublicidades; i++)
+    {
         publicidades[i].vecesUsadas = 0;
     }
-    for(i = 0; i < totalShows; i++){
+
+    for(i = 0; i < totalShows; i++)
+    {
         shows[i].veces = 0;
     }
     
-    fprintf(archivo, "--------------GRILLA DEL DIA-------------\n\n");
-    //fprintf(archivo, "==============\n");
+    fprintf(archivo, "=============== GRILLA DEL DIA ===============\n");
     
-    while(horas < 24){        
+    while(horas < 24)
+    {        
         bandera = esHorarioEstelar(horas);
 
 
@@ -489,9 +629,10 @@ void crearGrillaDia(FILE *archivo, int totalCanciones, int totalPublicidades, in
             opcion = (rand() % 2) + 1; //1 o 2
         }
         
-        switch(opcion){
+        switch(opcion)
+        {
             case 1: 
-                i = elegirCancion(totalCanciones, horas, minutos, segundos);
+                i = elegirCancion(totalCanciones, canciones, horas, minutos, segundos);
                 if(i != -1){
                     imprimirEnArchivo(archivo, horas, minutos, segundos, 'C', canciones[i].nombre);
                     avanzarTiempo(&horas, &minutos, &segundos, canciones[i].minutos, canciones[i].segundos);
@@ -499,7 +640,7 @@ void crearGrillaDia(FILE *archivo, int totalCanciones, int totalPublicidades, in
             break;
             
             case 2: 
-                i = elegirPublicidad(totalPublicidades);
+                i = elegirPublicidad(totalPublicidades, publicidades);
                 if(i != -1){
                     imprimirEnArchivo(archivo, horas, minutos, segundos, 'P', publicidades[i].empresa);
                     avanzarTiempo(&horas, &minutos, &segundos, 0, publicidades[i].segundos);
@@ -507,21 +648,22 @@ void crearGrillaDia(FILE *archivo, int totalCanciones, int totalPublicidades, in
             break;
             
             case 3: 
-                if(contShows < totalShows){
+                if(contShows < totalShows)
+                {
                     while(shows[contShows].veces < shows[contShows].segmentos){
                         // Mostrar el show
                         imprimirEnArchivo(archivo, horas, minutos, segundos, 'S', shows[contShows].nombre);
                         avanzarTiempo(&horas, &minutos, &segundos, shows[contShows].minutos, shows[contShows].segundos);
                         
                         // Canción después del show
-                        i = elegirCancion(totalCanciones, horas, minutos, segundos);
+                        i = elegirCancion(totalCanciones, canciones, horas, minutos, segundos);
                         if(i != -1){
                             imprimirEnArchivo(archivo, horas, minutos, segundos, 'C', canciones[i].nombre);
                             avanzarTiempo(&horas, &minutos, &segundos, canciones[i].minutos, canciones[i].segundos);
                         }
                         
                         // Publicidad después de la canción
-                        i = elegirPublicidad(totalPublicidades);
+                        i = elegirPublicidad(totalPublicidades, publicidades);
                         if(i != -1){
                             imprimirEnArchivo(archivo, horas, minutos, segundos, 'P', publicidades[i].empresa);
                             avanzarTiempo(&horas, &minutos, &segundos, 0, publicidades[i].segundos);
@@ -544,11 +686,81 @@ void crearGrillaDia(FILE *archivo, int totalCanciones, int totalPublicidades, in
         }
     }
     
-    fprintf(archivo, "==============\n");
+    fprintf(archivo, "==============================================\n");
 }
 
-FILE* crearArchivoDia(char nombreDia[]){
+FILE* crearArchivoDia(char nombreDia[])
+{
     char nombreArchivo[30];
     sprintf(nombreArchivo, "grilla_%s.out", nombreDia);
     return fopen(nombreArchivo, "w");
+}
+
+void momentoDia(FILE *archivo, int opcionHora)
+{
+    int c;
+    int imprimir = 0;
+
+    rewind(archivo);
+
+    while((c = fgetc(archivo)) != EOF)
+    {
+        if(!imprimir)
+        {
+            int d1 = c;
+            int d2 = fgetc(archivo);
+            int hora = (d1 - '0') * 10 + (d2 - '0');
+            
+            if(hora == opcionHora)
+            {
+                imprimir = 1;
+                putchar(d1);
+                putchar(d2);
+            }else{
+                while(fgetc(archivo) != '\n' && c != EOF)
+                {
+
+                }
+            }
+        }else{
+            putchar(c);
+            if(c == '\n')
+            {
+                int p1 = fgetc(archivo);
+                int p2 = fgetc(archivo);
+                int proxHora = (p1 - '0') * 10 + (p2 - '0');
+                
+                // Si la hora cambia, desactivar impresión
+                if(proxHora != opcionHora)
+                {
+                    imprimir = 0;
+                }else{
+                    putchar(p1);
+                    putchar(p2);
+                }
+            }
+        }
+    }
+}
+
+void buscarCancion(FILE *archivo, char nombreCancion[])
+{
+    char linea[200];
+    int encontrada = 0;
+
+    rewind(archivo);
+
+    while(fgets(linea, sizeof(linea), archivo) != NULL)
+    {
+        if(strstr(linea, nombreCancion) != NULL)
+        {
+            encontrada = 1;
+            printf("%s", linea);
+        }
+    }
+    
+    if(!encontrada)
+    {
+        printf("No se encontró la canción '%s'\n", nombreCancion);
+    }
 }
