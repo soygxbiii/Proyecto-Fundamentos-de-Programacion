@@ -113,7 +113,7 @@ int main()
                     int c;
                     while((c = fgetc(archivoLectura)) != EOF)
                     {
-                        fputc(c, archivoSemanal);
+                        fputc(c, archivoSemanal); //imprime todas las grillas en la grilla semanal
                     }
                     fclose(archivoLectura);
                 }
@@ -158,7 +158,7 @@ int main()
                 }while(i < 1 || i > 7);
     
                 sprintf(nombreArchivo, "grilla_%s.out", dias[i-1]);
-                FILE *archivoLectura = fopen(nombreArchivo, "r"); //vuelve a abrir los archivos de la grilla pero ahora en modo lectura
+                FILE *archivoLectura = fopen(nombreArchivo, "r"); //vuelve a abrir los archivos de la grilla en modo lectura
     
                 do{
                     printf("\t--------------------------------------------");
@@ -182,7 +182,7 @@ int main()
                                 int c;
                                 while((c = fgetc(archivoLectura)) != EOF)
                                 {
-                                    putchar(c);
+                                    putchar(c); //imprime en pantalla la grilla
                                 }
                                 printf("¡Generada exitosamente la grilla del dia %s!\n\n", dias[i-1]);
                             }
@@ -215,9 +215,13 @@ int main()
                             printf("\nIngrese el nombre de la canción a buscar: ");
                             char nombreCancion[100];
 
-                            getchar();
-                            fgets(nombreCancion, sizeof(nombreCancion), stdin);
-                            nombreCancion[strcspn(nombreCancion, "\n")] = 0;
+                            int c;
+                            while ((c = getchar()) != '\n' && c != EOF){ //limpiar el buffer
+
+                            }
+
+                            fgets(nombreCancion, sizeof(nombreCancion), stdin); //lee el nombre con espacios
+                            nombreCancion[strcspn(nombreCancion, "\n")] = 0; //ahora elimina el \n al final
     
                             printf("Buscando '%s'...\n\n", nombreCancion);
     
@@ -275,50 +279,54 @@ void cargarCanciones(FILE *archivo, int *totalCanciones, cancion canciones[])
             j = 0;
             while(!band){
                 c = fgetc(archivo);
+                //si no es un digito y no excede el limite, guarda el caracter
                 if((!isdigit(c)) && j <= 50){
                     cadena[j] = c;
                     j++;
                 }else{
-                    cadena[j] = '\0';
-                    largoCadena = strlen(cadena);
+                    cadena[j] = '\0'; //termina el string
+                    largoCadena = strlen(cadena); //verifica la longitud de la cadena
+                    //si el nombre es demasiado largo
                     if(largoCadena > 50){
-                        //printf("Error. El nombre es largo, la cancion %d NO se guardara en la grilla.\n", i+1);
-                        while((c != '\n') && (c != EOF)){
+                        // printf("Error. El nombre es largo, la cancion %d NO se guardara en la grilla.\n", i+1);
+                        while((c != '\n') && (c != EOF)){ //descarta el resto de la linea
                             c = fgetc(archivo);                        
                         }
                     }else{
-                        ungetc(c, archivo);
+                        ungetc(c, archivo); //sino, devuelve el caracter
                         fscanf(archivo,"%d",&minutos);
                         fscanf(archivo,"%d",&segundos);
-                        if((segundos >= 0) && (segundos < 60)){
+                        if((segundos >= 0) && (segundos < 60)){ //validacion de segundos
                             fscanf(archivo,"%d",&puntuacion);
-                            if((puntuacion >= 1) && (puntuacion <= 100)){
+                            if((puntuacion >= 1) && (puntuacion <= 100)){//validacion de puntuacion
+                                //si todos los datos son validos: guarda la cancion
                                 strcpy(canciones[i].nombre, cadena);
                                 canciones[i].minutos = minutos;
                                 canciones[i].segundos = segundos;
                                 canciones[i].puntuacion = puntuacion;
-                                //printf("Cancion %d: %s %d %d %d\n",i+1, canciones[i].nombre, canciones[i].minutos, canciones[i].segundos, canciones[i].puntuacion);
-                                c = fgetc(archivo);
+                                c = fgetc(archivo); //lee el salto de linea
                             }else{
-                               // printf("Error: puntuacion invalida para la cancion %d, debe estar en el rango (1 - 100)\n", i+1);
+                            //    printf("Error: puntuacion invalida para la cancion %d, debe estar en el rango (1 - 100)\n", i+1);
                             }
 
                         }else{
                             printf("Error: segundos invalidos para la cancion %d\n", i+1);
-                            while((c != '\n') && (c != EOF)){
+                            while((c != '\n') && (c != EOF)){ //descarta toda la linea
                                 c = fgetc(archivo);
                             }
                         }
                     }
-                    band = 1;
+                    band = 1; //termina el bucle
                 }
             }
-            band = 0;
+            band = 0; //reinicia para la siguiente cancion
         }
     
+        //si quedaron registros vacios entonces se limpia
         for(i = 0; i < *totalCanciones; i++){
             largoCadena = strlen(canciones[i].nombre);
-            if(largoCadena == 0){
+            if(largoCadena == 0){ //si el nombre esta vacio
+                //mover todos los elementos una posicion
                 for(j = i; j < *totalCanciones; j++){
                     strcpy(auxNom, canciones[j+1].nombre);
                     strcpy(canciones[j+1].nombre, canciones[j].nombre);
@@ -326,7 +334,10 @@ void cargarCanciones(FILE *archivo, int *totalCanciones, cancion canciones[])
                     canciones[j].minutos = canciones[j+1].minutos;
                     canciones[j].segundos = canciones[j+1].segundos;
                     canciones[j].puntuacion = canciones[j+1].puntuacion;
+                    canciones[j].veces = canciones[j+1].veces;
+                    canciones[j].ultimaVez = canciones[j+1].ultimaVez;
                 }
+                //reduce el total de canciones
                 *totalCanciones = *totalCanciones - 1;
             }
         }
@@ -347,24 +358,27 @@ void cargarPublicidades(FILE *archivo, int *totalPublicidades, publicidad public
 
     while(!feof(archivo) && (i < 100)){
         j = 0;
+        //while que lee el nombre de la empresa carácter por carácter
         while((!band)){
             c = fgetc(archivo);
+            //si no es un digito y no excede el limite del nombre, guarda el caracter en la cadena 
             if((!isdigit(c)) && (j<=30)){
                 cadena[j] = c;
                 j++;
             }else{
                 band = 1;
-                cadena[j] = '\0';
-                largoCadena = strlen(cadena);
-                if(largoCadena > 30){
-                    //printf("Error. El nombre es largo, la publicidad %d NO se guardara en la grilla.\n", i+1);
+                cadena[j] = '\0'; //termina el string
+                largoCadena = strlen(cadena); //verifica la longitud de la cadena
+                if(largoCadena > 30){ //si el nombre es demasiado largo, descarta la linea
+                    //printf("Error. El nombre es largo, la publicidad %d NO se guardará en la grilla.\n", i+1);
                     while((c != '\n') && (c != EOF)){
                         c = fgetc(archivo);
                     };
                 }else{
-                    ungetc(c, archivo);
+                    ungetc(c, archivo); //devuelve el caracter
                     fscanf(archivo,"%d",&segundos);
-                    if((segundos >= 0) && (segundos < 60)){
+                    if((segundos >= 0) && (segundos < 60)){ //validacion de segundos
+                        //si todos los datos son validos: guarda la publicidad
                         strcpy(publicidades[i].empresa, cadena);
                         publicidades[i].segundos = segundos;
                         fscanf(archivo,"%d",&publicidades[i].veces);
@@ -372,29 +386,31 @@ void cargarPublicidades(FILE *archivo, int *totalPublicidades, publicidad public
                         //printf("Publicidad %d: Empresa: %s  Segundos: %d  Veces: %d\n",i+1, publicidades[i].empresa, publicidades[i].segundos, publicidades[i].veces);
                     }else{
                         //printf("Error: segundos invalidos para la publicidad %d\n", i+1);
-                        while((c != '\n') && (c != EOF)){
+                        while((c != '\n') && (c != EOF)){ //si no son validos, descarta la linea
                             c = fgetc(archivo);
                         }
                     }
                 }
-                c = fgetc(archivo);
+                c = fgetc(archivo); //lee el salto de linea
             }
         }
-        band = 0;
-        i++;
+        band = 0; //reinicia la bandera para la siguiente publicidad
+        i++; // aumenta el limite de publicidades
     }
-
+    
+    //elimina registros vacios
     for(i = 0;i <= contPublicidades; i++){
         largoCadena = strlen(publicidades[i].empresa);
-        if(largoCadena == 0){
-            for(j = 0; j <= *totalPublicidades; j++){
+        if(largoCadena == 0){ //si el nombre está vacio
+            //mueve todos los elementos una posicion
+            for(j = 0; j <= *totalPublicidades; j++){ 
                 strcpy(publicidades[j+1].empresa, publicidades[j].empresa);
                 publicidades[j].segundos = publicidades[j+1].segundos;
                 publicidades[j].veces = publicidades[j+1].veces;
             }
         }
     }
-    
+    //asigna el total de publicidades
     *totalPublicidades = contPublicidades;
 
 }
@@ -415,25 +431,27 @@ void cargarShows(FILE *archivo, int *totalShows, show shows[])
             j = 0;
             while(!band){
                 c = fgetc(archivo);
+                //si no es un digito y si no excede el limite del nombre, guarda el caracter
                 if(!isdigit(c) && (j<=100)){
                     cadena[j] = c;
                     j++;
                 }else{
-                    cadena[j] = '\0';
-                    largoCadena = strlen(cadena);
+                    cadena[j] = '\0'; //termina el string
+                    largoCadena = strlen(cadena); //guarda la longitud de la cadena
                     if(largoCadena > 100){
                         //printf("Error. El nombre es largo, el show %d NO se guardara en la grilla.\n", i+1);
-                        while((c = fgetc(archivo)) != '\n' && c != EOF){
+                        while((c = fgetc(archivo)) != '\n' && c != EOF){ //si el nombre es demasiado largo, descarta la linea
 
                         }
                     }else{
-                        ungetc(c, archivo);
+                        ungetc(c, archivo); //devuelve el caracter
                         fscanf(archivo,"%d",&minutos);
                         fscanf(archivo,"%d",&segundos);
-                        if((segundos >= 0) && (segundos < 60)){
+                        if((segundos >= 0) && (segundos < 60)){ //validacion de segundos
                             fscanf(archivo,"%d",&segmentos);
                             fscanf(archivo,"%d",&preferencia);
-                            if((preferencia >= 1) && (preferencia <= 10)){
+                            if((preferencia >= 1) && (preferencia <= 10)){ //validacion de preferencia
+                                //si todos los datos son validos, guarda el show
                                 strcpy(shows[i].nombre, cadena);
                                 shows[i].minutos = minutos;
                                 shows[i].segundos = segundos;
@@ -446,21 +464,23 @@ void cargarShows(FILE *archivo, int *totalShows, show shows[])
                             }
                         }else{
                             //printf("Error: segundos invalidos para la cancion %d\n", i+1);
-                            while((c != '\n') && (c != EOF)){
+                            while((c != '\n') && (c != EOF)){ // si no son validos, descarta ese show
                                 c = fgetc(archivo);
                             }
                         }
-                        c = fgetc(archivo);
+                        c = fgetc(archivo); //lee el salto de linea
                     }
-                    band = 1;
+                    band = 1; //detiene el bucle
                 }
             }
-            band = 0;
+            band = 0; //reinicia para el nuevo show
         }
 
+        //elimina registros vacios
         for(i = 0; i <= *totalShows; i++){
             largoCadena = strlen(shows[i].nombre);
-            if(largoCadena == 0){
+            if(largoCadena == 0){ //si el nombre está vacio
+                //desplaza todos los elementos una posicion
                 for(j = i; j <= *totalShows; j++){
                     strcpy(auxNom, shows[j+1].nombre);
                     strcpy(shows[j+1].nombre, shows[j].nombre);
@@ -471,6 +491,7 @@ void cargarShows(FILE *archivo, int *totalShows, show shows[])
                     shows[j].preferencia = shows[j+1].preferencia;
                     shows[j].veces = shows[j+1].veces;
                 }
+                //reduce la cantidad de shows
                 *totalShows = *totalShows -1;
             }
         }
@@ -525,41 +546,41 @@ int elegirPublicidad(int totalPublicidades, publicidad publicidades[])
 {
     int bandera = -1;
 
+    //realiza hasta 10 intentos para encontrar una publicidad
     for(int intentos = 0; intentos < 10; intentos++)
     {
-        int i = rand() % totalPublicidades;
-        if(publicidades[i].vecesUsadas < publicidades[i].veces)
+        int i = rand() % totalPublicidades; //elige una publicidad aleatoria
+        if(publicidades[i].vecesUsadas < publicidades[i].veces) //verifica si aun la publicidad no ha excedido sus usos permitidos
         {
-            publicidades[i].vecesUsadas++;
+            publicidades[i].vecesUsadas++; //incrementa el contador de veces usadas
             bandera = i;
         }
     }
-    
+
+    //retorna el indice de la publicidad encontrada o si no -1
     return bandera;
 }
 
 int elegirCancion(int totalCanciones, cancion canciones[], int horas, int minutos, int segundos)
 {
-    int tiempoActual = horas * 3600 + minutos * 60 + segundos;
+    int tiempoActual = horas * 3600 + minutos * 60 + segundos; //conversion a segundos
     int bandera = -1;
     
-    // Elegir una canción aleatoria
-    int i = rand() % totalCanciones;
-    int popularidad = calcularPopularidad(i, canciones);
+    int i = rand() % totalCanciones; //elige una cancion aleatoria
+    int popularidad = calcularPopularidad(i, canciones); //guarda la cantidad de veces que se puede repetir la cancion
     
-    // Verificar si se puede repetir (usando tu lógica)
-    if(canciones[i].ultimaVez == -1 || (tiempoActual - canciones[i].ultimaVez) >= 14400)
+    if(canciones[i].ultimaVez == -1 || (tiempoActual - canciones[i].ultimaVez) >= 14400) //si aun no se ha puesto o si ya pasaron 4 horas
     {
         
-        // Verificar límite de popularidad
-        if(canciones[i].veces < popularidad)
+        if(canciones[i].veces < popularidad) //verifica si aun la cancion no ha excedido sus usos permitidos segun la popularidad
         {
-            canciones[i].veces++;
-            canciones[i].ultimaVez = tiempoActual;
+            canciones[i].veces++; //incrementa el contador de veces usadas
+            canciones[i].ultimaVez = tiempoActual; //guarda el momento en el que se repitió la cancion
             bandera = i;
         }
     }
-    
+
+    //retorna el indice de la cancion encontrada o si no -1
     return bandera;
 }
 
@@ -599,7 +620,7 @@ void crearGrillaDia(FILE *archivo, int totalCanciones, int totalPublicidades, in
     int contShows = 0;
     int bandera, i, opcion;
     
-    // Reiniciar contadores
+    //reiniciar los registros para cada grilla
     for(i = 0; i < totalCanciones; i++)
     {
         canciones[i].veces = 0;
@@ -622,65 +643,68 @@ void crearGrillaDia(FILE *archivo, int totalCanciones, int totalPublicidades, in
     {        
         bandera = esHorarioEstelar(horas);
 
-
+        //si es horario estelar entra de una vez en la opcion 3
         if(bandera == 1){
-            opcion = 3;
+            opcion = 3; //shows
         }else{
-            opcion = (rand() % 2) + 1; //1 o 2
+            opcion = (rand() % 2) + 1; //1: canciones o 2: publicidades | rand () % 2: da 0 o 1; rand () % 2 + 1 da: 1 o 2
         }
         
         switch(opcion)
-        {
+        {   
+            //CANCIONES
             case 1: 
+
                 i = elegirCancion(totalCanciones, canciones, horas, minutos, segundos);
-                if(i != -1){
+                if(i != -1){ //si i tiene el valor de algun indice encontrado, entonces imprime esa cancion y avanza el tiempo
                     imprimirEnArchivo(archivo, horas, minutos, segundos, 'C', canciones[i].nombre);
                     avanzarTiempo(&horas, &minutos, &segundos, canciones[i].minutos, canciones[i].segundos);
                 }
             break;
             
+            //PUBLICIDADES
             case 2: 
                 i = elegirPublicidad(totalPublicidades, publicidades);
-                if(i != -1){
+                if(i != -1){ //si i tiene el valor de algun indice encontrado, entonces imprime esa publicidad y avanza el tiempo
                     imprimirEnArchivo(archivo, horas, minutos, segundos, 'P', publicidades[i].empresa);
                     avanzarTiempo(&horas, &minutos, &segundos, 0, publicidades[i].segundos);
                 }
             break;
             
+            //SHOWS
             case 3: 
-                if(contShows < totalShows)
+                if(contShows < totalShows) //imprimir hasta que ya no hayan mas shows
                 {
-                    while(shows[contShows].veces < shows[contShows].segmentos){
-                        // Mostrar el show
+                    while(shows[contShows].veces < shows[contShows].segmentos) //hasta que no haya llegado a la cantidad de segmentos por shows
+                    {
                         imprimirEnArchivo(archivo, horas, minutos, segundos, 'S', shows[contShows].nombre);
                         avanzarTiempo(&horas, &minutos, &segundos, shows[contShows].minutos, shows[contShows].segundos);
                         
-                        // Canción después del show
+                        //si encuentra una cancion disponible, la imprime 
                         i = elegirCancion(totalCanciones, canciones, horas, minutos, segundos);
                         if(i != -1){
                             imprimirEnArchivo(archivo, horas, minutos, segundos, 'C', canciones[i].nombre);
                             avanzarTiempo(&horas, &minutos, &segundos, canciones[i].minutos, canciones[i].segundos);
                         }
                         
-                        // Publicidad después de la canción
+                        //si encuentra una publicidad disponible, la imprime
                         i = elegirPublicidad(totalPublicidades, publicidades);
                         if(i != -1){
                             imprimirEnArchivo(archivo, horas, minutos, segundos, 'P', publicidades[i].empresa);
                             avanzarTiempo(&horas, &minutos, &segundos, 0, publicidades[i].segundos);
                         }
 
-                        shows[contShows].veces = shows[contShows].veces + 1;
+                        shows[contShows].veces = shows[contShows].veces + 1; //incrementa el contador de veces
 
                     }                    
                 }
-                contShows++;
+                contShows++; //incrementa el contador
             break;
         }
         
-        // Pausa entre elementos (segundo de separacion).
+        //un segundo de separacion entre elementos
         avanzarTiempo(&horas, &minutos, &segundos, 0, 1);
         
-        // Verificar si hemos llegado al final del día
         if(horas >= 24 || (horas == 23 && minutos >= 59)){
             break;
         }
@@ -691,9 +715,13 @@ void crearGrillaDia(FILE *archivo, int totalCanciones, int totalPublicidades, in
 
 FILE* crearArchivoDia(char nombreDia[])
 {
+    FILE *archivo;
+
     char nombreArchivo[30];
-    sprintf(nombreArchivo, "grilla_%s.out", nombreDia);
-    return fopen(nombreArchivo, "w");
+    sprintf(nombreArchivo, "grilla_%s.out", nombreDia);  //crea el nombre de los archivos usando un arreglo de los dias de la semana
+    archivo = fopen(nombreArchivo, "w");
+
+    return archivo;
 }
 
 void momentoDia(FILE *archivo, int opcionHora)
@@ -703,39 +731,41 @@ void momentoDia(FILE *archivo, int opcionHora)
 
     rewind(archivo);
 
-    while((c = fgetc(archivo)) != EOF)
+    while((c = fgetc(archivo)) != EOF) //lee caracter por caracter
     {
-        if(!imprimir)
+        if(!imprimir) //mientras imprimir sea 0 busca la hora donde empieza
         {
-            int d1 = c;
-            int d2 = fgetc(archivo);
-            int hora = (d1 - '0') * 10 + (d2 - '0');
+            //lee los dos primeros numeros en formato HH
+            int d1 = c; //primer digito (decena)
+            int d2 = fgetc(archivo); //segundo digito (unidad)
+            int hora = (d1 - '0') * 10 + (d2 - '0'); //conversion: ejemplo: '1' '2' = 12
             
-            if(hora == opcionHora)
+            if(hora == opcionHora) //si la hora encontrada y la buscada son iguales entra
             {
-                imprimir = 1;
-                putchar(d1);
-                putchar(d2);
+                imprimir = 1; //empezará a imprimir todo
+                putchar(d1); //muestra el primer digito de la hora
+                putchar(d2); //muestra el segundo digito de la hora
             }else{
-                while(fgetc(archivo) != '\n' && c != EOF)
+                while(fgetc(archivo) != '\n' && c != EOF) //si no es la hora deseada, salta toda esa linea
                 {
 
                 }
             }
         }else{
-            putchar(c);
-            if(c == '\n')
+            putchar(c); //muestra cada caracter de la linea
+            if(c == '\n') //para validar si la siguiente linea sigue siendo de la misma hora
             {
+                //lee los dos primeros digitos de la linea
                 int p1 = fgetc(archivo);
                 int p2 = fgetc(archivo);
-                int proxHora = (p1 - '0') * 10 + (p2 - '0');
+                int proxHora = (p1 - '0') * 10 + (p2 - '0'); //convierte a numero 
                 
-                // Si la hora cambia, desactivar impresión
-                if(proxHora != opcionHora)
+                if(proxHora != opcionHora) //si no son iguales, deja de imprimir
                 {
                     imprimir = 0;
                 }else{
-                    putchar(p1);
+                    //si son iguales, imprime
+                    putchar(p1); 
                     putchar(p2);
                 }
             }
@@ -750,12 +780,13 @@ void buscarCancion(FILE *archivo, char nombreCancion[])
 
     rewind(archivo);
 
-    while(fgets(linea, sizeof(linea), archivo) != NULL)
+    while(fgets(linea, sizeof(linea), archivo) != NULL) //fgets para leer linea por linea
     {
-        if(strstr(linea, nombreCancion) != NULL)
+        //strstr() busca una cadena dentro de otra, retorna NULL si no encuentra
+        if(strstr(linea, nombreCancion) != NULL) //busca el nombre de la cancion en cualquier parte de la linea
         {
-            encontrada = 1;
-            printf("%s", linea);
+            encontrada = 1; //encontró la cancion
+            printf("%s", linea); //imprime en pantalla la linea completa donde aparece
         }
     }
     
