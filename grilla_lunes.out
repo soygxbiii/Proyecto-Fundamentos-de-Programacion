@@ -1,208 +1,331 @@
 --------------GRILLA DEL DIA-------------
 
-00 05 00 C Let it be 
-00 08 53 P Empresas La Arepa Rellena 
-00 09 53 C Complicated 
-00 13 32 P Empresas La Arepa Rellena 
-00 14 32 P Empresas La Arepa Rellena 
-00 15 32 C Persiana Americana 
-00 20 28 C Dar es dar 
-00 24 08 P Zapatos comodos de piedra C.A 
-00 24 24 P Empresas La Arepa Rellena 
-00 25 24 P Empresas La Arepa Rellena 
-00 26 24 C Bienvenidos al tren 
-00 29 39 P Zapatos comodos de piedra C.A 
-00 29 55 P Empresas La Arepa Rellena 
-00 30 55 C Six Degrees of Inner Turbulence 
-01 13 00 P Zapatos comodos de piedra C.A 
-01 13 16 C Let it be 
-01 17 09 C Six Degrees of Inner Turbulence 
-01 59 14 P Zapatos comodos de piedra C.A 
-01 59 30 P Zapatos comodos de piedra C.A 
-01 59 46 P Zapatos comodos de piedra C.A 
-02 00 02 C Bienvenidos al tren 
-02 03 17 C Persiana Americana 
-02 08 13 P Zapatos comodos de piedra C.A 
-02 08 29 P Zapatos comodos de piedra C.A 
-02 08 45 P Zapatos comodos de piedra C.A 
-02 09 01 C Bienvenidos al tren 
-02 12 16 C Complicated 
-02 15 55 P Zapatos comodos de piedra C.A 
-02 16 11 C Persiana Americana 
-02 21 07 P Zapatos comodos de piedra C.A 
-02 21 23 P Zapatos comodos de piedra C.A 
-02 21 39 P Empresas La Arepa Rellena 
-02 22 39 P Zapatos comodos de piedra C.A 
-02 22 55 C Complicated 
-02 26 34 P Empresas La Arepa Rellena 
-02 27 34 C Complicated 
-02 31 13 P Zapatos comodos de piedra C.A 
-02 31 29 P Empresas La Arepa Rellena 
-02 32 29 C Complicated 
-02 36 08 P Empresas La Arepa Rellena 
-02 37 08 C Dar es dar 
-02 40 48 C Bienvenidos al tren 
-02 44 03 C Persiana Americana 
-02 48 59 C Six Degrees of Inner Turbulence 
-03 31 04 C Dar es dar 
-03 34 44 P Empresas La Arepa Rellena 
-03 35 44 C Persiana Americana 
-03 40 40 P Empresas La Arepa Rellena 
-03 41 40 C Bienvenidos al tren 
-03 44 55 P Empresas La Arepa Rellena 
-03 45 55 P Empresas La Arepa Rellena 
-03 46 55 P Empresas La Arepa Rellena 
-03 47 55 C Dar es dar 
-03 51 35 P Empresas La Arepa Rellena 
-03 52 35 C Let it be 
-03 56 28 P Empresas La Arepa Rellena 
-03 57 28 P Empresas La Arepa Rellena 
-03 58 28 P Empresas La Arepa Rellena 
-03 59 28 C Complicated 
-04 03 07 P Empresas La Arepa Rellena 
-04 04 07 P Zapatos comodos de piedra C.A 
-04 04 23 C Six Degrees of Inner Turbulence 
-04 46 28 C Six Degrees of Inner Turbulence 
-05 28 33 P Empresas La Arepa Rellena 
-05 29 33 C Let it be 
-05 33 26 P Empresas La Arepa Rellena 
-05 34 26 P Zapatos comodos de piedra C.A 
-05 34 42 P Zapatos comodos de piedra C.A 
-05 34 58 P Zapatos comodos de piedra C.A 
-05 35 14 P Empresas La Arepa Rellena 
-05 36 14 C Persiana Americana 
-05 41 10 P Zapatos comodos de piedra C.A 
-05 41 26 C Complicated 
-05 45 05 P Empresas La Arepa Rellena 
-05 46 05 P Zapatos comodos de piedra C.A 
-05 46 21 C Dar es dar 
-05 50 01 C Bienvenidos al tren 
-05 53 16 P Empresas La Arepa Rellena 
-05 54 16 P Zapatos comodos de piedra C.A 
-05 54 32 P Zapatos comodos de piedra C.A 
-05 54 48 P Zapatos comodos de piedra C.A 
-05 55 04 C Dar es dar 
-05 58 44 C Dar es dar 
-06 02 24 P Empresas La Arepa Rellena 
-06 03 24 P Empresas La Arepa Rellena 
-06 04 24 P Empresas La Arepa Rellena 
-06 05 24 C Bienvenidos al tren 
-06 08 39 C Bienvenidos al tren 
-06 11 54 C Six Degrees of Inner Turbulence 
-06 53 59 C Persiana Americana 
-06 58 55 P Zapatos comodos de piedra C.A 
-06 59 11 P Empresas La Arepa Rellena 
-07 00 11 S Aprendiendo a escuchar 
-07 05 41 C Let it be 
-07 09 33 P Zapatos comodos de piedra C.A 
-07 09 48 S Aprendiendo a escuchar 
-07 15 18 C Persiana Americana 
-07 20 13 P Empresas La Arepa Rellena 
-07 21 12 S Aprendiendo a escuchar 
-07 26 42 C Complicated 
-07 30 20 P Zapatos comodos de piedra C.A 
-07 30 35 S Aprendiendo a escuchar 
-07 36 05 C Six Degrees of Inner Turbulence 
-08 18 09 P Empresas La Arepa Rellena 
-08 19 09 S El anuario de los mejores 
-08 20 29 C Six Degrees of Inner Turbulence 
-09 02 33 P Empresas La Arepa Rellena 
-09 03 32 S El anuario de los mejores 
-09 04 52 C Six Degrees of Inner Turbulence 
-09 46 56 P Zapatos comodos de piedra C.A 
-09 47 11 S El anuario de los mejores 
-09 48 31 C Dar es dar 
-09 52 10 P Zapatos comodos de piedra C.A 
-09 52 25 S El anuario de los mejores 
-09 53 45 C Persiana Americana 
-09 58 40 P Zapatos comodos de piedra C.A 
-09 58 55 S El anuario de los mejores 
-10 00 15 C Complicated 
-10 03 53 P Empresas La Arepa Rellena 
-10 04 52 S El anuario de los mejores 
-10 06 12 C Let it be 
-10 10 04 P Zapatos comodos de piedra C.A 
-10 10 19 S El anuario de los mejores 
-10 11 39 C Bienvenidos al tren 
-10 14 53 P Zapatos comodos de piedra C.A 
-10 15 08 S El anuario de los mejores 
-10 16 28 C Complicated 
-10 20 06 P Empresas La Arepa Rellena 
-10 21 05 S El anuario de los mejores 
-10 22 25 C Six Degrees of Inner Turbulence 
-11 04 29 P Empresas La Arepa Rellena 
-11 05 28 S El anuario de los mejores 
-11 06 48 C Bienvenidos al tren 
-11 10 02 P Zapatos comodos de piedra C.A 
-11 10 18 P Zapatos comodos de piedra C.A 
-11 10 34 P Zapatos comodos de piedra C.A 
-11 10 50 P Empresas La Arepa Rellena 
-11 11 50 C Six Degrees of Inner Turbulence 
-11 53 55 P Empresas La Arepa Rellena 
-11 54 55 C Six Degrees of Inner Turbulence 
-12 37 00 S Ciencia Critica 
-12 47 34 C Let it be 
-12 51 26 P Empresas La Arepa Rellena 
-12 52 25 S Ciencia Critica 
-13 02 59 C Complicated 
-13 06 37 P Empresas La Arepa Rellena 
-13 07 36 S Ciencia Critica 
-13 18 10 C Six Degrees of Inner Turbulence 
-14 00 14 P Empresas La Arepa Rellena 
-14 01 13 S Ciencia Critica 
-14 11 47 C Let it be 
-14 15 39 P Empresas La Arepa Rellena 
-14 16 39 S El programa con el nombre mas largo y aburrido en la historia de la radio 
-14 47 09 C Dar es dar 
-14 50 48 P Empresas La Arepa Rellena 
-14 51 47 S El programa con el nombre mas largo y aburrido en la historia de la radio 
-15 22 17 C Complicated 
-15 25 55 P Zapatos comodos de piedra C.A 
-15 26 11 C Persiana Americana 
-15 31 07 P Empresas La Arepa Rellena 
-15 32 07 P Zapatos comodos de piedra C.A 
-15 32 23 C Bienvenidos al tren 
-15 35 38 P Empresas La Arepa Rellena 
-15 36 38 C Six Degrees of Inner Turbulence 
-16 18 43 P Empresas La Arepa Rellena 
-16 19 43 P Empresas La Arepa Rellena 
-16 20 43 C Bienvenidos al tren 
-16 23 58 C Complicated 
-16 27 37 C Six Degrees of Inner Turbulence 
-17 09 42 C Persiana Americana 
-17 14 38 P Zapatos comodos de piedra C.A 
-17 14 54 P Empresas La Arepa Rellena 
-17 15 54 P Zapatos comodos de piedra C.A 
-17 16 10 P Zapatos comodos de piedra C.A 
-17 16 26 P Zapatos comodos de piedra C.A 
-17 16 42 C Persiana Americana 
-17 21 38 P Empresas La Arepa Rellena 
-17 22 38 C Six Degrees of Inner Turbulence 
-18 04 43 S Partidos de damas chinas 
-19 04 48 C Let it be 
-19 08 40 P Empresas La Arepa Rellena 
-19 09 40 S Los valentinos 
-19 50 12 C Complicated 
-19 53 50 P Zapatos comodos de piedra C.A 
-19 54 05 S Los valentinos 
-20 34 37 C Persiana Americana 
-20 39 32 P Empresas La Arepa Rellena 
-20 40 31 S Los valentinos 
-21 21 03 C Dar es dar 
-21 24 42 P Zapatos comodos de piedra C.A 
-21 24 57 S Los valentinos 
-22 05 29 C Bienvenidos al tren 
-22 08 43 P Zapatos comodos de piedra C.A 
-22 08 58 S Los valentinos 
-22 49 30 C Six Degrees of Inner Turbulence 
-23 31 34 P Zapatos comodos de piedra C.A 
-23 31 49 S Los valentinos 
-23 59 59 C Let it be 
-23 59 59 P Zapatos comodos de piedra C.A 
-23 59 59 S Los valentinos 
-23 59 59 C Complicated 
-23 59 59 P Empresas La Arepa Rellena 
-23 59 59 S Los valentinos 
-23 59 59 C Let it be 
-23 59 59 P Zapatos comodos de piedra C.A 
+00 05 00 P Zapatos comodos de piedra C.A 
+00 05 16 P Zapatos comodos de piedra C.A 
+00 05 32 P Zapatos comodos de piedra C.A 
+00 05 48 C One World (Not Three) 
+00 10 36 P Zapatos comodos de piedra C.A 
+00 10 52 C Demolition Man 
+00 16 51 C Light My Fire 
+00 23 58 P Zapatos comodos de piedra C.A 
+00 24 14 C Message in a Bottle 
+00 29 06 C Like a Rolling Stone 
+00 35 20 P Zapatos comodos de piedra C.A 
+00 35 36 C Bienvenidos al tren 
+00 38 51 C Man in a Suitcase 
+00 41 11 P Empresas La Arepa Rellena 
+00 42 11 P Zapatos comodos de piedra C.A 
+00 42 27 P Empresas La Arepa Rellena 
+00 43 27 C Shadows in the Rain 
+00 48 30 C When the World Is Running Down 
+00 54 09 P Zapatos comodos de piedra C.A 
+00 54 25 P Zapatos comodos de piedra C.A 
+00 54 41 C Omegaman 
+01 00 26 C Layla 
+01 07 37 C Dar es dar 
+01 11 17 C Money 
+01 17 40 C Crossroads 
+01 21 56 P Zapatos comodos de piedra C.A 
+01 22 12 P Empresas La Arepa Rellena 
+01 23 12 P Zapatos comodos de piedra C.A 
+01 23 28 C King of Pain 
+01 28 28 P Empresas La Arepa Rellena 
+01 29 28 C Don't Stand So Close to Me 
+01 33 31 P Empresas La Arepa Rellena 
+01 34 31 P Zapatos comodos de piedra C.A 
+01 34 47 C Let it be 
+01 38 40 P Empresas La Arepa Rellena 
+01 39 40 P Empresas La Arepa Rellena 
+01 40 40 C Complicated 
+01 44 19 P Zapatos comodos de piedra C.A 
+01 44 35 C Voices Inside My Head 
+01 49 29 P Empresas La Arepa Rellena 
+01 50 29 P Zapatos comodos de piedra C.A 
+01 50 45 C Don't Stop Believin' 
+01 55 04 C Bombs Away 
+02 00 11 P Empresas La Arepa Rellena 
+02 01 11 P Empresas La Arepa Rellena 
+02 02 12 C Another Brick in the Wall 
+02 08 23 C Miss Gradenko 
+02 10 24 P Empresas La Arepa Rellena 
+02 11 24 C Hallelujah 
+02 16 04 P Empresas La Arepa Rellena 
+02 17 05 P Empresas La Arepa Rellena 
+02 18 05 C Six Degrees of Inner Turbulence 
+03 00 11 C Canary in a Coalmine 
+03 02 46 P Empresas La Arepa Rellena 
+03 03 46 P Empresas La Arepa Rellena 
+03 04 46 P Empresas La Arepa Rellena 
+03 05 46 C Hole in My Life 
+03 10 40 C Bohemian Rhapsody 
+03 16 36 C Spirits in the Material World 
+03 20 36 C Persiana Americana 
+03 25 32 P Empresas La Arepa Rellena 
+03 26 32 C King of Pain 
+03 31 33 P Empresas La Arepa Rellena 
+03 32 33 P Empresas La Arepa Rellena 
+03 33 33 C When the World Is Running Down 
+03 39 14 C Too Much Information 
+03 43 58 C Hotel California 
+03 50 31 C Rehumanize Yourself 
+03 53 42 P Empresas La Arepa Rellena 
+03 54 42 P Empresas La Arepa Rellena 
+03 55 43 P Empresas La Arepa Rellena 
+03 56 43 P Empresas La Arepa Rellena 
+03 57 44 P Empresas La Arepa Rellena 
+03 58 45 C Yesterday 
+04 00 49 C Paint It Black 
+04 04 35 C Driven to Tears 
+04 07 56 P Empresas La Arepa Rellena 
+04 08 56 P Empresas La Arepa Rellena 
+04 09 56 C Stairway to Heaven 
+04 18 00 P Empresas La Arepa Rellena 
+04 19 00 C Sweet Child O' Mine 
+04 24 57 C Lose Yourself 
+04 30 24 C Bring on the Night 
+04 35 28 P Empresas La Arepa Rellena 
+04 36 28 P Empresas La Arepa Rellena 
+04 37 28 C Smoke on the Water 
+04 43 12 P Empresas La Arepa Rellena 
+04 44 13 C Purple Haze 
+04 47 05 P Empresas La Arepa Rellena 
+04 48 05 P Empresas La Arepa Rellena 
+04 49 05 P Empresas La Arepa Rellena 
+04 50 05 P Empresas La Arepa Rellena 
+04 51 05 P Empresas La Arepa Rellena 
+04 52 07 C Masoko Tanga 
+04 57 49 C Omegaman 
+05 03 33 P Empresas La Arepa Rellena 
+05 04 33 P Empresas La Arepa Rellena 
+05 05 33 P Empresas La Arepa Rellena 
+05 06 33 P Empresas La Arepa Rellena 
+05 07 33 C Hey Jude 
+05 14 45 C Stairway to Heaven 
+05 22 48 P Empresas La Arepa Rellena 
+05 23 48 P Empresas La Arepa Rellena 
+05 24 48 P Empresas La Arepa Rellena 
+05 25 48 P Empresas La Arepa Rellena 
+05 26 48 C One World (Not Three) 
+05 31 36 P Empresas La Arepa Rellena 
+05 32 36 P Empresas La Arepa Rellena 
+05 33 36 P Empresas La Arepa Rellena 
+05 34 36 C Let It Be 
+05 38 40 P Empresas La Arepa Rellena 
+05 39 40 C Canary in a Coalmine 
+05 42 15 P Empresas La Arepa Rellena 
+05 43 15 C One World (Not Three) 
+05 48 03 P Empresas La Arepa Rellena 
+05 49 04 C Money 
+05 55 27 P Empresas La Arepa Rellena 
+05 56 27 C Hungry for You 
+05 59 20 P Empresas La Arepa Rellena 
+06 00 21 P Empresas La Arepa Rellena 
+06 01 21 C Roxanne 
+06 04 34 P Empresas La Arepa Rellena 
+06 05 34 P Empresas La Arepa Rellena 
+06 06 34 P Empresas La Arepa Rellena 
+06 07 34 P Empresas La Arepa Rellena 
+06 08 35 P Empresas La Arepa Rellena 
+06 09 35 C Message in a Bottle 
+06 14 27 C Every Little Thing She Does Is Magic 
+06 18 50 P Empresas La Arepa Rellena 
+06 19 50 P Empresas La Arepa Rellena 
+06 20 50 P Empresas La Arepa Rellena 
+06 21 50 C Bombs Away 
+06 26 57 C Wrapped Around Your Finger 
+06 32 13 C Dream On 
+06 36 40 C Complicated 
+06 40 19 P Empresas La Arepa Rellena 
+06 41 19 C Light My Fire 
+06 48 27 C Bombs Away 
+06 53 34 P Empresas La Arepa Rellena 
+06 54 34 C Livin' on a Prayer 
+06 58 45 C November Rain 
+07 07 43 S Aprendiendo a escuchar 
+07 13 13 C Sweet Home Alabama 
+07 17 58 P Empresas La Arepa Rellena 
+07 18 57 S Aprendiendo a escuchar 
+07 24 27 C Miss Gradenko 
+07 26 27 P Empresas La Arepa Rellena 
+07 27 26 S Aprendiendo a escuchar 
+07 32 56 C Imagine 
+07 36 00 P Empresas La Arepa Rellena 
+07 36 59 S Aprendiendo a escuchar 
+07 42 29 P Empresas La Arepa Rellena 
+07 43 29 S El anuario de los mejores 
+07 44 49 C Masoko Tanga 
+07 50 30 P Empresas La Arepa Rellena 
+07 51 29 S El anuario de los mejores 
+07 52 49 C Wrapped Around Your Finger 
+07 58 04 P Empresas La Arepa Rellena 
+07 59 03 S El anuario de los mejores 
+08 00 23 C Don't Stop Believin' 
+08 04 41 P Empresas La Arepa Rellena 
+08 05 40 S El anuario de los mejores 
+08 07 00 C When the World Is Running Down 
+08 12 38 P Empresas La Arepa Rellena 
+08 13 37 S El anuario de los mejores 
+08 14 57 C Don't Stand So Close to Me 
+08 18 59 P Empresas La Arepa Rellena 
+08 19 58 S El anuario de los mejores 
+08 21 18 C Wonderwall 
+08 25 36 P Empresas La Arepa Rellena 
+08 26 35 S El anuario de los mejores 
+08 27 55 P Empresas La Arepa Rellena 
+08 28 54 S El anuario de los mejores 
+08 30 14 C Thunderstruck 
+08 35 06 P Empresas La Arepa Rellena 
+08 36 05 S El anuario de los mejores 
+08 37 25 C Six Degrees of Inner Turbulence 
+09 19 29 P Empresas La Arepa Rellena 
+09 20 28 S El anuario de los mejores 
+09 21 48 C Spirits in the Material World 
+09 25 47 P Empresas La Arepa Rellena 
+09 26 47 S Ciencia Critica 
+09 37 21 P Empresas La Arepa Rellena 
+09 38 20 S Ciencia Critica 
+09 48 54 C Every Breath You Take 
+09 53 07 P Empresas La Arepa Rellena 
+09 54 06 S Ciencia Critica 
+10 04 40 C Voices Inside My Head 
+10 09 33 P Empresas La Arepa Rellena 
+10 10 32 S Ciencia Critica 
+10 21 06 C So Lonely 
+10 25 56 P Empresas La Arepa Rellena 
+10 26 56 P Empresas La Arepa Rellena 
+10 27 56 C One World (Not Three) 
+10 32 45 P Empresas La Arepa Rellena 
+10 33 45 P Empresas La Arepa Rellena 
+10 34 45 C Voices Inside My Head 
+10 39 39 P Empresas La Arepa Rellena 
+10 40 39 C Lose Yourself 
+10 46 06 C Billie Jean 
+10 51 01 C All Along the Watchtower 
+10 55 33 P Empresas La Arepa Rellena 
+10 56 33 P Empresas La Arepa Rellena 
+10 57 33 P Empresas La Arepa Rellena 
+10 58 33 P Empresas La Arepa Rellena 
+10 59 33 P Empresas La Arepa Rellena 
+11 00 33 P Empresas La Arepa Rellena 
+11 01 33 C Canary in a Coalmine 
+11 04 08 P Empresas La Arepa Rellena 
+11 05 08 P Empresas La Arepa Rellena 
+11 06 08 C Livin' on a Prayer 
+11 10 19 C Bohemian Rhapsody 
+11 16 15 C Money 
+11 22 38 P Empresas La Arepa Rellena 
+11 23 38 C Smells Like Teen Spirit 
+11 28 40 P Empresas La Arepa Rellena 
+11 29 40 C Omegaman 
+11 35 24 P Empresas La Arepa Rellena 
+11 36 24 P Empresas La Arepa Rellena 
+11 37 24 C Secret Journey 
+11 42 59 C Wrapped Around Your Finger 
+11 48 15 C King of Pain 
+11 53 15 C Demolition Man 
+11 59 13 C Sweet Home Alabama 
+12 03 59 S El programa con el nombre mas largo y aburrido en la historia de la radio 
+12 34 29 P Empresas La Arepa Rellena 
+12 35 28 S El programa con el nombre mas largo y aburrido en la historia de la radio 
+13 05 58 C Every Little Thing She Does Is Magic 
+13 10 20 P Empresas La Arepa Rellena 
+13 11 20 S Partidos de damas chinas 
+14 11 25 P Empresas La Arepa Rellena 
+14 12 25 S Los valentinos 
+14 52 57 C Don't Stand So Close to Me 
+14 56 59 P Empresas La Arepa Rellena 
+14 57 58 S Los valentinos 
+15 38 30 C Six Degrees of Inner Turbulence 
+16 20 34 P Empresas La Arepa Rellena 
+16 21 33 S Los valentinos 
+17 02 05 C Purple Haze 
+17 04 55 P Empresas La Arepa Rellena 
+17 05 54 S Los valentinos 
+17 46 26 C Sweet Home Alabama 
+17 51 11 P Empresas La Arepa Rellena 
+17 52 10 S Los valentinos 
+18 32 42 C Every Breath You Take 
+18 36 55 P Empresas La Arepa Rellena 
+18 37 54 S Los valentinos 
+19 18 26 C Every Breath You Take 
+19 22 39 P Empresas La Arepa Rellena 
+19 23 38 S Los valentinos 
+20 04 10 C One World (Not Three) 
+20 08 57 P Empresas La Arepa Rellena 
+20 09 56 S Los valentinos 
+20 50 28 C Let it be 
+20 54 20 P Empresas La Arepa Rellena 
+20 55 20 C Driven to Tears 
+20 58 41 P Empresas La Arepa Rellena 
+20 59 42 C Secret Journey 
+21 05 17 C Spirits in the Material World 
+21 09 17 P Empresas La Arepa Rellena 
+21 10 17 P Empresas La Arepa Rellena 
+21 11 17 P Empresas La Arepa Rellena 
+21 12 17 C Like a Rolling Stone 
+21 18 31 C Paint It Black 
+21 22 17 C Omegaman 
+21 28 01 C Thunderstruck 
+21 32 54 C Billie Jean 
+21 37 49 P Empresas La Arepa Rellena 
+21 38 49 P Empresas La Arepa Rellena 
+21 39 49 P Empresas La Arepa Rellena 
+21 40 49 C Complicated 
+21 44 28 P Empresas La Arepa Rellena 
+21 45 29 C Message in a Bottle 
+21 50 21 P Empresas La Arepa Rellena 
+21 51 21 P Empresas La Arepa Rellena 
+21 52 21 C Bring on the Night 
+21 57 25 C Bombs Away 
+22 02 32 P Empresas La Arepa Rellena 
+22 03 32 C Rehumanize Yourself 
+22 06 43 P Empresas La Arepa Rellena 
+22 07 43 P Empresas La Arepa Rellena 
+22 08 43 P Empresas La Arepa Rellena 
+22 09 44 C Smoke on the Water 
+22 15 28 P Empresas La Arepa Rellena 
+22 16 29 C Man in a Suitcase 
+22 18 50 C Wrapped Around Your Finger 
+22 24 06 C Darkness 
+22 27 21 P Empresas La Arepa Rellena 
+22 28 21 C When the World Is Running Down 
+22 34 00 P Empresas La Arepa Rellena 
+22 35 00 P Empresas La Arepa Rellena 
+22 36 00 C Stairway to Heaven 
+22 44 03 C Hungry for You 
+22 46 57 P Empresas La Arepa Rellena 
+22 47 58 P Empresas La Arepa Rellena 
+22 49 00 C Hotel California 
+22 55 33 P Empresas La Arepa Rellena 
+22 56 33 C Wrapped Around Your Finger 
+23 01 51 P Empresas La Arepa Rellena 
+23 02 51 C Sweet Caroline 
+23 06 15 P Empresas La Arepa Rellena 
+23 07 15 P Empresas La Arepa Rellena 
+23 08 15 P Empresas La Arepa Rellena 
+23 09 15 P Empresas La Arepa Rellena 
+23 10 15 P Empresas La Arepa Rellena 
+23 11 15 P Empresas La Arepa Rellena 
+23 12 15 C Imagine 
+23 15 23 P Empresas La Arepa Rellena 
+23 16 23 C Man in a Suitcase 
+23 18 43 P Empresas La Arepa Rellena 
+23 19 45 P Empresas La Arepa Rellena 
+23 20 45 C Back in Black 
+23 25 01 C Lose Yourself 
+23 30 28 P Empresas La Arepa Rellena 
+23 31 30 P Empresas La Arepa Rellena 
+23 32 30 P Empresas La Arepa Rellena 
+23 33 30 P Empresas La Arepa Rellena 
+23 34 30 P Empresas La Arepa Rellena 
+23 35 30 C Sweet Home Alabama 
+23 40 16 P Empresas La Arepa Rellena 
+23 41 16 P Empresas La Arepa Rellena 
+23 42 16 P Empresas La Arepa Rellena 
+23 43 16 C Don't Stand So Close to Me 
+23 47 19 P Empresas La Arepa Rellena 
+23 48 19 C Demolition Man 
+23 54 17 C Darkness 
+23 57 32 P Empresas La Arepa Rellena 
+23 58 33 P Empresas La Arepa Rellena 
 ==============

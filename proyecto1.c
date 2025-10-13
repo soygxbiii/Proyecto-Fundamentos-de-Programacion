@@ -431,66 +431,30 @@ int elegirPublicidad(int totalPublicidades){
         }
     }
     
-    return rand() % totalPublicidades;
+    return -1;
 }
 
 int elegirCancion(int totalCanciones, int horas, int minutos, int segundos){
+    if (totalCanciones == 0) return -1;
+    
     int tiempoActual = horas * 3600 + minutos * 60 + segundos;
-    int intentos = 0;
-    int i, popularidad;
     
-    // Primero buscar canciones que no se hayan usado hoy
-    for(i = 0; i < totalCanciones; i++){
-        if(canciones[i].veces == 0){
+    // Elegir una canción aleatoria
+    int i = rand() % totalCanciones;
+    int popularidad = calcularPopularidad(i);
+    
+    // Verificar si se puede repetir (usando tu lógica)
+    if(canciones[i].ultimaVez == -1 || (tiempoActual - canciones[i].ultimaVez) >= 14400){
+        
+        // Verificar límite de popularidad
+        if(canciones[i].veces < popularidad){
             canciones[i].veces++;
             canciones[i].ultimaVez = tiempoActual;
             return i;
         }
     }
     
-    // Si todas se han usado, buscar las que pueden repetirse (cada 4 horas)
-    while(intentos < totalCanciones){
-        i = rand() % totalCanciones;
-        popularidad = calcularPopularidad(i);
-        
-        // Verificar si la canción puede repetirse (cada 4 horas)
-        int puedeRepetirse = 1;
-        if(canciones[i].ultimaVez != -1){
-            int tiempoDesdeUltima = tiempoActual - canciones[i].ultimaVez;
-            if(tiempoDesdeUltima < 14400){ // 4 horas en segundos (4 * 60 * 60 = 14400)
-                puedeRepetirse = 0;
-            }
-        }
-        
-        // Verificar límites de repetición según popularidad
-        if(puedeRepetirse && canciones[i].veces < popularidad){
-            canciones[i].veces++;
-            canciones[i].ultimaVez = tiempoActual;
-            return i;
-        }
-        
-        intentos++;
-    }
-    
-    // Si después de muchos intentos no encuentra canción, buscar cualquier canción que pueda repetirse
-    for(int i = 0; i < totalCanciones; i++){
-        int puedeRepetirse = 1;
-        if(canciones[i].ultimaVez != -1){
-            int tiempoDesdeUltima = tiempoActual - canciones[i].ultimaVez;
-            if(tiempoDesdeUltima < 14400){
-                puedeRepetirse = 0;
-            }
-        }
-        
-        if(puedeRepetirse){
-            canciones[i].veces++;
-            canciones[i].ultimaVez = tiempoActual;
-            return i;
-        }
-    }
-    
-    // Si no hay canciones disponibles, devolver una aleatoria
-    return rand() % totalCanciones;
+    return -1;
 }
 
 void crearGrillaDia(FILE *archivo, int totalCanciones, int totalPublicidades, int totalShows){
